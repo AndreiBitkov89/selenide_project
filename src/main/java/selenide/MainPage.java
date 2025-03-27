@@ -3,6 +3,8 @@ package selenide;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
@@ -23,7 +25,7 @@ public class MainPage {
     }
 
     public void waitMainPageToBeLoaded(){
-        title.shouldBe(visible);
+        title.shouldBe(visible, Duration.ofSeconds(3000));
     }
 
     public void shouldShowWelcome(String name) {

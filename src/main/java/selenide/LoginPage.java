@@ -3,6 +3,9 @@ package selenide;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -23,9 +26,10 @@ public class LoginPage {
     }
 
     public void waitUntilLoaded() {
-        usernameField.shouldBe(visible);
+        usernameField.shouldBe(visible, Duration.ofSeconds(3));
+        usernameField.shouldBe(enabled, Duration.ofSeconds(3));
+        passwordField.shouldBe(visible, Duration.ofSeconds(3));
+        passwordField.shouldBe(enabled, Duration.ofSeconds(3));
     }
-
-
 
 }

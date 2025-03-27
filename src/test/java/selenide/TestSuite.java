@@ -6,6 +6,9 @@ import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.open;
 
 public class TestSuite {
@@ -15,6 +18,8 @@ public class TestSuite {
     MainPage mainPage;
     LoginPage loginPage;
     RegistrationPage registrationPage;
+    String testUser = "TestNameUser";
+    String testPass = "TestPass";
 
     @BeforeEach
     void initialize() {
@@ -30,14 +35,23 @@ public class TestSuite {
     }
 
     @Test
-    void shouldRegisterClient() {
+    void shouldRegisterClientAndAuthoriseHim() {
 
         String name = faker.name().username();
         String pass = faker.internet().password();
 
         registrationPage.registration(name, pass, "Sign up successful.");
+        mainPage.waitMainPageToBeLoaded();
         loginPage.login(name, pass);
         mainPage.shouldShowWelcome(name);
+
+    }
+
+    @Test
+    void errorAfterRegWithExistedCreds() {
+
+        registrationPage.registration(testUser, testPass, "This user already exist.");
+        registrationPage.getModal().shouldBe(visible, Duration.ofSeconds(3));
 
     }
 }
