@@ -82,11 +82,11 @@ public class TestSuite {
 
         assertFalse(filteredItems.isEmpty());
 
-        List<String> allowedPhoneBrands = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
+        List<String> allowedBrands = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
 
         for (String item : filteredItems) {
             String lowerItem = item.toLowerCase();
-            boolean matchesBrand = allowedPhoneBrands.stream().anyMatch(lowerItem::contains);
+            boolean matchesBrand = allowedBrands.stream().anyMatch(lowerItem::contains);
             assertTrue(matchesBrand);
         }
 
@@ -99,11 +99,11 @@ public class TestSuite {
 
         assertFalse(filteredItems.isEmpty());
 
-        List<String> allowedPhoneBrands = List.of("sony vaio", "macbook", "dell");
+        List<String> allowedBrands = List.of("sony vaio", "macbook", "dell");
 
         for (String item : filteredItems) {
             String lowerItem = item.toLowerCase();
-            boolean matchesBrand = allowedPhoneBrands.stream().anyMatch(lowerItem::contains);
+            boolean matchesBrand = allowedBrands.stream().anyMatch(lowerItem::contains);
             assertTrue(matchesBrand);
         }
 
@@ -117,11 +117,11 @@ public class TestSuite {
 
         assertFalse(filteredItems.isEmpty());
 
-        List<String> allowedPhoneBrands = List.of("apple", "asus");
+        List<String> allowedBrands = List.of("apple", "asus");
 
         for (String item : filteredItems) {
             String lowerItem = item.toLowerCase();
-            boolean matchesBrand = allowedPhoneBrands.stream().anyMatch(lowerItem::contains);
+            boolean matchesBrand = allowedBrands.stream().anyMatch(lowerItem::contains);
             assertTrue(matchesBrand);
         }
 
