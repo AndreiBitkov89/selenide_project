@@ -78,14 +78,46 @@ public class TestSuite {
     @Test
     void shouldFilterItemsAndReturnPhones() {
 
-        List<String> initialItems = mainPage.getItems().shouldHave(sizeGreaterThan(0)).texts();
-        mainPage.filterPhones();
-
-        List<String> filteredItems = mainPage.getItems().shouldHave(sizeLessThan(initialItems.size())).texts();
+        List<String> filteredItems = mainPage.filterItems("phone");
 
         assertFalse(filteredItems.isEmpty());
 
         List<String> allowedPhoneBrands = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
+
+        for (String item : filteredItems) {
+            String lowerItem = item.toLowerCase();
+            boolean matchesBrand = allowedPhoneBrands.stream().anyMatch(lowerItem::contains);
+            assertTrue(matchesBrand);
+        }
+
+    }
+
+    @Test
+    void shouldFilterItemsAndReturnLaptops() {
+
+        List<String> filteredItems = mainPage.filterItems("laptop");
+
+        assertFalse(filteredItems.isEmpty());
+
+        List<String> allowedPhoneBrands = List.of("sony vaio", "macbook", "dell");
+
+        for (String item : filteredItems) {
+            String lowerItem = item.toLowerCase();
+            boolean matchesBrand = allowedPhoneBrands.stream().anyMatch(lowerItem::contains);
+            assertTrue(matchesBrand);
+        }
+
+    }
+
+
+    @Test
+    void shouldFilterItemsAndReturnMonitors() {
+
+        List<String> filteredItems = mainPage.filterItems("monitor");
+
+        assertFalse(filteredItems.isEmpty());
+
+        List<String> allowedPhoneBrands = List.of("apple", "asus");
 
         for (String item : filteredItems) {
             String lowerItem = item.toLowerCase();

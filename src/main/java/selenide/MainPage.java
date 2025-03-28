@@ -4,7 +4,10 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
 import java.time.Duration;
+import java.util.List;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
@@ -18,6 +21,8 @@ public class MainPage {
     private final SelenideElement categoryBlock = $(".list-group");
     private final SelenideElement footer = $("div#fotcont");
     private final SelenideElement phonesCategory = categoryBlock.$(".list-group [onclick=\"byCat('phone')\"]");
+    private final SelenideElement laptopsCategory = categoryBlock.$(".list-group [onclick=\"byCat('notebook')\"]");
+    private final SelenideElement monitorsCategory = categoryBlock.$(".list-group [onclick=\"byCat('monitor')\"]");
     private final ElementsCollection item = $$(".card-title a");
 
     public void gotoLogin() {
@@ -40,11 +45,38 @@ public class MainPage {
         return footer;
     }
 
-    public void filterPhones(){
+    public void filterPhones() {
         phonesCategory.shouldBe(enabled).click();
     }
 
-    public  ElementsCollection getItems() {
+    public void filterLaptops() {
+        laptopsCategory.shouldBe(enabled).click();
+    }
+
+    public void filterMonitors() {
+        monitorsCategory.shouldBe(enabled).click();
+    }
+
+    public ElementsCollection getItems() {
         return item;
     }
+
+    public List<String> filterItems(String filter) {
+        List<String> initialItems = this.getItems().shouldHave(sizeGreaterThan(0)).texts();
+        if (filter == "phone") {
+            this.filterPhones();
+        } else if (filter == "laptop") {
+            this.filterLaptops();
+        } else if (filter == "monitor") {
+            this.filterMonitors();
+        }
+
+
+        List<String> filteredItems = this.getItems().shouldHave(sizeLessThan(initialItems.size())).texts();
+
+        return filteredItems;
+
+    }
+
 }
+
