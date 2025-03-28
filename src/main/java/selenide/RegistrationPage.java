@@ -2,6 +2,7 @@ package selenide;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
@@ -10,8 +11,9 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
 
-public class RegistrationPage extends LoadableComponent{
+public class RegistrationPage extends LoadableComponent {
     private final SelenideElement usernameField = $("#sign-username");
     private final SelenideElement passwordField = $("#sign-password");
     private final SelenideElement confirmButton = $("#signInModal  button.btn.btn-primary");
@@ -21,15 +23,30 @@ public class RegistrationPage extends LoadableComponent{
     MainPage mp = new MainPage();
 
 
+    @Step("Регистрация пользователя {login}")
     public void registration(String login, String pass, String dialogText) {
         mp.waitUntilLoaded();
-        mp.gotoRegistration();
-        waitUntilLoaded();
-        usernameField.shouldBe(visible).shouldBe(enabled).setValue(login);
-        passwordField.shouldBe(visible).shouldBe(enabled).setValue(pass);
-        confirmButton.click();
 
-        Selenide.confirm(dialogText);
+        Allure.step("Переходим на страницу регистрации", () -> {
+            mp.gotoRegistration();
+        });
+
+        waitUntilLoaded();
+        sleep(300);
+
+        Allure.step("Заполняем логин и пароль", () -> {
+            usernameField.shouldBe(enabled).setValue(login);
+            passwordField.shouldBe(enabled).setValue(pass);
+        });
+
+        Allure.step("Подтверждаем регистрацию", () -> {
+            confirmButton.click();
+        });
+
+        Allure.step("Получаем алерт об успешной регистрации", () -> {
+            Selenide.confirm(dialogText);
+        });
+
 
     }
 
@@ -38,11 +55,11 @@ public class RegistrationPage extends LoadableComponent{
 
     }
 
-    public SelenideElement getModal(){
+    public SelenideElement getModal() {
         return modalWindow;
     }
 
-    public void closeModal(){
+    public void closeModal() {
         closeButton.shouldBe(enabled).click();
     }
 

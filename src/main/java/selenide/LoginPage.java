@@ -2,13 +2,15 @@ package selenide;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Step;
-
 
 import java.time.Duration;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.sleep;
+
+import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 
 public class LoginPage extends LoadableComponent {
 
@@ -19,25 +21,39 @@ public class LoginPage extends LoadableComponent {
     MainPage mp = new MainPage();
 
 
-    public void login(String login, String pass)  {
+    public void login(String login, String pass) {
         mp.waitUntilLoaded();
-        mp.gotoLogin();
+        Allure.step("Переходим на страницу логина", () -> {
+            mp.gotoLogin();
+        });
+
         waitUntilLoaded();
-        usernameField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(login);
-        usernameField.shouldHave(value(login));
-        passwordField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(pass);
-        passwordField.shouldHave(value(pass));
-        confirmButton.click();
+        sleep(500);
+        Allure.step("Заполняем login и password", () -> {
+            usernameField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(login);
+            passwordField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(pass);
+        });
+
+        Allure.step("Подтверждаем логин", () -> {
+            confirmButton.click();
+        });
 
     }
 
-    public void fakeLogin(String login, String pass, String dialogMessage)  {
+
+    public void fakeLogin(String login, String pass, String dialogMessage) {
         login(login, pass);
-        Selenide.confirm(dialogMessage);
+        Allure.step("Закрываем алерт логин", () -> {
+            Selenide.confirm(dialogMessage);
+        });
+
     }
 
     public void waitUntilLoaded() {
         loginLabel.shouldBe(visible, Duration.ofSeconds(3));
+        usernameField.shouldBe(visible);
+        passwordField.shouldBe(visible);
+        confirmButton.shouldBe(enabled);
 
     }
 

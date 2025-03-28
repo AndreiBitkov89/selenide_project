@@ -2,7 +2,7 @@ package selenide;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class MainPage extends LoadableComponent{
+public class MainPage extends LoadableComponent {
 
     private final SelenideElement signInButton = $("#signin2");
     private final SelenideElement username = $("#nameofuser");
@@ -28,7 +28,6 @@ public class MainPage extends LoadableComponent{
     private final ElementsCollection item = $$(".card-title a");
 
 
-    @Step("Открываем модальное окно логина")
     public void gotoLogin() {
         this.loginButton.click();
     }
@@ -44,6 +43,7 @@ public class MainPage extends LoadableComponent{
     }
 
 
+    @Step("Проверка отображения имени авторизованного юзера")
     public void shouldShowWelcome(String name) {
         username.shouldBe(visible).shouldHave(text(name));
     }
@@ -57,22 +57,32 @@ public class MainPage extends LoadableComponent{
     }
 
     public void filterPhones() {
-        phonesCategory.shouldBe(enabled).click();
+        Allure.step("Фильтруем телефоны", () -> {
+            phonesCategory.shouldBe(enabled).click();
+        });
+
     }
+
 
     public void filterLaptops() {
-        laptopsCategory.shouldBe(enabled).click();
+        Allure.step("Фильтруем ноутбуки", () -> {
+            laptopsCategory.shouldBe(enabled).click();
+        });
+
     }
 
-    @Step("Фильтрация мониторов")
     public void filterMonitors() {
-        monitorsCategory.shouldBe(enabled).click();
+        Allure.step("Фильтруем мониторы", () -> {
+            monitorsCategory.shouldBe(enabled).click();
+        });
+
     }
 
     public ElementsCollection getItems() {
         return item;
     }
 
+    @Step("Сохраняем число элементов и переходитм к фильтрации")
     public List<String> filterItems(String filter) {
         this.waitUntilLoaded();
         List<String> initialItems = this.getItems().shouldHave(sizeGreaterThan(0)).texts();

@@ -2,17 +2,17 @@ package selenide;
 
 import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import io.qameta.allure.*;
+import org.junit.jupiter.api.*;
+import io.qameta.allure.Allure;
+
 
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static io.qameta.allure.SeverityLevel.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestSuite {
 
@@ -23,6 +23,7 @@ public class TestSuite {
     RegistrationPage registrationPage;
     String testUser = "TestNameUser";
     String testPass = "TestPass";
+
 
     @BeforeEach
     void initialize() {
@@ -42,10 +43,10 @@ public class TestSuite {
         clearBrowserCookies();
         clearBrowserLocalStorage();
         executeJavaScript("sessionStorage.clear()");
-        refresh();
     }
 
     @Test
+    @Severity(CRITICAL)
     void shouldRegisterClientAndAuthoriseHim() {
 
         String name = faker.name().username();
@@ -54,6 +55,7 @@ public class TestSuite {
         registrationPage.registration(name, pass, "Sign up successful.");
         mainPage.waitUntilLoaded();
         loginPage.login(name, pass);
+
         mainPage.shouldShowWelcome(name);
 
     }
