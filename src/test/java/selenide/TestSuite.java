@@ -42,7 +42,7 @@ public class TestSuite {
         String pass = faker.internet().password();
 
         registrationPage.registration(name, pass, "Sign up successful.");
-        mainPage.waitMainPageToBeLoaded();
+        mainPage.waitUntilLoaded();
         loginPage.login(name, pass);
         mainPage.shouldShowWelcome(name);
 
