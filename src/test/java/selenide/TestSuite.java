@@ -1,15 +1,26 @@
 package selenide;
 
+import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
 
+import com.codeborne.selenide.ElementsCollection;
+import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestSuite {
 
@@ -26,6 +37,7 @@ public class TestSuite {
 
         Configuration.browser = "chrome";
         Configuration.browserSize = "1900, 1400";
+        Configuration.timeout = 10000;
         open(url);
 
         mainPage = new MainPage();
@@ -51,7 +63,37 @@ public class TestSuite {
     void errorAfterRegWithExistedCreds() {
 
         registrationPage.registration(testUser, testPass, "This user already exist.");
-        registrationPage.getModal().shouldBe(visible, Duration.ofSeconds(3));
+        registrationPage.getModal().shouldBe(visible);
 
     }
+
+    @Test
+    void errorAfterRegWithEmptyCreds() {
+
+        registrationPage.registration("", "", "Please fill out Username and Password.");
+        registrationPage.getModal().shouldBe(visible);
+
+    }
+
+    @Test
+    void shouldFilterItemsAndReturnPhones() {
+
+        List<String> initialItems = mainPage.getItems().shouldHave(sizeGreaterThan(0)).texts();
+        mainPage.filterPhones();
+
+        List<String> filteredItems = mainPage.getItems().shouldHave(sizeLessThan(initialItems.size())).texts();
+
+        assertFalse(filteredItems.isEmpty());
+
+        List<String> allowedPhoneBrands = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
+
+        for (String item : filteredItems) {
+            String lowerItem = item.toLowerCase();
+            boolean matchesBrand = allowedPhoneBrands.stream().anyMatch(lowerItem::contains);
+            assertTrue(matchesBrand);
+        }
+
+    }
+
+
 }

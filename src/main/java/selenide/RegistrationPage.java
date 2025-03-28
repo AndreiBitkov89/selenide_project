@@ -2,6 +2,7 @@ package selenide;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import org.openqa.selenium.By;
 
 import java.time.Duration;
 
@@ -14,6 +15,7 @@ public class RegistrationPage {
     private SelenideElement passwordField = $("#sign-password");
     private SelenideElement confirmButton = $("#signInModal  button.btn.btn-primary");
     private SelenideElement modalWindow = $("#signInModal .modal-body");
+    private  SelenideElement closeButton = $(By.xpath("//*[@id='signInModal']//ancestor::button[text()='Close']"));
     MainPage mp = new MainPage();
 
 
@@ -38,6 +40,10 @@ public class RegistrationPage {
 
     public SelenideElement getModal(){
         return modalWindow;
+    }
+
+    public void closeModal(){
+        closeButton.shouldBe(enabled).click();
     }
 
 }
