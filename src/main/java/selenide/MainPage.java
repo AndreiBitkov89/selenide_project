@@ -3,6 +3,8 @@ package selenide;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
+import io.qameta.allure.Step;
+
 import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
@@ -25,6 +27,8 @@ public class MainPage extends LoadableComponent{
     private final SelenideElement monitorsCategory = categoryBlock.$(byText("Monitors"));
     private final ElementsCollection item = $$(".card-title a");
 
+
+    @Step("Открываем модальное окно логина")
     public void gotoLogin() {
         this.loginButton.click();
     }
@@ -48,6 +52,10 @@ public class MainPage extends LoadableComponent{
         return footer;
     }
 
+    public SelenideElement getUsernameAfterLogin() {
+        return username;
+    }
+
     public void filterPhones() {
         phonesCategory.shouldBe(enabled).click();
     }
@@ -56,6 +64,7 @@ public class MainPage extends LoadableComponent{
         laptopsCategory.shouldBe(enabled).click();
     }
 
+    @Step("Фильтрация мониторов")
     public void filterMonitors() {
         monitorsCategory.shouldBe(enabled).click();
     }

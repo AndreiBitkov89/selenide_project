@@ -2,13 +2,15 @@ package selenide;
 
 import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -33,6 +35,14 @@ public class TestSuite {
         loginPage = new LoginPage();
         registrationPage = new RegistrationPage();
 
+    }
+
+    @AfterEach
+    void clearState() {
+        clearBrowserCookies();
+        clearBrowserLocalStorage();
+        executeJavaScript("sessionStorage.clear()");
+        refresh();
     }
 
     @Test
@@ -61,6 +71,25 @@ public class TestSuite {
 
         registrationPage.registration("", "", "Please fill out Username and Password.");
         registrationPage.getModal().shouldBe(visible);
+
+    }
+
+    @Test
+    void errorAfterLoginInvalidCreds() {
+
+        String name = faker.name().username();
+        String pass = faker.internet().password();
+
+        loginPage.fakeLogin(name, pass, "User does not exist.");
+        mainPage.getUsernameAfterLogin().shouldNotBe(visible);
+
+    }
+
+    @Test
+    void errorAfterLoginEmptyCreds() {
+
+        loginPage.fakeLogin("", "", "Please fill out Username and Password.");
+        mainPage.getUsernameAfterLogin().shouldNotBe(visible);
 
     }
 

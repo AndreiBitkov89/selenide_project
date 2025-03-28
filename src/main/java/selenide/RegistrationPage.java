@@ -2,6 +2,7 @@ package selenide;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 import java.time.Duration;
@@ -15,6 +16,7 @@ public class RegistrationPage extends LoadableComponent{
     private final SelenideElement passwordField = $("#sign-password");
     private final SelenideElement confirmButton = $("#signInModal  button.btn.btn-primary");
     private final SelenideElement modalWindow = $("#signInModal .modal-body");
+    private final SelenideElement signupLabel = $("#signInModalLabel");
     private final SelenideElement closeButton = $(By.xpath("//*[@id='signInModal']//ancestor::button[text()='Close']"));
     MainPage mp = new MainPage();
 
@@ -23,8 +25,8 @@ public class RegistrationPage extends LoadableComponent{
         mp.waitUntilLoaded();
         mp.gotoRegistration();
         waitUntilLoaded();
-        usernameField.setValue(login);
-        passwordField.setValue(pass);
+        usernameField.shouldBe(visible).shouldBe(enabled).setValue(login);
+        passwordField.shouldBe(visible).shouldBe(enabled).setValue(pass);
         confirmButton.click();
 
         Selenide.confirm(dialogText);
@@ -32,10 +34,8 @@ public class RegistrationPage extends LoadableComponent{
     }
 
     public void waitUntilLoaded() {
-        usernameField.shouldBe(visible, Duration.ofSeconds(3));
-        usernameField.shouldBe(enabled, Duration.ofSeconds(3));
-        passwordField.shouldBe(visible, Duration.ofSeconds(3));
-        passwordField.shouldBe(enabled, Duration.ofSeconds(3));
+        signupLabel.shouldBe(visible, Duration.ofSeconds(3));
+
     }
 
     public SelenideElement getModal(){
