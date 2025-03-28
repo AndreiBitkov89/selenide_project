@@ -10,17 +10,17 @@ import static com.codeborne.selenide.Condition.enabled;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public class RegistrationPage {
-    private SelenideElement usernameField = $("#sign-username");
-    private SelenideElement passwordField = $("#sign-password");
-    private SelenideElement confirmButton = $("#signInModal  button.btn.btn-primary");
-    private SelenideElement modalWindow = $("#signInModal .modal-body");
-    private  SelenideElement closeButton = $(By.xpath("//*[@id='signInModal']//ancestor::button[text()='Close']"));
+public class RegistrationPage extends LoadableComponent{
+    private final SelenideElement usernameField = $("#sign-username");
+    private final SelenideElement passwordField = $("#sign-password");
+    private final SelenideElement confirmButton = $("#signInModal  button.btn.btn-primary");
+    private final SelenideElement modalWindow = $("#signInModal .modal-body");
+    private final SelenideElement closeButton = $(By.xpath("//*[@id='signInModal']//ancestor::button[text()='Close']"));
     MainPage mp = new MainPage();
 
 
     public void registration(String login, String pass, String dialogText) {
-        mp.waitMainPageToBeLoaded();
+        mp.waitUntilLoaded();
         mp.gotoRegistration();
         waitUntilLoaded();
         usernameField.setValue(login);

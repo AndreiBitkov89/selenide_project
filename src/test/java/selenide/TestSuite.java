@@ -1,23 +1,13 @@
 package selenide;
 
-import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Configuration;
-
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Selenide.open;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -37,7 +27,6 @@ public class TestSuite {
 
         Configuration.browser = "chrome";
         Configuration.browserSize = "1900, 1400";
-        Configuration.timeout = 10000;
         open(url);
 
         mainPage = new MainPage();

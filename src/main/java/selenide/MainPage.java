@@ -3,26 +3,26 @@ package selenide;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
-import java.time.Duration;
 import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
-public class MainPage {
+public class MainPage extends LoadableComponent{
 
     private final SelenideElement signInButton = $("#signin2");
-    public final SelenideElement username = $("#nameofuser");
+    private final SelenideElement username = $("#nameofuser");
     private final SelenideElement loginButton = $("#login2");
     private final SelenideElement title = $("a.navbar-brand");
     private final SelenideElement categoryBlock = $(".list-group");
     private final SelenideElement footer = $("div#fotcont");
-    private final SelenideElement phonesCategory = categoryBlock.$(".list-group [onclick=\"byCat('phone')\"]");
-    private final SelenideElement laptopsCategory = categoryBlock.$(".list-group [onclick=\"byCat('notebook')\"]");
-    private final SelenideElement monitorsCategory = categoryBlock.$(".list-group [onclick=\"byCat('monitor')\"]");
+    private final SelenideElement phonesCategory = categoryBlock.$(byText("Phones"));
+    private final SelenideElement laptopsCategory = categoryBlock.$(byText("Laptops"));
+    private final SelenideElement monitorsCategory = categoryBlock.$(byText("Monitors"));
     private final ElementsCollection item = $$(".card-title a");
 
     public void gotoLogin() {
@@ -33,9 +33,12 @@ public class MainPage {
         this.signInButton.click();
     }
 
-    public void waitMainPageToBeLoaded() {
-        title.shouldBe(visible, Duration.ofSeconds(3000));
+
+    @Override
+    public void waitUntilLoaded() {
+        this.title.shouldBe(visible);
     }
+
 
     public void shouldShowWelcome(String name) {
         username.shouldBe(visible).shouldHave(text(name));
@@ -62,6 +65,7 @@ public class MainPage {
     }
 
     public List<String> filterItems(String filter) {
+        this.waitUntilLoaded();
         List<String> initialItems = this.getItems().shouldHave(sizeGreaterThan(0)).texts();
         if (filter == "phone") {
             this.filterPhones();
