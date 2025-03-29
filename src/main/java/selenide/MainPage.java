@@ -4,8 +4,10 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
@@ -26,14 +28,20 @@ public class MainPage extends LoadableComponent {
     private final SelenideElement laptopsCategory = categoryBlock.$(byText("Laptops"));
     private final SelenideElement monitorsCategory = categoryBlock.$(byText("Monitors"));
     private final ElementsCollection item = $$(".card-title a");
+    ItemPage itemPage = new ItemPage();
 
 
     public void gotoLogin() {
-        this.loginButton.click();
+
+        Allure.step("Переход к модальному окну логина", () -> {
+            this.loginButton.click();
+        });
     }
 
     public void gotoRegistration() {
-        this.signInButton.click();
+        Allure.step("Переход к модальному окну регистрации", () -> {
+            this.signInButton.click();
+        });
     }
 
 
@@ -43,9 +51,11 @@ public class MainPage extends LoadableComponent {
     }
 
 
-    @Step("Проверка отображения имени авторизованного юзера")
     public void shouldShowWelcome(String name) {
-        username.shouldBe(visible).shouldHave(text(name));
+        Allure.step("Поверяем наличие имени юзера на главной странице после логина", () -> {
+            username.shouldBe(visible).shouldHave(text(name));
+        });
+
     }
 
     public SelenideElement getFooter() {
@@ -82,7 +92,7 @@ public class MainPage extends LoadableComponent {
         return item;
     }
 
-    @Step("Сохраняем число элементов и переходитм к фильтрации")
+    @Step("Сохраняем число элементов и переходим к фильтрации")
     public List<String> filterItems(String filter) {
         this.waitUntilLoaded();
         List<String> initialItems = this.getItems().shouldHave(sizeGreaterThan(0)).texts();
@@ -98,6 +108,20 @@ public class MainPage extends LoadableComponent {
         List<String> filteredItems = this.getItems().shouldHave(sizeLessThan(initialItems.size())).texts();
 
         return filteredItems;
+
+    }
+
+    public void gotoItem(String title) {
+        waitUntilLoaded();
+        SelenideElement titleItem = $(By.xpath("//a[text()='" + title + "']"));
+        titleItem.shouldBe(enabled).click();
+        itemPage.waitUntilLoaded();
+    }
+
+    public void gotoNavBar(String barTitle) {
+        if (Objects.equals(barTitle, "cart")) {
+            $("#navbarExample #cartur").shouldBe(enabled).click();
+        }
 
     }
 

@@ -4,11 +4,7 @@ import com.codeborne.selenide.Configuration;
 import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import io.qameta.allure.Allure;
-
-
 import java.util.List;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.SeverityLevel.*;
@@ -20,6 +16,8 @@ public class TestSuite {
     Faker faker = new Faker();
     MainPage mainPage;
     LoginPage loginPage;
+    ItemPage itemPage;
+    CartPage cartPage;
     RegistrationPage registrationPage;
     String testUser = "TestNameUser";
     String testPass = "TestPass";
@@ -35,6 +33,8 @@ public class TestSuite {
         mainPage = new MainPage();
         loginPage = new LoginPage();
         registrationPage = new RegistrationPage();
+        itemPage = new ItemPage();
+        cartPage = new CartPage();
 
     }
 
@@ -61,6 +61,7 @@ public class TestSuite {
     }
 
     @Test
+    @Severity(CRITICAL)
     void errorAfterRegWithExistedCreds() {
 
         registrationPage.registration(testUser, testPass, "This user already exist.");
@@ -69,6 +70,7 @@ public class TestSuite {
     }
 
     @Test
+    @Severity(CRITICAL)
     void errorAfterRegWithEmptyCreds() {
 
         registrationPage.registration("", "", "Please fill out Username and Password.");
@@ -77,6 +79,7 @@ public class TestSuite {
     }
 
     @Test
+    @Severity(CRITICAL)
     void errorAfterLoginInvalidCreds() {
 
         String name = faker.name().username();
@@ -88,6 +91,7 @@ public class TestSuite {
     }
 
     @Test
+    @Severity(CRITICAL)
     void errorAfterLoginEmptyCreds() {
 
         loginPage.fakeLogin("", "", "Please fill out Username and Password.");
@@ -96,6 +100,7 @@ public class TestSuite {
     }
 
     @Test
+    @Severity(CRITICAL)
     void shouldFilterItemsAndReturnPhones() {
 
         List<String> filteredItems = mainPage.filterItems("phone");
@@ -113,6 +118,7 @@ public class TestSuite {
     }
 
     @Test
+    @Severity(CRITICAL)
     void shouldFilterItemsAndReturnLaptops() {
 
         List<String> filteredItems = mainPage.filterItems("laptop");
@@ -131,6 +137,7 @@ public class TestSuite {
 
 
     @Test
+    @Severity(CRITICAL)
     void shouldFilterItemsAndReturnMonitors() {
 
         List<String> filteredItems = mainPage.filterItems("monitor");
@@ -147,5 +154,18 @@ public class TestSuite {
 
     }
 
+    @Test
+    @Severity(CRITICAL)
+    void shouldAddItemToCart() {
+        String item = "Samsung galaxy s7";
 
+        mainPage.gotoItem(item);
+        assertEquals(item, itemPage.getItemName());
+
+        itemPage.addItemToCart();
+        mainPage.gotoNavBar("cart");
+
+        String itemNameInCart = cartPage.getItemName();
+        assertEquals(item, itemNameInCart);
+    }
 }
