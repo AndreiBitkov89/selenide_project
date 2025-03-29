@@ -2,15 +2,11 @@ package selenide;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-
 import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
-
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
 
 public class LoginPage extends LoadableComponent {
 
@@ -18,6 +14,7 @@ public class LoginPage extends LoadableComponent {
     private final SelenideElement passwordField = $("#loginpassword");
     private final SelenideElement confirmButton = $("#logInModal  button.btn.btn-primary");
     private final SelenideElement loginLabel = $("#logInModalLabel");
+    private final SelenideElement modalWindow = $("#logInModal .modal-body");
     MainPage mp = new MainPage();
 
 
@@ -55,6 +52,10 @@ public class LoginPage extends LoadableComponent {
         passwordField.shouldBe(visible);
         confirmButton.shouldBe(enabled);
 
+    }
+
+    public SelenideElement getModal() {
+        return modalWindow;
     }
 
 }

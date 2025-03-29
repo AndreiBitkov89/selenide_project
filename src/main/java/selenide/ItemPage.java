@@ -2,6 +2,7 @@ package selenide;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.Condition.*;
@@ -14,10 +15,15 @@ public class ItemPage extends LoadableComponent {
 
     public void addItemToCart() {
         this.waitUntilLoaded();
-        addToCartButton.shouldBe(visible).shouldBe(enabled).click();
-        Selenide.confirm("Product added");
 
+        Allure.step("Добавление товара в корзину", () -> {
+            addToCartButton.shouldBe(visible).shouldBe(enabled).click();
+        });
+        Allure.step("Закрываем алерт", () -> {
+            Selenide.confirm("Product added");
+        });
     }
+
 
     @Override
     protected void waitUntilLoaded() {

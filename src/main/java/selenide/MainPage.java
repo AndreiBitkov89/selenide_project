@@ -118,12 +118,17 @@ public class MainPage extends LoadableComponent {
         itemPage.waitUntilLoaded();
     }
 
+
+    /*Тут будет дополнительная логика рабы с навигационным баром - поэтому if else
+     */
     public void gotoNavBar(String barTitle) {
         if (Objects.equals(barTitle, "cart")) {
-            $("#navbarExample #cartur").shouldBe(enabled).click();
+            Allure.step("Переходим в корзину", () -> {
+                $("#navbarExample #cartur").shouldBe(enabled).click();
+            });
+
         }
 
     }
-
 }
 
