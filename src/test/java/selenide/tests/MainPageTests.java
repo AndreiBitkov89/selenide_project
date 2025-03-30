@@ -1,6 +1,7 @@
 package selenide.tests;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
+import selenide.utils.Item;
 
 import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;
@@ -12,7 +13,7 @@ public class MainPageTests extends BaseTest{
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnPhones() {
 
-        List<String> filteredItems = mainPage.filterItems("phone");
+        List<String> filteredItems = mainPage.filterItems(Item.PHONE);
 
         assertFalse(filteredItems.isEmpty());
 
@@ -30,7 +31,7 @@ public class MainPageTests extends BaseTest{
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnLaptops() {
 
-        List<String> filteredItems = mainPage.filterItems("laptop");
+        List<String> filteredItems = mainPage.filterItems(Item.LAPTOP);
 
         assertFalse(filteredItems.isEmpty());
 
@@ -49,7 +50,7 @@ public class MainPageTests extends BaseTest{
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnMonitors() {
 
-        List<String> filteredItems = mainPage.filterItems("monitor");
+        List<String> filteredItems = mainPage.filterItems(Item.MONITOR);
 
         assertFalse(filteredItems.isEmpty());
 

@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import selenide.utils.Item;
 import selenide.utils.NavBar;
 
 import java.util.List;
@@ -78,14 +79,14 @@ public class MainPage extends LoadableComponent {
     }
 
     @Step("Сохраняем число элементов и переходим к фильтрации")
-    public List<String> filterItems(String filter) {
+    public List<String> filterItems(Item item) {
         this.waitUntilLoaded();
         List<String> initialItems = this.getItems().shouldHave(sizeGreaterThan(0)).texts();
-        if (filter == "phone") {
+        if (item == Item.PHONE) {
             this.filterPhones();
-        } else if (filter == "laptop") {
+        } else if (item == Item.LAPTOP) {
             this.filterLaptops();
-        } else if (filter == "monitor") {
+        } else if (item == Item.MONITOR) {
             this.filterMonitors();
         }
 

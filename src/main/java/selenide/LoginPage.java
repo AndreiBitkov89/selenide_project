@@ -26,7 +26,7 @@ public class LoginPage extends LoadableComponent {
         });
 
         waitUntilLoaded();
-        sleep(500);
+        sleep(300);
         Allure.step("Заполняем login и password", () -> {
             usernameField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(login);
             passwordField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(pass);
