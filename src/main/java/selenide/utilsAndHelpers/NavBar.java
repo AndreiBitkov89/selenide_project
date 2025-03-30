@@ -1,4 +1,4 @@
-package selenide.utils;
+package selenide.utilsAndHelpers;
 
 public enum NavBar {
     CART,

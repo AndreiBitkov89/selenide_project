@@ -1,11 +1,12 @@
-package selenide;
+package selenide.pages;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import selenide.utils.NavBar;
+import selenide.LoadableComponent;
+import selenide.utilsAndHelpers.NavBar;
 
 import java.time.Duration;
 

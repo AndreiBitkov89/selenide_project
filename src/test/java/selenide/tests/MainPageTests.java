@@ -1,7 +1,7 @@
 package selenide.tests;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.utils.Item;
+import selenide.utilsAndHelpers.Item;
 
 import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;

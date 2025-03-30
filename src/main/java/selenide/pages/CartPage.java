@@ -1,7 +1,8 @@
-package selenide;
+package selenide.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
+import selenide.LoadableComponent;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;

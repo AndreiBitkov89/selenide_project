@@ -2,7 +2,7 @@ package selenide.tests;
 
 import com.codeborne.selenide.*;
 import org.junit.jupiter.api.*;
-import selenide.*;
+import selenide.pages.*;
 
 
 import static com.codeborne.selenide.Selenide.*;

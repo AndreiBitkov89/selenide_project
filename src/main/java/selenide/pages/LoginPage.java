@@ -1,4 +1,4 @@
-package selenide;
+package selenide.pages;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -7,7 +7,8 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
 import io.qameta.allure.Allure;
-import selenide.utils.NavBar;
+import selenide.LoadableComponent;
+import selenide.utilsAndHelpers.NavBar;
 
 public class LoginPage extends LoadableComponent {
 
