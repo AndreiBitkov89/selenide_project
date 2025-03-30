@@ -1,7 +1,6 @@
 package selenide.pages;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import selenide.LoadableComponent;

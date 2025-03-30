@@ -1,17 +1,14 @@
 package selenide.pages;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.SelenideElement;
-import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
+import com.codeborne.selenide.*;
+import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import selenide.LoadableComponent;
 import selenide.utilsAndHelpers.NavBar;
 
 import java.time.Duration;
 
-import static com.codeborne.selenide.Condition.enabled;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
 

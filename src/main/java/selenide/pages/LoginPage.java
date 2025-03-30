@@ -6,6 +6,7 @@ import java.time.Duration;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
+
 import io.qameta.allure.Allure;
 import selenide.LoadableComponent;
 import selenide.utilsAndHelpers.NavBar;

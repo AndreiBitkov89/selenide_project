@@ -1,13 +1,10 @@
 package selenide.pages;
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import selenide.LoadableComponent;
-import selenide.utilsAndHelpers.Item;
-import selenide.utilsAndHelpers.NavBar;
+import selenide.utilsAndHelpers.*;
 
 import java.util.List;
 
@@ -79,7 +76,6 @@ public class MainPage extends LoadableComponent {
         return item;
     }
 
-    @Step("Сохраняем число элементов и переходим к фильтрации")
     public List<String> filterItems(Item item) {
         this.waitUntilLoaded();
         List<String> initialItems = this.getItems().shouldHave(sizeGreaterThan(0)).texts();
