@@ -5,7 +5,7 @@ import org.junit.jupiter.api.*;
 import static com.codeborne.selenide.Condition.*;
 import static io.qameta.allure.SeverityLevel.*;
 
-public class RegistrationTests extends BaseTest{
+public class RegistrationTests extends BaseTest {
 
     Faker faker = new Faker();
     String testUser = "TestNameUser";
@@ -13,13 +13,12 @@ public class RegistrationTests extends BaseTest{
 
     @Test
     @Severity(CRITICAL)
-    void shouldRegisterClientAndAuthoriseHim() {
+    void shouldRegisterClientAndAuthorize() {
 
         String name = faker.name().username();
         String pass = faker.internet().password();
 
         registrationPage.registration(name, pass, "Sign up successful.");
-        mainPage.waitUntilLoaded();
         loginPage.login(name, pass);
 
         mainPage.shouldShowWelcome(name);

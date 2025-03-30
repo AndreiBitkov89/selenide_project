@@ -7,7 +7,7 @@ import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MainPageTests extends BaseTest{
+public class MainPageTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
@@ -44,7 +44,6 @@ public class MainPageTests extends BaseTest{
         }
 
     }
-
 
     @Test
     @Severity(CRITICAL)

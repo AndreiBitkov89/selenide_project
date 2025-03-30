@@ -57,7 +57,6 @@ public class MainPage extends LoadableComponent {
 
     }
 
-
     public void filterLaptops() {
         Allure.step("Фильтруем ноутбуки", () -> {
             laptopsCategory.shouldBe(enabled).click();
@@ -87,7 +86,6 @@ public class MainPage extends LoadableComponent {
             this.filterMonitors();
         }
 
-
         List<String> filteredItems = this.getItems().shouldHave(sizeLessThan(initialItems.size())).texts();
 
         return filteredItems;
@@ -100,7 +98,6 @@ public class MainPage extends LoadableComponent {
         titleItem.shouldBe(enabled).click();
         itemPage.waitUntilLoaded();
     }
-
 
     /*Тут будет дополнительная логика работы с навигационным баром - поэтому if else
      */

@@ -6,13 +6,11 @@ import org.junit.jupiter.api.*;
 import static com.codeborne.selenide.Condition.*;
 import static io.qameta.allure.SeverityLevel.*;
 
-public class LoginTests extends BaseTest{
-
+public class LoginTests extends BaseTest {
 
     String testUser = "TestNameUser";
     String testPass = "TestPass";
     Faker faker = new Faker();
-
 
     @Test
     @Severity(CRITICAL)
