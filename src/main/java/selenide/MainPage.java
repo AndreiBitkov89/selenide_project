@@ -5,9 +5,10 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import selenide.utils.NavBar;
 
 import java.util.List;
-import java.util.Objects;
+
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
@@ -30,26 +31,10 @@ public class MainPage extends LoadableComponent {
     private final ElementsCollection item = $$(".card-title a");
     ItemPage itemPage = new ItemPage();
 
-
-    public void gotoLogin() {
-
-        Allure.step("Переход к модальному окну логина", () -> {
-            this.loginButton.click();
-        });
-    }
-
-    public void gotoRegistration() {
-        Allure.step("Переход к модальному окну регистрации", () -> {
-            this.signInButton.click();
-        });
-    }
-
-
     @Override
     public void waitUntilLoaded() {
         this.title.shouldBe(visible);
     }
-
 
     public void shouldShowWelcome(String name) {
         Allure.step("Поверяем наличие имени юзера на главной странице после логина", () -> {
@@ -119,16 +104,24 @@ public class MainPage extends LoadableComponent {
     }
 
 
-    /*Тут будет дополнительная логика рабы с навигационным баром - поэтому if else
+    /*Тут будет дополнительная логика работы с навигационным баром - поэтому if else
      */
-    public void gotoNavBar(String barTitle) {
-        if (Objects.equals(barTitle, "cart")) {
+    public void gotoNavBar(NavBar navBar) {
+        if (navBar == NavBar.CART) {
             Allure.step("Переходим в корзину", () -> {
                 $("#navbarExample #cartur").shouldBe(enabled).click();
             });
 
-        }
+        } else if (navBar == NavBar.LOGIN) {
+            Allure.step("Переход к модальному окну логина", () -> {
+                this.loginButton.click();
+            });
 
+        } else if (navBar == NavBar.SIGN) {
+            Allure.step("Переход к модальному окну регистрации", () -> {
+                this.signInButton.click();
+            });
     }
+}
 }
 

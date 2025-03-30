@@ -5,6 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
+import selenide.utils.NavBar;
 
 import java.time.Duration;
 
@@ -28,7 +29,7 @@ public class RegistrationPage extends LoadableComponent {
         mp.waitUntilLoaded();
 
         Allure.step("Переходим на страницу регистрации", () -> {
-            mp.gotoRegistration();
+            mp.gotoNavBar(NavBar.SIGN);
         });
 
         waitUntilLoaded();

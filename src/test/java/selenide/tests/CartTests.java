@@ -1,13 +1,9 @@
 package selenide.tests;
 
-import com.codeborne.selenide.Configuration;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.CartPage;
-import selenide.ItemPage;
-import selenide.MainPage;
+import selenide.utils.NavBar;
 
-import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.SeverityLevel.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +18,7 @@ public class CartTests extends BaseTest {
         assertEquals(item, itemPage.getItemName());
 
         itemPage.addItemToCart();
-        mainPage.gotoNavBar("cart");
+        mainPage.gotoNavBar(NavBar.CART);
 
         String itemNameInCart = cartPage.getItemName();
         assertEquals(item, itemNameInCart);

@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.sleep;
 import io.qameta.allure.Allure;
+import selenide.utils.NavBar;
 
 public class LoginPage extends LoadableComponent {
 
@@ -21,7 +22,7 @@ public class LoginPage extends LoadableComponent {
     public void login(String login, String pass) {
         mp.waitUntilLoaded();
         Allure.step("Переходим на страницу логина", () -> {
-            mp.gotoLogin();
+            mp.gotoNavBar(NavBar.LOGIN);
         });
 
         waitUntilLoaded();
