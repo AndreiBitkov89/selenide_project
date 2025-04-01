@@ -12,7 +12,7 @@ public class CartTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void shouldAddItemToCart() {
+    public void shouldAddItemToCart() {
         String item = "Samsung galaxy s7";
 
         mainPage.gotoItem(item);

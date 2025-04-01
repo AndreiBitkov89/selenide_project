@@ -29,7 +29,7 @@ public class MainPageTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void shouldFilterItemsAndReturnLaptops() {
+    public void shouldFilterItemsAndReturnLaptops() {
 
         List<String> filteredItems = mainPage.filterItems(Item.LAPTOP);
 
@@ -47,7 +47,7 @@ public class MainPageTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void shouldFilterItemsAndReturnMonitors() {
+    public void shouldFilterItemsAndReturnMonitors() {
 
         List<String> filteredItems = mainPage.filterItems(Item.MONITOR);
 

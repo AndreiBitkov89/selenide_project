@@ -15,10 +15,10 @@ public abstract class BaseTest {
     LoginPage loginPage;
 
     @BeforeEach
-    void initialize() {
+    public void initialize() {
 
         Configuration.browser = "chrome";
-        Configuration.browserSize = "1900, 1400";
+        Configuration.browserSize = "1900x1400";
         open("https://www.demoblaze.com/");
         mainPage = new MainPage();
         itemPage = new ItemPage();
@@ -29,7 +29,7 @@ public abstract class BaseTest {
     }
 
     @AfterEach
-    void clearState() {
+    public void clearState() {
         clearBrowserCookies();
         clearBrowserLocalStorage();
         executeJavaScript("sessionStorage.clear()");

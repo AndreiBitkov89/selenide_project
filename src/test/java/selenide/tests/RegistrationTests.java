@@ -13,7 +13,7 @@ public class RegistrationTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void shouldRegisterClientAndAuthorize() {
+    public void shouldRegisterClientAndAuthorize() {
 
         String name = faker.name().username();
         String pass = faker.internet().password();
@@ -27,7 +27,7 @@ public class RegistrationTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void errorAfterRegWithExistedCreds() {
+    public void errorAfterRegWithExistedCreds() {
 
         registrationPage.registration(testUser, testPass, "This user already exist.");
         registrationPage.getModal().shouldBe(visible);
@@ -36,7 +36,7 @@ public class RegistrationTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void errorAfterRegWithEmptyCreds() {
+    public void errorAfterRegWithEmptyCreds() {
 
         registrationPage.registration("", "", "Please fill out Username and Password.");
         registrationPage.getModal().shouldBe(visible);

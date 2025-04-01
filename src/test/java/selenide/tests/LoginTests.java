@@ -22,7 +22,7 @@ public class LoginTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void errorAfterLoginInvalidCreds() {
+    public void errorAfterLoginInvalidCreds() {
 
         String name = faker.name().username();
         String pass = faker.internet().password();
@@ -34,7 +34,7 @@ public class LoginTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    void errorAfterLoginEmptyCreds() {
+    public void errorAfterLoginEmptyCreds() {
 
         loginPage.fakeLogin("", "", "Please fill out Username and Password.");
         mainPage.getUsernameAfterLogin().shouldNotBe(visible);
