@@ -10,28 +10,32 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class ItemPage extends LoadableComponent {
 
-    private final SelenideElement addToCartButton = $(By.xpath("//a[text()='Add to cart']"));
-    private final SelenideElement itemTitle = $("h2.name");
+    private SelenideElement addToCartButton = $(By.xpath("//a[text()='Add to cart']"));
+    private SelenideElement itemTitle = $("h2.name");
+    private SelenideElement itemPrice = $("h3.price-container");
+    private final String DIALOG = "Product added";
 
     public void addItemToCart() {
         this.waitUntilLoaded();
 
         Allure.step("Добавление товара в корзину", () -> {
-            addToCartButton.shouldBe(visible).shouldBe(enabled).click();
+            addToCartButton.shouldBe(visible).click();
         });
         Allure.step("Закрываем алерт", () -> {
-            Selenide.confirm("Product added");
+            Selenide.confirm(DIALOG);
         });
     }
 
-
     @Override
-    protected void waitUntilLoaded() {
+    public void waitUntilLoaded() {
         itemTitle.shouldBe(visible);
     }
 
     public String getItemName() {
         return itemTitle.getText();
+    }
 
+    public int returnPrice() {
+        return Integer.parseInt(itemPrice.text().replace("$", "").trim().split("\\s")[0]);
     }
 }

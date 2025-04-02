@@ -20,4 +20,9 @@ public class CartPage extends LoadableComponent {
         waitUntilLoaded();
         return $(By.xpath("//td[text()='" + title + "']"));
     }
+
+    public int getPriceOfItemInCart(String title) {
+        SelenideElement item = $(By.xpath("//td[text()='" + title + "']/following-sibling::td[1]"));
+        return Integer.parseInt(item.text().trim());
+    }
 }

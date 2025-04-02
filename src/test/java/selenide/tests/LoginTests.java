@@ -1,22 +1,38 @@
 package selenide.tests;
 
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.WebDriverRunner;
 import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
+import selenide.pages.LoginPage;
+import selenide.pages.MainPage;
+import selenide.components.Alerts;
+import selenide.components.NavBar;
+
 import static com.codeborne.selenide.Condition.*;
 import static io.qameta.allure.SeverityLevel.*;
+import static java.lang.Thread.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LoginTests extends BaseTest {
 
-    String testUser = "TestNameUser";
-    String testPass = "TestPass";
-    Faker faker = new Faker();
+    private MainPage mainPage = new MainPage();
+    private LoginPage loginPage = new LoginPage();
+    private final String TEST_USER = "TestNameUser";
+    private final String TEST_PASS = "TestPass";
+    private Faker USER_BILDER = new Faker();
 
     @Test
     @Severity(CRITICAL)
     void successfulLogin() {
-        loginPage.login(testUser, testPass);
+        NavBar.LOGIN.gotoNavBar();
+        loginPage.login(TEST_USER, TEST_PASS);
         loginPage.getModal().shouldBe(visible);
+
+        assertNotNull(loginPage.getCookie("tokenp_"));
 
     }
 
@@ -24,10 +40,11 @@ public class LoginTests extends BaseTest {
     @Severity(CRITICAL)
     public void errorAfterLoginInvalidCreds() {
 
-        String name = faker.name().username();
-        String pass = faker.internet().password();
+        String name = USER_BILDER.name().username();
+        String pass = USER_BILDER.internet().password();
 
-        loginPage.fakeLogin(name, pass, "User does not exist.");
+        NavBar.LOGIN.gotoNavBar();
+        loginPage.fakeLogin(name, pass, Alerts.USER_NOT_EXIST);
         mainPage.getUsernameAfterLogin().shouldNotBe(visible);
 
     }
@@ -36,10 +53,11 @@ public class LoginTests extends BaseTest {
     @Severity(CRITICAL)
     public void errorAfterLoginEmptyCreds() {
 
-        loginPage.fakeLogin("", "", "Please fill out Username and Password.");
+        NavBar.LOGIN.gotoNavBar();
+        loginPage.fakeLogin("", "", Alerts.EMPTY_FIELDS);
+
         mainPage.getUsernameAfterLogin().shouldNotBe(visible);
 
     }
-
 
 }
