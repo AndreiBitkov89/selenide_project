@@ -1,65 +1,48 @@
 package selenide.tests;
+
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.utilsAndHelpers.Item;
+import selenide.pages.MainPage;
+import selenide.components.ItemsFilter;
 
 import java.util.List;
+
 import static io.qameta.allure.SeverityLevel.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class MainPageTests extends BaseTest {
+
+    private MainPage mainPage = new MainPage();
+
+    private static final List<String> ALLOWED_MONITORS = List.of("apple", "asus");
+    private static final List<String> ALLOWED_LAPTOPS = List.of("sony vaio", "macbook", "dell");
+    private static final List<String> ALLOWED_PHONES = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
+    private static List<String> filteredItems;
 
     @Test
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnPhones() {
 
-        List<String> filteredItems = mainPage.filterItems(Item.PHONE);
+        filteredItems = mainPage.filterItems(ItemsFilter.PHONE);
 
-        assertFalse(filteredItems.isEmpty());
-
-        List<String> allowedBrands = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
-
-        for (String item : filteredItems) {
-            String lowerItem = item.toLowerCase();
-            boolean matchesBrand = allowedBrands.stream().anyMatch(lowerItem::contains);
-            assertTrue(matchesBrand);
-        }
-
+        mainPage.assertFilteredItems(filteredItems, ALLOWED_PHONES);
     }
 
     @Test
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnLaptops() {
 
-        List<String> filteredItems = mainPage.filterItems(Item.LAPTOP);
+        filteredItems = mainPage.filterItems(ItemsFilter.LAPTOP);
 
-        assertFalse(filteredItems.isEmpty());
-
-        List<String> allowedBrands = List.of("sony vaio", "macbook", "dell");
-
-        for (String item : filteredItems) {
-            String lowerItem = item.toLowerCase();
-            boolean matchesBrand = allowedBrands.stream().anyMatch(lowerItem::contains);
-            assertTrue(matchesBrand);
-        }
-
+        mainPage.assertFilteredItems(filteredItems, ALLOWED_LAPTOPS);
     }
 
     @Test
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnMonitors() {
 
-        List<String> filteredItems = mainPage.filterItems(Item.MONITOR);
+        filteredItems = mainPage.filterItems(ItemsFilter.MONITOR);
 
-        assertFalse(filteredItems.isEmpty());
-
-        List<String> allowedBrands = List.of("apple", "asus");
-
-        for (String item : filteredItems) {
-            String lowerItem = item.toLowerCase();
-            boolean matchesBrand = allowedBrands.stream().anyMatch(lowerItem::contains);
-            assertTrue(matchesBrand);
-        }
+        mainPage.assertFilteredItems(filteredItems, ALLOWED_MONITORS);
 
     }
 }
