@@ -3,7 +3,6 @@ package selenide.tests;
 import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import org.w3c.dom.ls.LSOutput;
 import selenide.pages.LoginPage;
 import selenide.pages.MainPage;
 import selenide.pages.RegistrationPage;

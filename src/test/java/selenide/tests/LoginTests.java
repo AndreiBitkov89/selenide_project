@@ -1,7 +1,5 @@
 package selenide.tests;
 
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
 import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
@@ -12,10 +10,7 @@ import selenide.components.NavBar;
 
 import static com.codeborne.selenide.Condition.*;
 import static io.qameta.allure.SeverityLevel.*;
-import static java.lang.Thread.sleep;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LoginTests extends BaseTest {
 
@@ -46,6 +41,7 @@ public class LoginTests extends BaseTest {
         NavBar.LOGIN.gotoNavBar();
         loginPage.fakeLogin(name, pass, Alerts.USER_NOT_EXIST);
         mainPage.getUsernameAfterLogin().shouldNotBe(visible);
+        assertNull(loginPage.getCookie("tokenp_"));
 
     }
 
@@ -57,6 +53,7 @@ public class LoginTests extends BaseTest {
         loginPage.fakeLogin("", "", Alerts.EMPTY_FIELDS);
 
         mainPage.getUsernameAfterLogin().shouldNotBe(visible);
+        assertNull(loginPage.getCookie("tokenp_"));
 
     }
 
