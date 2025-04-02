@@ -9,7 +9,6 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class CartPage extends LoadableComponent {
     private final SelenideElement title = $(By.xpath("//h2[text()='Products']"));
-    private final SelenideElement itemBlock = $("tbody#tbodyid");
 
     @Override
     protected void waitUntilLoaded() {

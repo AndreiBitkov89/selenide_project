@@ -4,24 +4,15 @@ import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import selenide.LoadableComponent;
-import selenide.components.*;
 
-import java.util.List;
-
-import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MainPage extends LoadableComponent {
 
     private final SelenideElement username = $("#nameofuser");
     private final SelenideElement title = $("a.navbar-brand");
     private final SelenideElement footer = $("div#fotcont");
-
-    private List<String> initialItems;
 
     @Override
     public void waitUntilLoaded() {
@@ -32,7 +23,6 @@ public class MainPage extends LoadableComponent {
         Allure.step("Поверяем наличие имени юзера на главной странице после логина", () -> {
             username.shouldBe(visible).shouldHave(text(name));
         });
-
     }
 
     public SelenideElement getUsernameAfterLogin() {

@@ -17,12 +17,13 @@ public class MainPageTests extends BaseTest {
     private static final List<String> ALLOWED_LAPTOPS = List.of("sony vaio", "macbook", "dell");
     private static final List<String> ALLOWED_PHONES = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
     private static List<String> filteredItems;
+    private ItemsFilter filter;
 
     @Test
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnPhones() {
-
-        filteredItems = ItemsFilter.filterItems(ItemsFilter.PHONE);
+        filter = ItemsFilter.PHONE;
+        filteredItems = filter.filterAndReturnItems();
 
         ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_PHONES);
     }
@@ -30,8 +31,8 @@ public class MainPageTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnLaptops() {
-
-        filteredItems = ItemsFilter.filterItems(ItemsFilter.LAPTOP);
+        filter = ItemsFilter.LAPTOP;
+        filteredItems = filter.filterAndReturnItems();
 
         ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_LAPTOPS);
     }
@@ -40,7 +41,8 @@ public class MainPageTests extends BaseTest {
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnMonitors() {
 
-        filteredItems = ItemsFilter.filterItems(ItemsFilter.MONITOR);
+        filter = ItemsFilter.MONITOR;
+        filteredItems = filter.filterAndReturnItems();
 
         ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_MONITORS);
 
