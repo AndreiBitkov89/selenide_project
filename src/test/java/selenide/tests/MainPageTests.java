@@ -22,27 +22,27 @@ public class MainPageTests extends BaseTest {
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnPhones() {
 
-        filteredItems = mainPage.filterItems(ItemsFilter.PHONE);
+        filteredItems = ItemsFilter.filterItems(ItemsFilter.PHONE);
 
-        mainPage.assertFilteredItems(filteredItems, ALLOWED_PHONES);
+        ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_PHONES);
     }
 
     @Test
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnLaptops() {
 
-        filteredItems = mainPage.filterItems(ItemsFilter.LAPTOP);
+        filteredItems = ItemsFilter.filterItems(ItemsFilter.LAPTOP);
 
-        mainPage.assertFilteredItems(filteredItems, ALLOWED_LAPTOPS);
+        ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_LAPTOPS);
     }
 
     @Test
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnMonitors() {
 
-        filteredItems = mainPage.filterItems(ItemsFilter.MONITOR);
+        filteredItems = ItemsFilter.filterItems(ItemsFilter.MONITOR);
 
-        mainPage.assertFilteredItems(filteredItems, ALLOWED_MONITORS);
+        ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_MONITORS);
 
     }
 }

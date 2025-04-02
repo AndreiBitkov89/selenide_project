@@ -20,7 +20,8 @@ public class MainPage extends LoadableComponent {
     private final SelenideElement username = $("#nameofuser");
     private final SelenideElement title = $("a.navbar-brand");
     private final SelenideElement footer = $("div#fotcont");
-    private final ElementsCollection item = $$(".card-title a");
+
+    private List<String> initialItems;
 
     @Override
     public void waitUntilLoaded() {
@@ -38,29 +39,6 @@ public class MainPage extends LoadableComponent {
         return username;
     }
 
-    public ElementsCollection GetAllItemsOnPage() {
-        return item;
-    }
-
-    public List<String> filterItems(ItemsFilter item) {
-        waitUntilLoaded();
-
-        List<String> initialItems = GetAllItemsOnPage().shouldHave(sizeGreaterThan(0)).texts();
-
-        item.applyFilter();
-
-        return GetAllItemsOnPage().shouldHave(sizeLessThan(initialItems.size())).texts();
-
-    }
-
-    public void assertFilteredItems(List<String> filteredItems, List<String> allowedBrands) {
-
-        assertFalse(filteredItems.isEmpty());
-
-        for (String item : filteredItems) {
-            assertTrue(allowedBrands.stream().anyMatch(brand -> item.toLowerCase().contains(brand)), "Товар '" + item + "' не соответствует списку брендов");
-        }
-    }
 
     public void gotoItemPage(String title) {
         waitUntilLoaded();
