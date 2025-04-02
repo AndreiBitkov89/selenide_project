@@ -5,7 +5,7 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
 public enum NavBar {
-    CART("#navbarExample #cartur"),
+    CART("#cartur"),
     LOGIN("#login2"),
     SIGN("#signin2");
 

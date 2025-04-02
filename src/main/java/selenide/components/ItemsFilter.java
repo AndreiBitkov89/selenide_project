@@ -11,11 +11,13 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public enum ItemsFilter {
-    PHONE("//*[@class ='list-group']//*[text()='Phones']"), LAPTOP("//*[@class ='list-group']//*[text()='Laptops']"), MONITOR("//*[@class ='list-group']//*[text()='Monitors']");
+    PHONE("//*[@class ='list-group']//*[text()='Phones']"),
+    LAPTOP("//*[@class ='list-group']//*[text()='Laptops']"),
+    MONITOR("//*[@class ='list-group']//*[text()='Monitors']");
 
     private final String selector;
     private static List<String> initialItems;
-    private static final ElementsCollection item = $$(".card-title a");
+    private static final ElementsCollection ITEMS = $$(".card-title a");
 
     ItemsFilter(String selector) {
         this.selector = selector;
@@ -58,7 +60,7 @@ public enum ItemsFilter {
     }
 
     public static ElementsCollection GetAllItemsOnPage() {
-        return item;
+        return ITEMS;
     }
 
 }

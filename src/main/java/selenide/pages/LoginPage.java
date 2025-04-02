@@ -1,15 +1,12 @@
 package selenide.pages;
 
 import com.codeborne.selenide.*;
-
 import java.time.Duration;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static org.junit.jupiter.api.Assertions.*;
 import io.qameta.allure.Allure;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
+import org.openqa.selenium.*;
 import selenide.LoadableComponent;
 import selenide.components.Alerts;
 
