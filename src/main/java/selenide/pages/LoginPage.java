@@ -7,32 +7,47 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.junit.jupiter.api.Assertions.*;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;
-import selenide.LoadableComponent;
+import selenide.BasePage;
 import selenide.components.Alerts;
+import selenide.components.BaseModalWindow;
+import selenide.components.NavBarComponent;
+import selenide.helpers.User;
 
-public class LoginPage extends LoadableComponent {
+public class LoginPage extends BasePage<LoginPage> implements BaseModalWindow {
 
     private SelenideElement usernameField = $("#loginusername");
     private SelenideElement passwordField = $("#loginpassword");
     private SelenideElement confirmButton = $(By.xpath("//*[@onclick='logIn()']"));
     private SelenideElement loginLabel = $("#logInModalLabel");
     private SelenideElement modalWindow = $("#logInModal .modal-body");
+
     private String alertText;
-    private Cookie waitCookie;
+    private NavBarComponent navBarComponent = new NavBarComponent();
 
-    public void waitUntilLoaded() {
-        loginLabel.shouldBe(visible, Duration.ofSeconds(3));
-        usernameField.shouldBe(visible);
-        passwordField.shouldBe(visible);
-        confirmButton.shouldBe(visible);
-    }
+        @Override
+        protected void load() {
 
-    public void login(String login, String pass) {
+            Allure.step("Открываем главную страницу и вызываем модальное окно логина", () -> {
 
-        waitUntilLoaded();
+                navBarComponent.goTo(navBarComponent.getLogin());
+            });
+        }
+
+        @Override
+        protected void isLoaded() {
+
+            loginLabel.shouldBe(visible);
+            usernameField.shouldBe(visible);
+            passwordField.shouldBe(visible);
+
+        }
+
+    public void login(User user) {
+
         Allure.step("Заполняем login и password", () -> {
-            usernameField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(login);
-            passwordField.shouldBe(enabled, Duration.ofSeconds(3)).setValue(pass);
+            usernameField.shouldBe(visible).setValue(user.getUsername());
+            passwordField.shouldBe(visible).setValue(user.getPassword());
+
         });
 
         Allure.step("Подтверждаем логин", () -> {
@@ -40,25 +55,22 @@ public class LoginPage extends LoadableComponent {
         });
     }
 
-    public void fakeLogin(String login, String pass, Alerts expectedAlert) {
-        login(login, pass);
+    public void wrongLogin(User user, Alerts expectedAlert) {
+        login(user);
         Allure.step("Проверяем алерт логина", () -> {
             alertText = Selenide.confirm();
             assertEquals(alertText, expectedAlert.getMessage());
         });
     }
 
-
     public SelenideElement getModal() {
-        waitUntilLoaded();
         return modalWindow;
     }
 
     public Cookie getCookie(String cookie) {
         for (int i = 0; i < 10; i++) {
-            waitCookie = WebDriverRunner.getWebDriver().manage().getCookieNamed(cookie);
-            if (waitCookie != null) {
-                return waitCookie;
+            if (WebDriverRunner.getWebDriver().manage().getCookieNamed(cookie) != null) {
+                return WebDriverRunner.getWebDriver().manage().getCookieNamed(cookie);
             }
             Selenide.sleep(100);
         }

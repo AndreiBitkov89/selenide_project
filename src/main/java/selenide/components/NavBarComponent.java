@@ -12,23 +12,12 @@ public class NavBarComponent {
     private final SelenideElement LOGIN = $("#login2");
     private final SelenideElement SIGNUP = $("#signin2");
 
-    public void goToCart() {
-        Allure.step("Переход в корзину", () ->
-                CART.shouldBe(visible).click()
-        );
+    public void goTo(SelenideElement element) {
+        Allure.step("Переход к " + element.name(), () -> {
+            element.shouldBe(visible).click();
+        });
     }
 
-    public void goToLogin() {
-        Allure.step("Переход к логину", () ->
-                LOGIN.shouldBe(visible).click()
-        );
-    }
-
-    public void goToSignUp() {
-        Allure.step("Переход к регистрации", () ->
-                SIGNUP.shouldBe(visible).click()
-        );
-    }
 
     public SelenideElement getCart() {
         return CART;

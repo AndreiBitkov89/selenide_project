@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
-import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,22 +22,22 @@ public class CategoryFilterComponent {
     private List<String> initialItems;
     private static final ElementsCollection ITEMS = $$(".card-title a");
 
-    public static ElementsCollection GetAllItemsOnPage() {
+    public static ElementsCollection getAllItemsOnPage() {
         return ITEMS;
     }
 
     public List<String> filterAndReturnItems(SelenideElement element) {
 
         Allure.step("Проверяем изначальное количество элементов на странице", () -> {
-            initialItems = GetAllItemsOnPage().shouldHave(sizeGreaterThan(0)).texts();
+            initialItems = getAllItemsOnPage().shouldHave(sizeGreaterThan(0)).texts();
         });
 
         element.shouldBe(visible).click();
 
-        return GetAllItemsOnPage().shouldHave(sizeLessThan(initialItems.size())).texts();
+        return getAllItemsOnPage().shouldHave(sizeLessThan(initialItems.size())).texts();
     }
 
-    public static void assertFilteredItems(List<String> filteredItems, List<String> allowedBrands) {
+    public void assertFilteredItems(List<String> filteredItems, List<String> allowedBrands) {
 
         assertFalse(filteredItems.isEmpty());
 
@@ -57,6 +57,4 @@ public class CategoryFilterComponent {
     public List<String> filterMonitors() {
         return filterAndReturnItems(MONITOR);
     }
-
-
 }

@@ -2,49 +2,42 @@ package selenide.tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.pages.MainPage;
-import selenide.components.ItemsFilter;
+import selenide.components.*;
+import selenide.helpers.Brands;
 
 import java.util.List;
-
 import static io.qameta.allure.SeverityLevel.*;
 
 public class MainPageTests extends BaseTest {
 
-    private MainPage mainPage = new MainPage();
-
-    private static final List<String> ALLOWED_MONITORS = List.of("apple", "asus");
-    private static final List<String> ALLOWED_LAPTOPS = List.of("sony vaio", "macbook", "dell");
-    private static final List<String> ALLOWED_PHONES = List.of("samsung", "nokia", "nexus", "iphone", "sony", "htc");
+    private CategoryFilterComponent filterPage = new CategoryFilterComponent();
     private static List<String> filteredItems;
-    private ItemsFilter filter;
 
     @Test
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnPhones() {
-        filter = ItemsFilter.PHONE;
-        filteredItems = filter.filterAndReturnItems();
 
-        ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_PHONES);
+        filteredItems = filterPage.filterPhones();
+
+        filterPage.assertFilteredItems(filteredItems, Brands.getAllowedPhones());
     }
 
     @Test
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnLaptops() {
-        filter = ItemsFilter.LAPTOP;
-        filteredItems = filter.filterAndReturnItems();
 
-        ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_LAPTOPS);
+        filteredItems = filterPage.filterLaptops();
+
+        filterPage.assertFilteredItems(filteredItems,  Brands.getAllowedLaptops());
     }
 
     @Test
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnMonitors() {
 
-        filter = ItemsFilter.MONITOR;
-        filteredItems = filter.filterAndReturnItems();
+        filteredItems = filterPage.filterMonitors();
 
-        ItemsFilter.assertFilteredItems(filteredItems, ALLOWED_MONITORS);
+        filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 
     }
 }

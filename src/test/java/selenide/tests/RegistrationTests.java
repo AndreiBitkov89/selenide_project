@@ -1,13 +1,14 @@
 package selenide.tests;
 
-import com.github.javafaker.Faker;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
+import selenide.PageFactory;
+import selenide.helpers.CredentialsGenerator;
+import selenide.helpers.User;
 import selenide.pages.LoginPage;
 import selenide.pages.MainPage;
 import selenide.pages.RegistrationPage;
 import selenide.components.Alerts;
-import selenide.components.NavBar;
 
 import static com.codeborne.selenide.Condition.*;
 import static io.qameta.allure.SeverityLevel.*;
@@ -15,29 +16,24 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class RegistrationTests extends BaseTest {
 
-    private final Faker USER_BILDER = new Faker();
-    private static final String TEST_USER = "TestNameUser";
-    private static final String TEST_PASS = "TestPass";
-    private static MainPage mainPage = new MainPage();
-    private static LoginPage loginPage = new LoginPage();
-    private static RegistrationPage registrationPage = new RegistrationPage();
-    private static String name;
-    private static String pass;
+    private MainPage mainPage = PageFactory.mainPage();
+    private LoginPage loginPage = PageFactory.loginPage();
+    private RegistrationPage registrationPage = PageFactory.registrationPage();
+
+    private User newUser;
+    private final User DEFAULT_USER = new User("TestNameUser", "TestPass");
+    private String randomUsername = CredentialsGenerator.generateUsername(8);
+    private String RandomPassword = CredentialsGenerator.generatePassword(10);
 
     @Test
     @Severity(CRITICAL)
     public void shouldRegisterClientAndAuthorize() {
+        newUser = new User(randomUsername, RandomPassword);
 
-        name = USER_BILDER.name().username();
-        pass = USER_BILDER.internet().password();
+        registrationPage.get().registration(newUser, Alerts.SUCCESSFUL_SIGN);
+        loginPage.get().login(newUser);
 
-        NavBar.SIGN.gotoNavBar();
-        registrationPage.registration(name, pass, Alerts.SUCCESSFUL_SIGN);
-        NavBar.LOGIN.gotoNavBar();
-
-        loginPage.login(name, pass);
-
-        mainPage.shouldShowWelcome(name);
+        mainPage.shouldShowWelcome(newUser.getUsername());
         assertNotNull(loginPage.getCookie("tokenp_"));
     }
 
@@ -45,9 +41,7 @@ public class RegistrationTests extends BaseTest {
     @Severity(CRITICAL)
     public void errorAfterRegWithExistedCreds() {
 
-        NavBar.SIGN.gotoNavBar();
-
-        registrationPage.registration(TEST_USER, TEST_PASS, Alerts.USER_ALREADY_EXIST);
+        registrationPage.get().registration(DEFAULT_USER, Alerts.USER_ALREADY_EXIST);
         registrationPage.getModal().shouldNotBe(hidden);
 
     }
@@ -55,10 +49,9 @@ public class RegistrationTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     public void errorAfterRegWithEmptyCreds() {
+        newUser = new User("", "");
 
-        NavBar.SIGN.gotoNavBar();
-
-        registrationPage.registration("", "", Alerts.EMPTY_FIELDS);
+        registrationPage.get().registration(newUser, Alerts.EMPTY_FIELDS);
         registrationPage.getModal().shouldNotBe(hidden);
 
     }
