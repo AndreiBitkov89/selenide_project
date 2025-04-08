@@ -1,53 +1,56 @@
 package selenide.pages;
 
 import com.codeborne.selenide.*;
-import java.time.Duration;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static org.junit.jupiter.api.Assertions.*;
+
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;
 import selenide.BasePage;
 import selenide.components.Alerts;
-import selenide.components.BaseModalWindow;
 import selenide.components.NavBarComponent;
+import selenide.helpers.SlowType;
 import selenide.helpers.User;
 
-public class LoginPage extends BasePage<LoginPage> implements BaseModalWindow {
+public class LoginPage extends BasePage<LoginPage> implements selenide.interfaces.LoginPage {
 
     private SelenideElement usernameField = $("#loginusername");
     private SelenideElement passwordField = $("#loginpassword");
     private SelenideElement confirmButton = $(By.xpath("//*[@onclick='logIn()']"));
     private SelenideElement loginLabel = $("#logInModalLabel");
     private SelenideElement modalWindow = $("#logInModal .modal-body");
+    private SelenideElement modalFooter = $("div#logInModal .modal-footer");
+    private SelenideElement closeButton = modalFooter.$("button:nth-of-type(1)");
 
     private String alertText;
     private NavBarComponent navBarComponent = new NavBarComponent();
+    private SlowType slowType = new SlowType();
 
-        @Override
-        protected void load() {
+    @Override
+    protected void load() {
 
-            Allure.step("Открываем главную страницу и вызываем модальное окно логина", () -> {
+        Allure.step("Открываем главную страницу и вызываем модальное окно логина", () -> {
 
-                navBarComponent.goTo(navBarComponent.getLogin());
-            });
-        }
+            navBarComponent.goTo(navBarComponent.getLogin());
+        });
+    }
 
-        @Override
-        protected void isLoaded() {
+    @Override
+    protected void isLoaded() {
 
-            loginLabel.shouldBe(visible);
-            usernameField.shouldBe(visible);
-            passwordField.shouldBe(visible);
+        loginLabel.shouldBe(visible);
+        usernameField.shouldBe(visible);
+        passwordField.shouldBe(visible);
+        closeButton.shouldHave(visible);
 
-        }
+    }
 
     public void login(User user) {
-
         Allure.step("Заполняем login и password", () -> {
-            usernameField.shouldBe(visible).setValue(user.getUsername());
-            passwordField.shouldBe(visible).setValue(user.getPassword());
-
+            slowType.slowType(usernameField, user.getUsername());
+            slowType.slowType(passwordField, user.getPassword());
         });
 
         Allure.step("Подтверждаем логин", () -> {
@@ -59,7 +62,7 @@ public class LoginPage extends BasePage<LoginPage> implements BaseModalWindow {
         login(user);
         Allure.step("Проверяем алерт логина", () -> {
             alertText = Selenide.confirm();
-            assertEquals(alertText, expectedAlert.getMessage());
+            assertEquals(expectedAlert.getMessage(), alertText);
         });
     }
 
@@ -67,13 +70,4 @@ public class LoginPage extends BasePage<LoginPage> implements BaseModalWindow {
         return modalWindow;
     }
 
-    public Cookie getCookie(String cookie) {
-        for (int i = 0; i < 10; i++) {
-            if (WebDriverRunner.getWebDriver().manage().getCookieNamed(cookie) != null) {
-                return WebDriverRunner.getWebDriver().manage().getCookieNamed(cookie);
-            }
-            Selenide.sleep(100);
-        }
-        return null;
-    }
 }

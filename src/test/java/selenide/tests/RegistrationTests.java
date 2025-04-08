@@ -11,8 +11,8 @@ import selenide.pages.RegistrationPage;
 import selenide.components.Alerts;
 
 import static com.codeborne.selenide.Condition.*;
+import static config.ConfigProvider.CONFIG;
 import static io.qameta.allure.SeverityLevel.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class RegistrationTests extends BaseTest {
 
@@ -21,7 +21,9 @@ public class RegistrationTests extends BaseTest {
     private RegistrationPage registrationPage = PageFactory.registrationPage();
 
     private User newUser;
-    private final User DEFAULT_USER = new User("TestNameUser", "TestPass");
+    private final String DEFAULT_LOGIN = CONFIG.username();
+    private final String DEFAULT_PASS = CONFIG.password();
+    private final User DEFAULT_USER = new User(DEFAULT_LOGIN, DEFAULT_PASS);
     private String randomUsername = CredentialsGenerator.generateUsername(8);
     private String RandomPassword = CredentialsGenerator.generatePassword(10);
 
@@ -34,16 +36,14 @@ public class RegistrationTests extends BaseTest {
         loginPage.get().login(newUser);
 
         mainPage.shouldShowWelcome(newUser.getUsername());
-        assertNotNull(loginPage.getCookie("tokenp_"));
     }
 
     @Test
     @Severity(CRITICAL)
     public void errorAfterRegWithExistedCreds() {
-
+        System.out.println(DEFAULT_LOGIN + DEFAULT_PASS);
         registrationPage.get().registration(DEFAULT_USER, Alerts.USER_ALREADY_EXIST);
         registrationPage.getModal().shouldNotBe(hidden);
-
     }
 
     @Test

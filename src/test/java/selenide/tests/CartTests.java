@@ -3,7 +3,6 @@ package selenide.tests;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.devtools.v85.page.Page;
 import selenide.PageFactory;
 import selenide.components.CategoryFilterComponent;
 import selenide.components.NavBarComponent;
@@ -11,7 +10,6 @@ import selenide.helpers.Brands;
 import selenide.helpers.Item;
 import selenide.pages.CartPage;
 import selenide.pages.ItemPage;
-import selenide.pages.MainPage;
 
 import java.util.List;
 
