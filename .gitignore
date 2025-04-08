@@ -4,4 +4,3 @@ target/
 build/
 allure-results/
 allure-report/
-src/test/resources/config/*.properties
