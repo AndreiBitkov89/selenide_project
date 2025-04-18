@@ -1,22 +1,25 @@
 package selenide.components;
 
-import com.codeborne.selenide.ElementsCollection;
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
+import lombok.Getter;
 import org.openqa.selenium.By;
 
+import java.time.Duration;
 import java.util.List;
 
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
-import static com.codeborne.selenide.CollectionCondition.sizeLessThan;
+import static com.codeborne.selenide.CollectionCondition.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class CategoryFilterComponent {
+
+public class CategoryFilter {
+    @Getter
     private final SelenideElement PHONE = $(By.xpath("//*[@class ='list-group']//*[text()='Phones']"));
+    @Getter
     private final SelenideElement LAPTOP = $(By.xpath("//*[@class ='list-group']//*[text()='Laptops']"));
+    @Getter
     private final SelenideElement MONITOR = $(By.xpath("//*[@class ='list-group']//*[text()='Monitors']"));
 
     private List<String> initialItems;
@@ -33,8 +36,9 @@ public class CategoryFilterComponent {
         });
 
         element.shouldBe(visible).click();
+        getAllItemsOnPage().shouldBe(sizeLessThan(initialItems.size()), Duration.ofSeconds(5)).shouldHave(sizeGreaterThan(0));
 
-        return getAllItemsOnPage().shouldHave(sizeLessThan(initialItems.size())).texts();
+        return getAllItemsOnPage().texts();
     }
 
     public void assertFilteredItems(List<String> filteredItems, List<String> allowedBrands) {
@@ -46,15 +50,4 @@ public class CategoryFilterComponent {
         }
     }
 
-    public List<String> filterPhones() {
-        return filterAndReturnItems(PHONE);
-    }
-
-    public List<String> filterLaptops() {
-        return filterAndReturnItems(LAPTOP);
-    }
-
-    public List<String> filterMonitors() {
-        return filterAndReturnItems(MONITOR);
-    }
 }

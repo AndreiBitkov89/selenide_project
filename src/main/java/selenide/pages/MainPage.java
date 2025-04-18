@@ -1,27 +1,32 @@
 package selenide.pages;
 
 import com.codeborne.selenide.*;
-import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
-import selenide.BasePage;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class MainPage extends BasePage<MainPage> {
 
-    private final SelenideElement username = $("#nameofuser");
-    private final SelenideElement title = $("a.navbar-brand");
-    private final SelenideElement footer = $("div#fotcont");
+    @FindBy(css="a.navbar-brand")
+    private WebElement title;
 
-    public void shouldShowWelcome(String name) {
-        Allure.step("Поверяем наличие имени юзера на главной странице после логина", () -> {
-            username.shouldBe(visible).shouldHave(text(name));
-        });
+    @FindBy(css="div#fotcont")
+    private WebElement footer;
+
+    @Override
+    public void load() {
+        open(Configuration.baseUrl);
+        PageFactory.initElements(WebDriverRunner.getWebDriver(), this);
     }
 
-    public SelenideElement getUsernameAfterLogin() {
-        return username;
+    @Override
+    protected void isLoaded() {
+        $(title).shouldBe(visible);
     }
 
     public static void gotoItemPage(String title) {
@@ -29,18 +34,5 @@ public class MainPage extends BasePage<MainPage> {
         titleItem.shouldBe(visible).click();
     }
 
-    public SelenideElement getFooter() {
-        return footer;
-    }
-
-    @Override
-    public void load() {
-        open("https://www.demoblaze.com/");
-    }
-
-    @Override
-    protected void isLoaded() {
-        title.shouldBe(visible);
-    }
 }
 

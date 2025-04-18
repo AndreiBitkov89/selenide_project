@@ -8,11 +8,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;
-import selenide.BasePage;
 import selenide.components.Alerts;
 import selenide.components.NavBarComponent;
-import selenide.helpers.SlowType;
-import selenide.helpers.User;
+import selenide.helpers.Decorator;
+import selenide.valueObject.User;
 
 public class LoginPage extends BasePage<LoginPage> implements selenide.interfaces.LoginPage {
 
@@ -26,13 +25,12 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
 
     private String alertText;
     private NavBarComponent navBarComponent = new NavBarComponent();
-    private SlowType slowType = new SlowType();
+    private Decorator slowType = new Decorator();
 
     @Override
     protected void load() {
 
         Allure.step("Открываем главную страницу и вызываем модальное окно логина", () -> {
-
             navBarComponent.goTo(navBarComponent.getLogin());
         });
     }
@@ -47,7 +45,7 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
 
     }
 
-    public void login(User user) {
+    public LoginPage login(User user) {
         Allure.step("Заполняем login и password", () -> {
             slowType.slowType(usernameField, user.getUsername());
             slowType.slowType(passwordField, user.getPassword());
@@ -56,14 +54,18 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
         Allure.step("Подтверждаем логин", () -> {
             confirmButton.click();
         });
+
+        return this;
     }
 
-    public void wrongLogin(User user, Alerts expectedAlert) {
+    public LoginPage wrongLogin(User user, Alerts expectedAlert) {
         login(user);
         Allure.step("Проверяем алерт логина", () -> {
             alertText = Selenide.confirm();
             assertEquals(expectedAlert.getMessage(), alertText);
         });
+
+        return this;
     }
 
     public SelenideElement getModal() {

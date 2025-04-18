@@ -1,14 +1,11 @@
-package selenide;
+package selenide.pages;
 
-import selenide.pages.*;
-
-public class PageFactory {
+public class PageManager {
 
     private static LoginPage loginPage;
     private static RegistrationPage registrationPage;
     private static MainPage mainPage;
     private static CartPage cartPage;
-    private static ItemPage itemPage;
 
     public static LoginPage loginPage() {
         if (loginPage == null) loginPage = new LoginPage();
@@ -31,9 +28,7 @@ public class PageFactory {
     }
 
     public static ItemPage itemPage(String title) {
-        if (itemPage == null) itemPage = new ItemPage(title);
-
-        return itemPage;
+        return new ItemPage(title);
     }
 
     public static void reset() {
@@ -41,6 +36,6 @@ public class PageFactory {
         registrationPage = null;
         mainPage = null;
         cartPage = null;
-        itemPage = null;
     }
+
 }

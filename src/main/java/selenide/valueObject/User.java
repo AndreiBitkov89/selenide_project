@@ -1,4 +1,4 @@
-package selenide.helpers;
+package selenide.valueObject;
 
 public class User {
 

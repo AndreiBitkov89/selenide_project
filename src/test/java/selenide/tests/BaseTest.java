@@ -1,10 +1,10 @@
 package selenide.tests;
 
-import com.codeborne.selenide.*;
 import org.junit.jupiter.api.*;
-import selenide.PageFactory;
-import static config.ConfigProvider.CONFIG;
+import selenide.pages.PageManager;
 
+import static com.codeborne.selenide.Configuration.*;
+import static config.ConfigProvider.*;
 
 import static com.codeborne.selenide.Selenide.*;
 
@@ -12,17 +12,18 @@ public abstract class BaseTest {
 
     @BeforeEach
     public void initialize() {
-        Configuration.browser = "chrome";
-        Configuration.browserSize = "1900x1400";
-        Configuration.fastSetValue = false;
-        Configuration.headless = false;
-        open(CONFIG.baseUrl());
+        browser = "chrome";
+        browserSize = "1900x1400";
+        fastSetValue = false;
+        headless = false;
+        baseUrl = CONFIG.baseUrl();
+        open(baseUrl);
 
     }
 
     @AfterEach
     public void clearState() {
         clearBrowserCookies();
-        PageFactory.reset();
+        PageManager.reset();
     }
 }

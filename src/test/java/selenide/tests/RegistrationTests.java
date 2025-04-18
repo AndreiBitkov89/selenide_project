@@ -2,11 +2,11 @@ package selenide.tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.PageFactory;
+import selenide.pages.PageManager;
+import selenide.components.NavBarComponent;
 import selenide.helpers.CredentialsGenerator;
-import selenide.helpers.User;
+import selenide.valueObject.User;
 import selenide.pages.LoginPage;
-import selenide.pages.MainPage;
 import selenide.pages.RegistrationPage;
 import selenide.components.Alerts;
 
@@ -16,9 +16,9 @@ import static io.qameta.allure.SeverityLevel.*;
 
 public class RegistrationTests extends BaseTest {
 
-    private MainPage mainPage = PageFactory.mainPage();
-    private LoginPage loginPage = PageFactory.loginPage();
-    private RegistrationPage registrationPage = PageFactory.registrationPage();
+    private LoginPage loginPage = PageManager.loginPage();
+    private RegistrationPage registrationPage = PageManager.registrationPage();
+    private NavBarComponent navBarComponent = new NavBarComponent();
 
     private User newUser;
     private final String DEFAULT_LOGIN = CONFIG.username();
@@ -31,19 +31,20 @@ public class RegistrationTests extends BaseTest {
     @Severity(CRITICAL)
     public void shouldRegisterClientAndAuthorize() {
         newUser = new User(randomUsername, RandomPassword);
+        System.out.println(randomUsername);
+        System.out.println(RandomPassword);
 
         registrationPage.get().registration(newUser, Alerts.SUCCESSFUL_SIGN);
         loginPage.get().login(newUser);
 
-        mainPage.shouldShowWelcome(newUser.getUsername());
+        navBarComponent.shouldShowWelcome(newUser.getUsername());
     }
 
     @Test
     @Severity(CRITICAL)
     public void errorAfterRegWithExistedCreds() {
         System.out.println(DEFAULT_LOGIN + DEFAULT_PASS);
-        registrationPage.get().registration(DEFAULT_USER, Alerts.USER_ALREADY_EXIST);
-        registrationPage.getModal().shouldNotBe(hidden);
+        registrationPage.get().registration(DEFAULT_USER, Alerts.USER_ALREADY_EXIST).getModal().shouldNotBe(hidden);
     }
 
     @Test
@@ -51,8 +52,7 @@ public class RegistrationTests extends BaseTest {
     public void errorAfterRegWithEmptyCreds() {
         newUser = new User("", "");
 
-        registrationPage.get().registration(newUser, Alerts.EMPTY_FIELDS);
-        registrationPage.getModal().shouldNotBe(hidden);
+        registrationPage.get().registration(newUser, Alerts.EMPTY_FIELDS).getModal().shouldNotBe(hidden);
 
     }
 

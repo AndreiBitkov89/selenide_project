@@ -3,8 +3,6 @@ package selenide.pages;
 import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
-import selenide.BasePage;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static selenide.pages.MainPage.gotoItemPage;
@@ -14,8 +12,9 @@ public class ItemPage extends BasePage<ItemPage> {
     private SelenideElement addToCartButton = $(By.xpath("//a[text()='Add to cart']"));
     private SelenideElement itemTitle = $("h2.name");
     private SelenideElement itemPrice = $("h3.price-container");
+
     private final String DIALOG = "Product added";
-    private final String title;
+    private String title;
 
     public ItemPage(String title) {
         this.title = title;

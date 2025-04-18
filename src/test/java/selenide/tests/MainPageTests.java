@@ -3,21 +3,21 @@ package selenide.tests;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import selenide.components.*;
-import selenide.helpers.Brands;
+import selenide.valueObject.Brands;
 
 import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;
 
 public class MainPageTests extends BaseTest {
 
-    private CategoryFilterComponent filterPage = new CategoryFilterComponent();
+    private CategoryFilter filterPage = new CategoryFilter();
     private static List<String> filteredItems;
 
     @Test
     @Severity(CRITICAL)
     void shouldFilterItemsAndReturnPhones() {
 
-        filteredItems = filterPage.filterPhones();
+        filteredItems = filterPage.filterAndReturnItems(filterPage.getPHONE());
 
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedPhones());
     }
@@ -26,7 +26,7 @@ public class MainPageTests extends BaseTest {
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnLaptops() {
 
-        filteredItems = filterPage.filterLaptops();
+        filteredItems = filterPage.filterAndReturnItems(filterPage.getLAPTOP());
 
         filterPage.assertFilteredItems(filteredItems,  Brands.getAllowedLaptops());
     }
@@ -35,7 +35,7 @@ public class MainPageTests extends BaseTest {
     @Severity(CRITICAL)
     public void shouldFilterItemsAndReturnMonitors() {
 
-        filteredItems = filterPage.filterMonitors();
+        filteredItems = filterPage.filterAndReturnItems(filterPage.getMONITOR());
 
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 

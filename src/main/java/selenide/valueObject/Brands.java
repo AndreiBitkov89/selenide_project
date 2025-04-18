@@ -1,4 +1,4 @@
-package selenide.helpers;
+package selenide.valueObject;
 import java.util.List;
 
 public class Brands {

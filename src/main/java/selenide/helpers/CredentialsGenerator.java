@@ -10,7 +10,7 @@ public class CredentialsGenerator {
     private static final SecureRandom random = new SecureRandom();
 
     public static String generateUsername(int length) {
-        return generateRandomString(USERNAME_CHARS, length);
+        return "user"+ generateRandomString(USERNAME_CHARS, length);
     }
 
     public static String generatePassword(int length) {

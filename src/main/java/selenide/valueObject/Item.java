@@ -1,4 +1,4 @@
-package selenide.helpers;
+package selenide.valueObject;
 
 
 public class Item {
@@ -18,7 +18,4 @@ public class Item {
         return itemTitle;
     }
 
-    public void setItemTitle(String itemTitle) {
-        this.itemTitle = itemTitle;
-    }
 }

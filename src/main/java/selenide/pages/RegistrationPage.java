@@ -3,11 +3,10 @@ package selenide.pages;
 import com.codeborne.selenide.*;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
-import selenide.BasePage;
 import selenide.components.Alerts;
 import selenide.components.NavBarComponent;
-import selenide.helpers.SlowType;
-import selenide.helpers.User;
+import selenide.helpers.Decorator;
+import selenide.valueObject.User;
 
 import java.time.Duration;
 
@@ -22,12 +21,13 @@ public class RegistrationPage extends BasePage<RegistrationPage> {
     private SelenideElement modalWindow = $("#signInModal .modal-content");
     private SelenideElement signupLabel = $("#signInModalLabel");
     private NavBarComponent navBarComponent = new NavBarComponent();
-    private SlowType slowType = new SlowType();
+    private Decorator slowType = new Decorator();
 
-    public void registration(User user, Alerts alert) {
+    public RegistrationPage registration(User user, Alerts alert) {
         Allure.step("Заполняем логин и пароль", () -> {
             slowType.slowType(usernameField, user.getUsername());
             slowType.slowType(passwordField, user.getPassword());
+
         });
 
         Allure.step("Подтверждаем регистрацию", () -> {
@@ -38,6 +38,8 @@ public class RegistrationPage extends BasePage<RegistrationPage> {
             String dialog = Selenide.confirm();
             assertEquals(alert.getMessage(), dialog);
         });
+
+        return this;
     }
 
     public SelenideElement getModal() {
