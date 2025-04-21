@@ -10,8 +10,9 @@ public class Decorator {
     public void slowType(SelenideElement element, String text) {
         element.shouldBe(visible, enabled);
         for (char ch : text.toCharArray()) {
-            Selenide.sleep(40);
+            Selenide.sleep(20);
             element.sendKeys(Character.toString(ch));
+            Selenide.sleep(20);
         }
     }
 

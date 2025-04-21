@@ -1,4 +1,4 @@
-package selenide.components;
+package selenide.helpers;
 
 public enum Alerts {
     USER_NOT_EXIST("User does not exist."),

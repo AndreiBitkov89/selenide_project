@@ -1,4 +1,6 @@
-package selenide.pages;
+package selenide;
+
+import selenide.webpages.*;
 
 public class PageManager {
 
@@ -6,6 +8,8 @@ public class PageManager {
     private static RegistrationPage registrationPage;
     private static MainPage mainPage;
     private static CartPage cartPage;
+    private static SuccessPurchasePage successPurchasePage;
+    private static PurchasePage purchasePage;
 
     public static LoginPage loginPage() {
         if (loginPage == null) loginPage = new LoginPage();
@@ -27,6 +31,18 @@ public class PageManager {
         return cartPage;
     }
 
+    public static SuccessPurchasePage successPurchasePage() {
+        if (successPurchasePage == null) successPurchasePage = new SuccessPurchasePage();
+        return successPurchasePage;
+    }
+
+
+    public static PurchasePage purchasePage() {
+        if (purchasePage == null) purchasePage = new PurchasePage();
+        return purchasePage;
+    }
+
+
     public static ItemPage itemPage(String title) {
         return new ItemPage(title);
     }
@@ -36,6 +52,9 @@ public class PageManager {
         registrationPage = null;
         mainPage = null;
         cartPage = null;
+        purchasePage = null;
+        successPurchasePage = null;
+
     }
 
 }

@@ -16,13 +16,12 @@ public class NavBarComponent {
     private final SelenideElement USERNAME_LOGGED = $("#nameofuser");
 
     public NavBarComponent goTo(SelenideElement element) {
-        Allure.step("Переход к " + element.name(), () -> {
+        Allure.step("Go to " + element.toString(), () -> {
             element.shouldBe(visible, enabled).click();
         });
 
         return this;
     }
-
 
     public SelenideElement getCart() {
         return CART;
@@ -45,7 +44,7 @@ public class NavBarComponent {
     }
 
     public void shouldShowWelcome(String name) {
-        Allure.step("Поверяем наличие имени юзера на главной странице после логина", () -> {
+        Allure.step("Check username in Main Page after login", () -> {
             USERNAME_LOGGED.shouldBe(visible).shouldHave(text(name));
         });
     }

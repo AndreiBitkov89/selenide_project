@@ -1,11 +1,13 @@
-package selenide.pages;
+package selenide.webpages;
 
 import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
+import selenide.BasePage;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static selenide.pages.MainPage.gotoItemPage;
+import static selenide.webpages.MainPage.*;
 
 public class ItemPage extends BasePage<ItemPage> {
 
@@ -22,14 +24,14 @@ public class ItemPage extends BasePage<ItemPage> {
 
     @Override
     public void load() {
-        Allure.step("Открываем карточку товара: " + title, () -> {
+        Allure.step("Open page of the item: " + title, () -> {
             gotoItemPage(title);
         });
     }
 
     @Override
     public void isLoaded() {
-        Allure.step("Проверка загрузки страницы", () -> {
+        Allure.step("Check load of the page", () -> {
             itemTitle.shouldBe(visible);
             itemPrice.shouldBe(visible);
             addToCartButton.shouldBe(visible);
@@ -37,10 +39,10 @@ public class ItemPage extends BasePage<ItemPage> {
     }
 
     public void addItemInCart() {
-        Allure.step("Добавление товара в корзину", () -> {
+        Allure.step("Add item to cart", () -> {
             addToCartButton.shouldBe(visible).click();
         });
-        Allure.step("Закрываем алерт", () -> {
+        Allure.step("Close alert", () -> {
             Selenide.confirm(DIALOG);
         });
     }

@@ -1,7 +1,7 @@
 package selenide.interfaces;
 
 import com.codeborne.selenide.SelenideElement;
-import selenide.components.Alerts;
+import selenide.helpers.Alerts;
 import selenide.valueObject.User;
 
 public interface LoginPage {

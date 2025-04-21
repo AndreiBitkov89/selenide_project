@@ -1,4 +1,4 @@
-package selenide.pages;
+package selenide;
 
 public abstract class BasePage<T extends BasePage<T>> extends org.openqa.selenium.support.ui.LoadableComponent<T> {
     @Override

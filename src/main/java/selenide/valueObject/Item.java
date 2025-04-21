@@ -1,6 +1,5 @@
 package selenide.valueObject;
 
-
 public class Item {
     private String itemTitle;
     private int itemPrice;

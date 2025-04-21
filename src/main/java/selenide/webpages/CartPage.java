@@ -1,17 +1,28 @@
-package selenide.pages;
+package selenide.webpages;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
-import selenide.components.NavBarComponent;
+import selenide.BasePage;
+import selenide.components.*;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class CartPage extends BasePage<CartPage> {
     private NavBarComponent navBarComponent = new NavBarComponent();
-
     private SelenideElement title = $(By.xpath("//h2[text()='Products']"));
     private SelenideElement totalPrice = $("#totalp");
+    private static SelenideElement orderButton = $("button[data-target='#orderModal']");
+
+    @Override
+    public void load() {
+        navBarComponent.goTo(navBarComponent.getCart());
+    }
+    @Override
+    public void isLoaded() {
+        title.shouldBe(visible);
+    }
+
     public SelenideElement getItemInCart(String title) {
         return $(By.xpath("//td[text()='" + title + "']"));
     }
@@ -32,13 +43,8 @@ public class CartPage extends BasePage<CartPage> {
         return this;
     }
 
-    @Override
-    public void load() {
-        navBarComponent.goTo(navBarComponent.getCart());
+    public static void goToOrder(){
+        orderButton.shouldBe(visible).click();
     }
 
-    @Override
-    public void isLoaded() {
-        title.shouldBe(visible);
-    }
 }

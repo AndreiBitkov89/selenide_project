@@ -2,7 +2,6 @@ package selenide.components;
 
 import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
-import lombok.Getter;
 import org.openqa.selenium.By;
 
 import java.time.Duration;
@@ -15,15 +14,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CategoryFilter {
-    @Getter
-    private final SelenideElement PHONE = $(By.xpath("//*[@class ='list-group']//*[text()='Phones']"));
-    @Getter
-    private final SelenideElement LAPTOP = $(By.xpath("//*[@class ='list-group']//*[text()='Laptops']"));
-    @Getter
-    private final SelenideElement MONITOR = $(By.xpath("//*[@class ='list-group']//*[text()='Monitors']"));
 
+    private final SelenideElement PHONE = $(By.xpath("//*[@class ='list-group']//*[text()='Phones']"));
+    private final SelenideElement LAPTOP = $(By.xpath("//*[@class ='list-group']//*[text()='Laptops']"));
+    private final SelenideElement MONITOR = $(By.xpath("//*[@class ='list-group']//*[text()='Monitors']"));
     private List<String> initialItems;
     private static final ElementsCollection ITEMS = $$(".card-title a");
+
+    public SelenideElement getPHONE() {
+        return PHONE;
+    }
+
+    public SelenideElement getLAPTOP() {
+        return LAPTOP;
+    }
+
+    public SelenideElement getMONITOR() {
+        return MONITOR;
+    }
 
     public static ElementsCollection getAllItemsOnPage() {
         return ITEMS;
@@ -31,7 +39,7 @@ public class CategoryFilter {
 
     public List<String> filterAndReturnItems(SelenideElement element) {
 
-        Allure.step("Проверяем изначальное количество элементов на странице", () -> {
+        Allure.step("Check initial number of items in page", () -> {
             initialItems = getAllItemsOnPage().shouldHave(sizeGreaterThan(0)).texts();
         });
 
@@ -42,12 +50,15 @@ public class CategoryFilter {
     }
 
     public void assertFilteredItems(List<String> filteredItems, List<String> allowedBrands) {
+        Allure.step("Check items in page after applying filter", () -> {
+            assertFalse(filteredItems.isEmpty());
 
-        assertFalse(filteredItems.isEmpty());
+            for (String item : filteredItems) {
+                assertTrue(allowedBrands.stream().anyMatch(brand -> item.toLowerCase().contains(brand)), "Item '" + item + "' don't match the list of brands");
+            }
 
-        for (String item : filteredItems) {
-            assertTrue(allowedBrands.stream().anyMatch(brand -> item.toLowerCase().contains(brand)), "Товар '" + item + "' не соответствует списку брендов");
-        }
+        });
+
     }
 
 }

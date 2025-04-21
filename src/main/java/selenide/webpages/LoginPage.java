@@ -1,4 +1,4 @@
-package selenide.pages;
+package selenide.webpages;
 
 import com.codeborne.selenide.*;
 
@@ -7,8 +7,10 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.junit.jupiter.api.Assertions.*;
 
 import io.qameta.allure.Allure;
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
-import selenide.components.Alerts;
+import selenide.BasePage;
+import selenide.helpers.Alerts;
 import selenide.components.NavBarComponent;
 import selenide.helpers.Decorator;
 import selenide.valueObject.User;
@@ -30,7 +32,7 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
     @Override
     protected void load() {
 
-        Allure.step("Открываем главную страницу и вызываем модальное окно логина", () -> {
+        Allure.step("Open main page and navigate to login modal", () -> {
             navBarComponent.goTo(navBarComponent.getLogin());
         });
     }
@@ -45,13 +47,14 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
 
     }
 
+    @Step("Test Step")
     public LoginPage login(User user) {
-        Allure.step("Заполняем login и password", () -> {
+        Allure.step("Fill login и password", () -> {
             slowType.slowType(usernameField, user.getUsername());
             slowType.slowType(passwordField, user.getPassword());
         });
 
-        Allure.step("Подтверждаем логин", () -> {
+        Allure.step("Accept login", () -> {
             confirmButton.click();
         });
 
@@ -60,7 +63,7 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
 
     public LoginPage wrongLogin(User user, Alerts expectedAlert) {
         login(user);
-        Allure.step("Проверяем алерт логина", () -> {
+        Allure.step("Check alert after login", () -> {
             alertText = Selenide.confirm();
             assertEquals(expectedAlert.getMessage(), alertText);
         });

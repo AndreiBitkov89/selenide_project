@@ -2,22 +2,21 @@ package selenide.tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.pages.PageManager;
-import selenide.components.NavBarComponent;
-import selenide.helpers.CredentialsGenerator;
+import selenide.PageManager;
+import selenide.components.*;
+import selenide.helpers.*;
 import selenide.valueObject.User;
-import selenide.pages.LoginPage;
-import selenide.pages.RegistrationPage;
-import selenide.components.Alerts;
+import selenide.webpages.*;
 
 import static com.codeborne.selenide.Condition.*;
-import static config.ConfigProvider.CONFIG;
+import static config.ConfigProvider.*;
 import static io.qameta.allure.SeverityLevel.*;
 
+@Nested
+@DisplayName("Registration tests")
+@Tag("regress")
 public class RegistrationTests extends BaseTest {
 
-    private LoginPage loginPage = PageManager.loginPage();
-    private RegistrationPage registrationPage = PageManager.registrationPage();
     private NavBarComponent navBarComponent = new NavBarComponent();
 
     private User newUser;
@@ -29,31 +28,34 @@ public class RegistrationTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
+    @Tag("smoke")
+    @DisplayName("Successful registration")
     public void shouldRegisterClientAndAuthorize() {
         newUser = new User(randomUsername, RandomPassword);
         System.out.println(randomUsername);
         System.out.println(RandomPassword);
 
-        registrationPage.get().registration(newUser, Alerts.SUCCESSFUL_SIGN);
-        loginPage.get().login(newUser);
+        PageManager.registrationPage().get().registration(newUser, Alerts.SUCCESSFUL_SIGN);
+        PageManager.loginPage().get().login(newUser);
 
         navBarComponent.shouldShowWelcome(newUser.getUsername());
     }
 
     @Test
     @Severity(CRITICAL)
+    @DisplayName("Error after registration with existed user's data")
     public void errorAfterRegWithExistedCreds() {
         System.out.println(DEFAULT_LOGIN + DEFAULT_PASS);
-        registrationPage.get().registration(DEFAULT_USER, Alerts.USER_ALREADY_EXIST).getModal().shouldNotBe(hidden);
+        PageManager.registrationPage().get().registration(DEFAULT_USER, Alerts.USER_ALREADY_EXIST).getModal().shouldNotBe(hidden);
     }
 
     @Test
     @Severity(CRITICAL)
+    @DisplayName("Error after registration with empty fields")
     public void errorAfterRegWithEmptyCreds() {
         newUser = new User("", "");
 
-        registrationPage.get().registration(newUser, Alerts.EMPTY_FIELDS).getModal().shouldNotBe(hidden);
+        PageManager.registrationPage().get().registration(newUser, Alerts.EMPTY_FIELDS).getModal().shouldNotBe(hidden);
 
     }
-
 }

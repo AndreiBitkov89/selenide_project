@@ -8,6 +8,9 @@ import selenide.valueObject.Brands;
 import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;
 
+@Nested
+@DisplayName("Filter logic tests")
+@Tag("regress")
 public class MainPageTests extends BaseTest {
 
     private CategoryFilter filterPage = new CategoryFilter();
@@ -15,6 +18,7 @@ public class MainPageTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
+    @DisplayName("Successful filter phones")
     void shouldFilterItemsAndReturnPhones() {
 
         filteredItems = filterPage.filterAndReturnItems(filterPage.getPHONE());
@@ -24,6 +28,7 @@ public class MainPageTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
+    @DisplayName("Successful filter laptops")
     public void shouldFilterItemsAndReturnLaptops() {
 
         filteredItems = filterPage.filterAndReturnItems(filterPage.getLAPTOP());
@@ -33,6 +38,7 @@ public class MainPageTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
+    @DisplayName("Successful filter monitors")
     public void shouldFilterItemsAndReturnMonitors() {
 
         filteredItems = filterPage.filterAndReturnItems(filterPage.getMONITOR());

@@ -8,8 +8,8 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>22</maven.compiler.source>
-        <maven.compiler.target>22</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
@@ -35,6 +35,7 @@
             <artifactId>allure-java-commons</artifactId>
             <version>2.28.1</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.aeonbits.owner/owner -->
         <dependency>
@@ -70,8 +71,13 @@
                     <parallel>methods</parallel>
                     <threadCount>4</threadCount>
                 </configuration>
-
             </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.11.2</version>
+            </plugin>
+
         </plugins>
     </build>
 </project>
