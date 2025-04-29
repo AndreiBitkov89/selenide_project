@@ -13,10 +13,10 @@ public abstract class BaseTest {
 
     @BeforeEach
     public void initialize() {
-        browser = "chrome";
+        browser = CONFIG.browser();
         browserSize = "1900x1400";
         fastSetValue = false;
-        headless = false;
+        headless = true;
         baseUrl = CONFIG.baseUrl();
         open(baseUrl);
 

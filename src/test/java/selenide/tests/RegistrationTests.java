@@ -6,7 +6,6 @@ import selenide.PageManager;
 import selenide.components.*;
 import selenide.helpers.*;
 import selenide.valueObject.User;
-import selenide.webpages.*;
 
 import static com.codeborne.selenide.Condition.*;
 import static config.ConfigProvider.*;

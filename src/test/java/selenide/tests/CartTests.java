@@ -4,12 +4,10 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import selenide.PageManager;
-import selenide.components.CategoryFilter;
-import selenide.components.NavBarComponent;
+import selenide.components.*;
 import selenide.webpages.*;
-import selenide.valueObject.Brands;
-import selenide.valueObject.Item;
-import selenide.valueObject.Purchase;
+import selenide.valueObject.*;
+
 
 import java.util.List;
 

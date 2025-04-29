@@ -3,7 +3,7 @@ package selenide.tests;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import selenide.components.*;
-import selenide.valueObject.Brands;
+import selenide.valueObject.*;
 
 import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;
