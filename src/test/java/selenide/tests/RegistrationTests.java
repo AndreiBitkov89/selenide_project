@@ -14,14 +14,21 @@ import static io.qameta.allure.SeverityLevel.*;
 @DisplayName("Registration tests")
 public class RegistrationTests extends BaseTest {
 
-    private NavBarComponent navBarComponent = new NavBarComponent();
-
+    private NavBarComponent navBarComponent;
     private User newUser;
     private final String DEFAULT_LOGIN = CONFIG.username();
     private final String DEFAULT_PASS = CONFIG.password();
     private final User DEFAULT_USER = new User(DEFAULT_LOGIN, DEFAULT_PASS);
-    private String randomUsername = CredentialsGenerator.generateUsername(8);
-    private String RandomPassword = CredentialsGenerator.generatePassword(10);
+    private String randomUsername;
+    private String randomPassword;
+
+    @BeforeEach
+    void setUpPage() {
+        randomUsername = CredentialsGenerator.generateUsername(5);
+        randomPassword = CredentialsGenerator.generatePassword(8);
+        navBarComponent = new NavBarComponent();
+    }
+
 
     @Test
     @Severity(CRITICAL)
@@ -29,9 +36,9 @@ public class RegistrationTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldRegisterClientAndAuthorize() {
-        newUser = new User(randomUsername, RandomPassword);
+        newUser = new User(randomUsername, randomPassword);
         System.out.println(randomUsername);
-        System.out.println(RandomPassword);
+        System.out.println(randomPassword);
 
         PageManager.registrationPage().get().registration(newUser, AlertTypes.SUCCESSFUL_SIGN);
         PageManager.loginPage().get().login(newUser);

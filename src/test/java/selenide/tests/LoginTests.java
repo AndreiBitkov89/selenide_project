@@ -10,6 +10,9 @@ import selenide.helpers.*;
 
 import selenide.helpers.AlertTypes;
 import selenide.valueObject.User;
+import selenide.webpages.CartPage;
+import selenide.webpages.PurchasePage;
+import selenide.webpages.SuccessPurchasePage;
 
 import static com.codeborne.selenide.Condition.*;
 import static config.ConfigProvider.CONFIG;
@@ -21,10 +24,24 @@ public class LoginTests extends BaseTest {
     private final String DEFAULT_LOGIN = CONFIG.username();
     private final String DEFAULT_PASS = CONFIG.password();
     private final User DEFAULT_USER = new User(DEFAULT_LOGIN, DEFAULT_PASS);
-    private String randomUsername = CredentialsGenerator.generateUsername(5);
-    private String RandomPassword = CredentialsGenerator.generatePassword(8);
+    private String randomUsername;
+    private String randomPassword;
     private User newUser;
-    private NavBarComponent navBarComponent = new NavBarComponent();
+    private NavBarComponent navBarComponent;
+    private CartPage cartPage;
+    private PurchasePage purchasePage;
+    private SuccessPurchasePage successPage;
+
+    @BeforeEach
+    void setUpPage() {
+        randomUsername = CredentialsGenerator.generateUsername(5);
+        randomPassword = CredentialsGenerator.generatePassword(8);
+        cartPage = PageManager.cartPage();
+        navBarComponent = new NavBarComponent();
+        purchasePage = PageManager.purchasePage();
+        successPage = PageManager.successPurchasePage();
+    }
+
 
     @Test
     @Severity(CRITICAL)
@@ -57,7 +74,7 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     public void errorAfterLoginInvalidCreds() {
 
-        newUser = new User(randomUsername, RandomPassword);
+        newUser = new User(randomUsername, randomPassword);
         PageManager.loginPage().get().wrongLogin(newUser, AlertTypes.USER_NOT_EXIST);
         navBarComponent.usernameAfterLogin().shouldNotBe(visible);
 

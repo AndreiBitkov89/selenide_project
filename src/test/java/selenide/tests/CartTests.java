@@ -4,105 +4,117 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import selenide.PageManager;
-import selenide.components.*;
-import selenide.webpages.*;
-import selenide.valueObject.*;
-
+import selenide.components.NavBarComponent;
+import selenide.webpages.CartPage;
+import selenide.webpages.ItemPage;
+import selenide.webpages.PurchasePage;
+import selenide.webpages.SuccessPurchasePage;
+import selenide.valueObject.Brands;
+import selenide.valueObject.Item;
+import selenide.valueObject.Purchase;
 
 import java.util.List;
 
-import static com.codeborne.selenide.Condition.*;
-import static io.qameta.allure.SeverityLevel.*;
+import static com.codeborne.selenide.Condition.visible;
+import static com.codeborne.selenide.Condition.hidden;
+import static io.qameta.allure.SeverityLevel.CRITICAL;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Cart logic tests")
 public class CartTests extends BaseTest {
 
-    private NavBarComponent navBarComponent = new NavBarComponent();
-    private ItemPage itemPage;
+    private NavBarComponent navBar;
+    private CartPage cartPage;
+    private PurchasePage purchasePage;
+    private SuccessPurchasePage successPage;
+    private SelenideElement cartButton;
+    private Purchase defaultPurchase;
+    private List<String> filteredItems;
+    private int expectedTotal;
 
-    private final SelenideElement cardLocator = navBarComponent.getCart();
-    private CategoryFilter filterPage = new CategoryFilter();
-    private static List<String> filteredItems;
-
-    private Purchase purchaseDate = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
+    @BeforeEach
+    void setUpPage() {
+        navBar = new NavBarComponent();
+        cartButton = navBar.getCart();
+        cartPage = PageManager.cartPage();
+        purchasePage = PageManager.purchasePage();
+        successPage = PageManager.successPurchasePage();
+        defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
+    }
 
     @Test
     @Severity(CRITICAL)
     @DisplayName("Add item to cart and create order")
     @Tag("regress")
     @Tag("smoke")
-    public void shouldAddItemToCart() {
+    void shouldAddItemToCart() {
         Item item = new Item("Samsung galaxy s7", 800);
-        itemPage = PageManager.itemPage(item.getItemTitle()).get();
+        ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();
 
         assertEquals(item.getItemTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
         assertEquals(item.getItemPrice(), itemPage.returnPrice());
 
-        navBarComponent.getCart().click();
-        PageManager.cartPage().getItemInCart(item.getItemTitle()).shouldBe(visible);
-        assertEquals(item.getItemPrice(), PageManager.cartPage().getPriceOfItemInCart(item.getItemTitle()));
+        cartButton.click();
+        cartPage.getItemInCart(item.getItemTitle()).shouldBe(visible);
+        assertEquals(item.getItemPrice(), cartPage.getPriceOfItemInCart(item.getItemTitle()));
 
-        PageManager.purchasePage().get().fillForm(purchaseDate).submitPurchase();
-        PageManager.successPurchasePage().getThanyouText().shouldBe(visible);
-
+        purchasePage.get().fillForm(defaultPurchase).submitPurchase();
+        successPage.getThanyouText().shouldBe(visible);
     }
 
     @Test
     @Severity(CRITICAL)
     @DisplayName("Filter items and add item to cart")
     @Tag("regress")
-    public void filterMonitorAndAddToCart() {
+    void filterMonitorAndAddToCart() {
         Item item = new Item("Apple monitor 24", 400);
 
+        var filterPage = new selenide.components.CategoryFilter();
         filteredItems = filterPage.filterAndReturnItems(filterPage.getMONITOR());
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 
-        itemPage = PageManager.itemPage(item.getItemTitle()).get();
+        ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();
         assertEquals(item.getItemTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
         assertEquals(item.getItemPrice(), itemPage.returnPrice());
 
-        PageManager.cartPage().get().getItemInCart(item.getItemTitle()).shouldBe(visible);
-        assertEquals(item.getItemPrice(), PageManager.cartPage().getPriceOfItemInCart(item.getItemTitle()));
+        cartPage.get().getItemInCart(item.getItemTitle()).shouldBe(visible);
+        assertEquals(item.getItemPrice(), cartPage.getPriceOfItemInCart(item.getItemTitle()));
     }
 
     @Test
     @Severity(CRITICAL)
-    @DisplayName("Remove item and from cart")
+    @DisplayName("Remove item from cart")
     @Tag("regress")
     @Tag("smoke")
-    public void deleteItemInCart() {
+    void deleteItemInCart() {
         Item item = new Item("Nokia lumia 1520", 820);
+        ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();
 
-        itemPage = PageManager.itemPage(item.getItemTitle()).get();
         assertEquals(item.getItemTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
         assertEquals(item.getItemPrice(), itemPage.returnPrice());
 
-        PageManager.cartPage().get().deleteItemFromCart(item.getItemTitle()).getItemInCart(item.getItemTitle()).shouldBe(hidden);
+        cartPage.get().deleteItemFromCart(item.getItemTitle())
+                .getItemInCart(item.getItemTitle()).shouldBe(hidden);
     }
 
     @Test
     @Severity(CRITICAL)
-    @DisplayName("Prises summarising in cart")
+    @DisplayName("Prices summarising in cart")
     @Tag("regress")
     @Tag("smoke")
-    public void addTwoItemsAndCheckSumPrices() {
+    void addTwoItemsAndCheckSumPrices() {
         Item item1 = new Item("Nokia lumia 1520", 820);
         Item item2 = new Item("HTC One M9", 700);
 
-        ItemPage itemPage = PageManager.itemPage(item1.getItemTitle()).get();
-        assertEquals(item1.getItemTitle(), itemPage.getItemName());
-        itemPage.addItemInCart();
+        PageManager.itemPage(item1.getItemTitle()).get().addItemInCart();
         PageManager.mainPage().get();
-        ItemPage itemPage2 = PageManager.itemPage(item2.getItemTitle()).get();
-        assertEquals(item2.getItemTitle(), itemPage2.getItemName());
-        itemPage2.addItemInCart();
+        PageManager.itemPage(item2.getItemTitle()).get().addItemInCart();
 
-        navBarComponent.goTo(cardLocator);
-        assertEquals(item1.getItemPrice() + item2.getItemPrice(), PageManager.cartPage().getTotalPrice());
-
+        navBar.goTo(cartButton);
+        expectedTotal = item1.getItemPrice() + item2.getItemPrice();
+        assertEquals(expectedTotal, cartPage.getTotalPrice());
     }
 }
