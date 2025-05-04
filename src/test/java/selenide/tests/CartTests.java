@@ -15,9 +15,7 @@ import static com.codeborne.selenide.Condition.*;
 import static io.qameta.allure.SeverityLevel.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Nested
 @DisplayName("Cart logic tests")
-@Tag("regress")
 public class CartTests extends BaseTest {
 
     private NavBarComponent navBarComponent = new NavBarComponent();
@@ -32,6 +30,8 @@ public class CartTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     @DisplayName("Add item to cart and create order")
+    @Tag("regress")
+    @Tag("smoke")
     public void shouldAddItemToCart() {
         Item item = new Item("Samsung galaxy s7", 800);
         itemPage = PageManager.itemPage(item.getItemTitle()).get();
@@ -40,7 +40,7 @@ public class CartTests extends BaseTest {
         itemPage.addItemInCart();
         assertEquals(item.getItemPrice(), itemPage.returnPrice());
 
-        navBarComponent.getCart().shouldBe(enabled).click();
+        navBarComponent.getCart().click();
         PageManager.cartPage().getItemInCart(item.getItemTitle()).shouldBe(visible);
         assertEquals(item.getItemPrice(), PageManager.cartPage().getPriceOfItemInCart(item.getItemTitle()));
 
@@ -52,6 +52,7 @@ public class CartTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     @DisplayName("Filter items and add item to cart")
+    @Tag("regress")
     public void filterMonitorAndAddToCart() {
         Item item = new Item("Apple monitor 24", 400);
 
@@ -70,6 +71,8 @@ public class CartTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     @DisplayName("Remove item and from cart")
+    @Tag("regress")
+    @Tag("smoke")
     public void deleteItemInCart() {
         Item item = new Item("Nokia lumia 1520", 820);
 
@@ -84,6 +87,8 @@ public class CartTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     @DisplayName("Prises summarising in cart")
+    @Tag("regress")
+    @Tag("smoke")
     public void addTwoItemsAndCheckSumPrices() {
         Item item1 = new Item("Nokia lumia 1520", 820);
         Item item2 = new Item("HTC One M9", 700);

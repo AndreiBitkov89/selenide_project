@@ -2,20 +2,20 @@ package selenide.tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import selenide.PageManager;
 import selenide.components.NavBarComponent;
 import selenide.helpers.*;
 
-import selenide.helpers.Alerts;
+import selenide.helpers.AlertTypes;
 import selenide.valueObject.User;
 
 import static com.codeborne.selenide.Condition.*;
 import static config.ConfigProvider.CONFIG;
 import static io.qameta.allure.SeverityLevel.*;
 
-@Nested
 @DisplayName("Login logic tests")
-@Tag("regress")
 public class LoginTests extends BaseTest {
 
     private final String DEFAULT_LOGIN = CONFIG.username();
@@ -29,18 +29,36 @@ public class LoginTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     @DisplayName("Successful login")
+    @Tag("regress")
+    @Tag("smoke")
     void successfulLogin() {
+        System.out.println(DEFAULT_LOGIN);
         PageManager.loginPage().get().login(DEFAULT_USER).getModal().shouldBe(hidden);
         navBarComponent.usernameAfterLogin().shouldBe(visible);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"A", "B"})
+    @Severity(CRITICAL)
+    @DisplayName("Successful login for redesign")
+    @Tag("regress")
+    @Tag("smoke")
+    void testRedesign(String variant) {
+        Allure.step("variant " + variant, () -> {
+            PageManager.customLoginPage(variant).get().login(DEFAULT_USER).getModal().shouldBe(hidden);
+            navBarComponent.usernameAfterLogin().shouldBe(visible);
+        });
+
     }
 
     @Test
     @Severity(CRITICAL)
     @DisplayName("Error after login with invalid data")
+    @Tag("regress")
     public void errorAfterLoginInvalidCreds() {
 
         newUser = new User(randomUsername, RandomPassword);
-        PageManager.loginPage().get().wrongLogin(newUser, Alerts.USER_NOT_EXIST);
+        PageManager.loginPage().get().wrongLogin(newUser, AlertTypes.USER_NOT_EXIST);
         navBarComponent.usernameAfterLogin().shouldNotBe(visible);
 
     }
@@ -48,15 +66,18 @@ public class LoginTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     @DisplayName("Error after login with empty data")
+    @Tag("regress")
     public void errorAfterLoginEmptyCreds() {
         newUser = new User("", "");
-        PageManager.loginPage().get().wrongLogin(newUser, Alerts.EMPTY_FIELDS);
+        PageManager.loginPage().get().wrongLogin(newUser, AlertTypes.EMPTY_FIELDS);
         navBarComponent.usernameAfterLogin().shouldNotBe(visible);
     }
 
     @Test
     @Severity(CRITICAL)
     @DisplayName("Successful logout")
+    @Tag("regress")
+    @Tag("smoke")
     public void logout() {
         PageManager.loginPage().get().login(DEFAULT_USER).getModal().shouldBe(hidden);
         navBarComponent.goTo(navBarComponent.logout()).usernameAfterLogin().shouldBe(hidden);

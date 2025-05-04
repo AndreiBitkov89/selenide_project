@@ -80,4 +80,12 @@
 
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>allTests</id>
+            <properties>
+                <groups>smoke,regress</groups>
+            </properties>
+        </profile>
+    </profiles>
 </project>

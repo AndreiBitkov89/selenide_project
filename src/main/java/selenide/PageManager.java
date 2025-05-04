@@ -1,19 +1,29 @@
 package selenide;
 
+import selenide.interfaces.LoginPage;
 import selenide.webpages.*;
 
 public class PageManager {
 
-    private static LoginPage loginPage;
+    private static LoginPageOptionA loginPage;
+    private static LoginPage customLoginPage;
     private static RegistrationPage registrationPage;
     private static MainPage mainPage;
     private static CartPage cartPage;
     private static SuccessPurchasePage successPurchasePage;
     private static PurchasePage purchasePage;
 
-    public static LoginPage loginPage() {
-        if (loginPage == null) loginPage = new LoginPage();
+    public static LoginPageOptionA loginPage() {
+        if (loginPage == null) loginPage = new LoginPageOptionA();
         return loginPage;
+    }
+
+    public static LoginPage customLoginPage(String variant) {
+        if (customLoginPage == null && "A".equals(variant)) {
+            return new LoginPageOptionA();
+        }
+        return new LoginPageOptionB();
+
     }
 
     public static RegistrationPage registrationPage() {
@@ -54,6 +64,7 @@ public class PageManager {
         cartPage = null;
         purchasePage = null;
         successPurchasePage = null;
+        customLoginPage = null;
 
     }
 

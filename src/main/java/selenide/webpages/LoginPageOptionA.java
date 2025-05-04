@@ -4,18 +4,18 @@ import com.codeborne.selenide.*;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-import static org.junit.jupiter.api.Assertions.*;
 
 import io.qameta.allure.Allure;
-import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import selenide.BasePage;
-import selenide.helpers.Alerts;
+import selenide.helpers.AlertTypes;
 import selenide.components.NavBarComponent;
+import selenide.helpers.CustomAlert;
 import selenide.helpers.Decorator;
+import selenide.interfaces.LoginPage;
 import selenide.valueObject.User;
 
-public class LoginPage extends BasePage<LoginPage> implements selenide.interfaces.LoginPage {
+public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements LoginPage {
 
     private SelenideElement usernameField = $("#loginusername");
     private SelenideElement passwordField = $("#loginpassword");
@@ -24,8 +24,6 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
     private SelenideElement modalWindow = $("#logInModal .modal-body");
     private SelenideElement modalFooter = $("div#logInModal .modal-footer");
     private SelenideElement closeButton = modalFooter.$("button:nth-of-type(1)");
-
-    private String alertText;
     private NavBarComponent navBarComponent = new NavBarComponent();
     private Decorator slowType = new Decorator();
 
@@ -47,8 +45,7 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
 
     }
 
-    @Step("Test Step")
-    public LoginPage login(User user) {
+    public LoginPageOptionA login(User user) {
         Allure.step("Fill login и password", () -> {
             slowType.slowType(usernameField, user.getUsername());
             slowType.slowType(passwordField, user.getPassword());
@@ -61,11 +58,12 @@ public class LoginPage extends BasePage<LoginPage> implements selenide.interface
         return this;
     }
 
-    public LoginPage wrongLogin(User user, Alerts expectedAlert) {
+    public LoginPageOptionA wrongLogin(User user, AlertTypes expectedAlert) {
         login(user);
         Allure.step("Check alert after login", () -> {
-            alertText = Selenide.confirm();
-            assertEquals(expectedAlert.getMessage(), alertText);
+            CustomAlert alert = new CustomAlert(expectedAlert);
+            System.out.println(alert.getText());
+            alert.accept();
         });
 
         return this;

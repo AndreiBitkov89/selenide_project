@@ -11,9 +11,7 @@ import static com.codeborne.selenide.Condition.*;
 import static config.ConfigProvider.*;
 import static io.qameta.allure.SeverityLevel.*;
 
-@Nested
 @DisplayName("Registration tests")
-@Tag("regress")
 public class RegistrationTests extends BaseTest {
 
     private NavBarComponent navBarComponent = new NavBarComponent();
@@ -27,14 +25,15 @@ public class RegistrationTests extends BaseTest {
 
     @Test
     @Severity(CRITICAL)
-    @Tag("smoke")
     @DisplayName("Successful registration")
+    @Tag("regress")
+    @Tag("smoke")
     public void shouldRegisterClientAndAuthorize() {
         newUser = new User(randomUsername, RandomPassword);
         System.out.println(randomUsername);
         System.out.println(RandomPassword);
 
-        PageManager.registrationPage().get().registration(newUser, Alerts.SUCCESSFUL_SIGN);
+        PageManager.registrationPage().get().registration(newUser, AlertTypes.SUCCESSFUL_SIGN);
         PageManager.loginPage().get().login(newUser);
 
         navBarComponent.shouldShowWelcome(newUser.getUsername());
@@ -43,18 +42,20 @@ public class RegistrationTests extends BaseTest {
     @Test
     @Severity(CRITICAL)
     @DisplayName("Error after registration with existed user's data")
+    @Tag("regress")
     public void errorAfterRegWithExistedCreds() {
         System.out.println(DEFAULT_LOGIN + DEFAULT_PASS);
-        PageManager.registrationPage().get().registration(DEFAULT_USER, Alerts.USER_ALREADY_EXIST).getModal().shouldNotBe(hidden);
+        PageManager.registrationPage().get().registration(DEFAULT_USER, AlertTypes.USER_ALREADY_EXIST).getModal().shouldNotBe(hidden);
     }
 
     @Test
     @Severity(CRITICAL)
     @DisplayName("Error after registration with empty fields")
+    @Tag("regress")
     public void errorAfterRegWithEmptyCreds() {
         newUser = new User("", "");
 
-        PageManager.registrationPage().get().registration(newUser, Alerts.EMPTY_FIELDS).getModal().shouldNotBe(hidden);
+        PageManager.registrationPage().get().registration(newUser, AlertTypes.EMPTY_FIELDS).getModal().shouldNotBe(hidden);
 
     }
 }

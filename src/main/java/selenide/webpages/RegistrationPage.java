@@ -4,8 +4,9 @@ import com.codeborne.selenide.*;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import selenide.BasePage;
-import selenide.helpers.Alerts;
+import selenide.helpers.AlertTypes;
 import selenide.components.NavBarComponent;
+import selenide.helpers.CustomAlert;
 import selenide.helpers.Decorator;
 import selenide.valueObject.User;
 
@@ -37,7 +38,7 @@ public class RegistrationPage extends BasePage<RegistrationPage> implements sele
         confirmButton.shouldBe(visible, Duration.ofSeconds(5));
     }
 
-    public RegistrationPage registration(User user, Alerts alert) {
+    public RegistrationPage registration(User user, AlertTypes expectedAlert) {
         Allure.step("Fill login and password", () -> {
             slowType.slowType(usernameField, user.getUsername());
             slowType.slowType(passwordField, user.getPassword());
@@ -49,7 +50,7 @@ public class RegistrationPage extends BasePage<RegistrationPage> implements sele
 
         Allure.step("Get alert after registration", () -> {
             String dialog = Selenide.confirm();
-            assertEquals(alert.getMessage(), dialog);
+            assertEquals(expectedAlert.getMessage(), dialog);
         });
 
         return this;
