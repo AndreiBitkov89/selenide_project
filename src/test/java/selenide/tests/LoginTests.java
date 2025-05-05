@@ -6,9 +6,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import selenide.PageManager;
 import selenide.components.NavBarComponent;
+import selenide.factory.LoginPageFactory;
 import selenide.helpers.*;
 
 import selenide.helpers.AlertTypes;
+import selenide.interfaces.LoginPage;
 import selenide.valueObject.User;
 import selenide.webpages.CartPage;
 import selenide.webpages.PurchasePage;
@@ -31,6 +33,7 @@ public class LoginTests extends BaseTest {
     private CartPage cartPage;
     private PurchasePage purchasePage;
     private SuccessPurchasePage successPage;
+    private LoginPage loginPageFactory;
 
     @BeforeEach
     void setUpPage() {
@@ -40,6 +43,7 @@ public class LoginTests extends BaseTest {
         navBarComponent = new NavBarComponent();
         purchasePage = PageManager.purchasePage();
         successPage = PageManager.successPurchasePage();
+        loginPageFactory = LoginPageFactory.getFlagFromServer();
     }
 
 
@@ -66,6 +70,18 @@ public class LoginTests extends BaseTest {
             navBarComponent.usernameAfterLogin().shouldBe(visible);
         });
 
+    }
+
+    @Test
+    @Severity(CRITICAL)
+    @DisplayName("Successful login in dependence of API response")
+    @Tag("regress")
+    @Tag("smoke")
+    void testRedesignWithAPIFlag() {
+        Allure.step("Check logic in according to API request", () -> {
+            loginPageFactory.get().login(DEFAULT_USER).getModal().shouldBe(hidden);
+            navBarComponent.usernameAfterLogin().shouldBe(visible);
+        });
     }
 
     @Test
