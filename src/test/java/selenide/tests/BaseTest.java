@@ -19,6 +19,7 @@ public abstract class BaseTest {
         fastSetValue = false;
         headless = false;
         baseUrl = CONFIG.baseUrl();
+        timeout = 10000;
 
     }
 

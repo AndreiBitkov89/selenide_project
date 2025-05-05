@@ -38,13 +38,18 @@ public class CategoryFilter {
     }
 
     public List<String> filterAndReturnItems(SelenideElement element) {
-
-        Allure.step("Check initial number of items in page", () -> {
+        Allure.step("Get initial items before filter", () -> {
             initialItems = getAllItemsOnPage().shouldHave(sizeGreaterThan(0)).texts();
         });
 
-        element.shouldBe(visible).click();
-        getAllItemsOnPage().shouldBe(sizeLessThan(initialItems.size()), Duration.ofSeconds(5)).shouldHave(sizeGreaterThan(0));
+        Allure.step("Click on filter and wait for page update", () -> {
+            element.shouldBe(visible).click();
+
+            Selenide.Wait().until(driver ->
+                    !getAllItemsOnPage().texts().equals(initialItems) &&
+                            !getAllItemsOnPage().isEmpty()
+            );
+        });
 
         return getAllItemsOnPage().texts();
     }

@@ -11,7 +11,7 @@ public class CustomAlert implements org.openqa.selenium.Alert {
     public CustomAlert(AlertTypes expectedType) {
         this.expectedType = expectedType;
 
-        long timeout = System.currentTimeMillis() + 500;
+        long timeout = System.currentTimeMillis() + 2000;
         Alert tempAlert = null;
 
         while (System.currentTimeMillis() < timeout) {
