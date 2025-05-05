@@ -115,6 +115,7 @@ public class CartTests extends BaseTest {
 
         navBar.goTo(cartButton);
         expectedTotal = item1.getItemPrice() + item2.getItemPrice();
-        assertEquals(expectedTotal, cartPage.getTotalPrice());
+        PageManager.cartPage().waitUntilTotalPriceEquals(expectedTotal);
+//        assertEquals(expectedTotal, cartPage.getTotalPrice());
     }
 }

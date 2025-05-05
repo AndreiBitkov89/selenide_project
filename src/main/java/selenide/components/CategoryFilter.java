@@ -34,7 +34,7 @@ public class CategoryFilter {
     }
 
     public static ElementsCollection getAllItemsOnPage() {
-        return ITEMS;
+        return $$(".card-title a");
     }
 
     public List<String> filterAndReturnItems(SelenideElement element) {

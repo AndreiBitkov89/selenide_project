@@ -1,5 +1,6 @@
 package selenide.webpages;
 
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import selenide.BasePage;
@@ -34,6 +35,19 @@ public class CartPage extends BasePage<CartPage> {
 
     public int getTotalPrice(){
         totalPrice.shouldBe(visible);
+        return Integer.parseInt(totalPrice.text());
+    }
+
+    public int waitUntilTotalPriceEquals(int expectedSum) {
+        totalPrice.shouldBe(visible);
+        Selenide.Wait().until(driver -> {
+            String raw = totalPrice.text().trim();
+            try {
+                return Integer.parseInt(raw) == expectedSum;
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        });
         return Integer.parseInt(totalPrice.text());
     }
 
