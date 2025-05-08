@@ -22,7 +22,8 @@ jobs:
       run: mvn -B clean package -DskipTests --file pom.xml
 
     - name: Run UI Tests
-      run: mvn -B test
+      run: mvn clean test -Dallure.results.directory=target/allure-results
+
 
     - name: Upload Allure results
       if: always()
