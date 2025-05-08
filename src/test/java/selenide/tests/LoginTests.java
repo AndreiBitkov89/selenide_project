@@ -1,20 +1,20 @@
 package selenide.tests;
 
+import helpers.CredentialsGenerator;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import selenide.PageManager;
-import selenide.components.NavBarComponent;
-import selenide.factory.LoginPageFactory;
-import selenide.helpers.*;
+import pages.PageManager;
+import pages.commonComponents.NavBarComponent;
+import pages.loginpage.factory.LoginPageFactory;
 
-import selenide.helpers.AlertTypes;
-import selenide.interfaces.LoginPage;
-import selenide.valueObject.User;
-import selenide.webpages.CartPage;
-import selenide.webpages.PurchasePage;
-import selenide.webpages.SuccessPurchasePage;
+import helpers.AlertTypes;
+import pages.loginpage.LoginPage;
+import valueObjects.User;
+import pages.cart.CartPage;
+import pages.cart.PurchasePage;
+import pages.cart.SuccessPurchasePage;
 
 import static com.codeborne.selenide.Condition.*;
 import static config.ConfigProvider.CONFIG;

@@ -1,11 +1,12 @@
 package selenide.tests;
 
+import helpers.AlertTypes;
+import helpers.CredentialsGenerator;
+import pages.commonComponents.NavBarComponent;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.PageManager;
-import selenide.components.*;
-import selenide.helpers.*;
-import selenide.valueObject.User;
+import pages.PageManager;
+import valueObjects.User;
 
 import static com.codeborne.selenide.Condition.*;
 import static config.ConfigProvider.*;

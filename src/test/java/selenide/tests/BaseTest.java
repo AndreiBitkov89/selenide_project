@@ -1,8 +1,7 @@
 package selenide.tests;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.*;
-import selenide.PageManager;
+import pages.PageManager;
 
 import static com.codeborne.selenide.Configuration.*;
 import static com.codeborne.selenide.Selenide.open;

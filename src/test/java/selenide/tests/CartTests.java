@@ -3,15 +3,16 @@ package selenide.tests;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.PageManager;
-import selenide.components.NavBarComponent;
-import selenide.webpages.CartPage;
-import selenide.webpages.ItemPage;
-import selenide.webpages.PurchasePage;
-import selenide.webpages.SuccessPurchasePage;
-import selenide.valueObject.Brands;
-import selenide.valueObject.Item;
-import selenide.valueObject.Purchase;
+import pages.PageManager;
+import pages.mainpage.CategoryFilter;
+import pages.commonComponents.NavBarComponent;
+import pages.cart.CartPage;
+import pages.itempage.ItemPage;
+import pages.cart.PurchasePage;
+import pages.cart.SuccessPurchasePage;
+import valueObjects.Brands;
+import valueObjects.Item;
+import valueObjects.Purchase;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class CartTests extends BaseTest {
     private PurchasePage purchasePage;
     private SuccessPurchasePage successPage;
     private SelenideElement cartButton;
-    private Purchase defaultPurchase;
+    private Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");;
     private List<String> filteredItems;
     private int expectedTotal;
 
@@ -39,7 +40,6 @@ public class CartTests extends BaseTest {
         cartPage = PageManager.cartPage();
         purchasePage = PageManager.purchasePage();
         successPage = PageManager.successPurchasePage();
-        defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
     }
 
     @Test
@@ -70,7 +70,7 @@ public class CartTests extends BaseTest {
     void filterMonitorAndAddToCart() {
         Item item = new Item("Apple monitor 24", 400);
 
-        var filterPage = new selenide.components.CategoryFilter();
+        var filterPage = new CategoryFilter();
         filteredItems = filterPage.filterAndReturnItems(filterPage.getMONITOR());
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 

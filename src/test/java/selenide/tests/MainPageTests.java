@@ -2,8 +2,8 @@ package selenide.tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
-import selenide.components.*;
-import selenide.valueObject.*;
+import pages.mainpage.CategoryFilter;
+import valueObjects.Brands;
 
 import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;
