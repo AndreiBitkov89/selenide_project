@@ -29,6 +29,7 @@ public class CartTests extends BaseTest {
     private PurchasePage purchasePage;
     private SuccessPurchasePage successPage;
     private SelenideElement cartButton;
+    private CategoryFilter filterPage;
     private Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");;
     private List<String> filteredItems;
     private int expectedTotal;
@@ -40,6 +41,7 @@ public class CartTests extends BaseTest {
         cartPage = PageManager.cartPage();
         purchasePage = PageManager.purchasePage();
         successPage = PageManager.successPurchasePage();
+        filterPage = new CategoryFilter();
     }
 
     @Test
@@ -70,8 +72,7 @@ public class CartTests extends BaseTest {
     void filterMonitorAndAddToCart() {
         Item item = new Item("Apple monitor 24", 400);
 
-        var filterPage = new CategoryFilter();
-        filteredItems = filterPage.filterAndReturnItems(filterPage.getMONITOR());
+        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getMonitor()));
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 
         ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();
@@ -116,6 +117,5 @@ public class CartTests extends BaseTest {
         navBar.goTo(cartButton);
         expectedTotal = item1.getItemPrice() + item2.getItemPrice();
         PageManager.cartPage().waitUntilTotalPriceEquals(expectedTotal);
-//        assertEquals(expectedTotal, cartPage.getTotalPrice());
     }
 }

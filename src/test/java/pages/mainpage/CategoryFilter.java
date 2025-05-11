@@ -2,56 +2,54 @@ package pages.mainpage;
 
 import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
-import org.openqa.selenium.By;
-
+import pages.PageManager;
 import java.util.List;
 
-import static com.codeborne.selenide.CollectionCondition.*;
+import static com.codeborne.selenide.CollectionCondition.sizeNotEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-
 public class CategoryFilter {
 
-    private final SelenideElement PHONE = $(By.xpath("//*[@class ='list-group']//*[text()='Phones']"));
-    private final SelenideElement LAPTOP = $(By.xpath("//*[@class ='list-group']//*[text()='Laptops']"));
-    private final SelenideElement MONITOR = $(By.xpath("//*[@class ='list-group']//*[text()='Monitors']"));
-    private List<String> initialItems;
-    private static final ElementsCollection ITEMS = $$(".card-title a");
+    private final SelenideElement FILTER = $(".list-group");
+    private final SelenideElement PHONE = FILTER.$(Selectors.byText("Phones"));
+    private final SelenideElement LAPTOP = FILTER.$(Selectors.byText("Laptops"));
+    private final SelenideElement MONITOR = FILTER.$(Selectors.byText("Monitors"));
+    private MainPage mainPage = PageManager.mainPage();
+    private int initialSize;
 
-    public SelenideElement getPHONE() {
+    public SelenideElement getPhone() {
         return PHONE;
     }
 
-    public SelenideElement getLAPTOP() {
+    public SelenideElement getLaptop() {
         return LAPTOP;
     }
 
-    public SelenideElement getMONITOR() {
+    public SelenideElement getMonitor() {
         return MONITOR;
     }
 
-    public static ElementsCollection getAllItemsOnPage() {
-        return $$(".card-title a");
-    }
-
-    public List<String> filterAndReturnItems(SelenideElement element) {
-        Allure.step("Get initial items before filter", () -> {
-            initialItems = getAllItemsOnPage().shouldHave(sizeGreaterThan(0)).texts();
-        });
+    public List<ProductCardElement> filterAndReturnProductElements(SelenideElement categoryElement) {
+        initialSize = mainPage.getAllProducts().size();
 
         Allure.step("Click on filter and wait for page update", () -> {
-            element.shouldBe(visible).click();
+            categoryElement.shouldBe(visible).click();
 
-            Selenide.Wait().until(driver ->
-                    !getAllItemsOnPage().texts().equals(initialItems) &&
-                            !getAllItemsOnPage().isEmpty()
-            );
+            $$(".card").shouldHave(sizeNotEqual(initialSize));
         });
 
-        return getAllItemsOnPage().texts();
+        return mainPage.getAllProducts();
     }
+
+
+    public List<String> extractTitles(List<ProductCardElement> products) {
+        return products.stream()
+                .map(ProductCardElement::getTitle)
+                .toList();
+    }
+
 
     public void assertFilteredItems(List<String> filteredItems, List<String> allowedBrands) {
         Allure.step("Check items in page after applying filter", () -> {
