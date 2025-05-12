@@ -8,7 +8,7 @@ import pages.loginpage.factory.service.FlagService;
 
 public class LoginPageFactory {
     public static LoginPage getFlagFromServer() {
-        String variant = FlagService.getLoginVariant(); // делает HTTP запрос
+        String variant = FlagService.getLoginVariant();
         return switch (variant) {
             case "A" -> new LoginPageOptionA();
             case "B" -> new LoginPageOptionB();

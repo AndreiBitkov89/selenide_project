@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import pages.PageManager;
+import pages.mainpage.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.commonComponents.NavBarComponent;
 import pages.cart.CartPage;
@@ -72,7 +73,7 @@ public class CartTests extends BaseTest {
     void filterMonitorAndAddToCart() {
         Item item = new Item("Apple monitor 24", 400);
 
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getMonitor()));
+        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.MONITORS.getMessage())));
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 
         ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();

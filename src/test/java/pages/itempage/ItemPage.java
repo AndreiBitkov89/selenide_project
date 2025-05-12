@@ -16,16 +16,16 @@ public class ItemPage extends BasePage<ItemPage> {
     private SelenideElement itemPrice = $("h3.price-container");
 
     private final String DIALOG = "Product added";
-    private String title;
+    private final String PAGE_TITLE;
 
     public ItemPage(String title) {
-        this.title = title;
+        this.PAGE_TITLE = title;
     }
 
     @Override
     public void load() {
-        Allure.step("Open page of the item: " + title, () -> {
-            gotoItemPage(title);
+        Allure.step("Open page of the item: " + PAGE_TITLE, () -> {
+            gotoItemPage(PAGE_TITLE);
         });
     }
 

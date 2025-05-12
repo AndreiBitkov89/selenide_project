@@ -13,22 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CategoryFilter {
 
     private final SelenideElement FILTER = $(".list-group");
-    private final SelenideElement PHONE = FILTER.$(Selectors.byText("Phones"));
-    private final SelenideElement LAPTOP = FILTER.$(Selectors.byText("Laptops"));
-    private final SelenideElement MONITOR = FILTER.$(Selectors.byText("Monitors"));
     private MainPage mainPage = PageManager.mainPage();
     private int initialSize;
 
-    public SelenideElement getPhone() {
-        return PHONE;
-    }
-
-    public SelenideElement getLaptop() {
-        return LAPTOP;
-    }
-
-    public SelenideElement getMonitor() {
-        return MONITOR;
+    public SelenideElement getCategory(String category) {
+        return FILTER.$(Selectors.byText(category));
     }
 
     public List<ProductCardElement> filterAndReturnProductElements(SelenideElement categoryElement) {
@@ -42,7 +31,6 @@ public class CategoryFilter {
 
         return mainPage.getAllProducts();
     }
-
 
     public List<String> extractTitles(List<ProductCardElement> products) {
         return products.stream()

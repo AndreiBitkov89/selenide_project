@@ -52,8 +52,7 @@ public class MainPage extends BasePage<MainPage> {
     }
 
     public ProductCardElement getProductByTitle(String title) {
-        List<ProductCardElement> products = getAllProducts();
-        return products.stream()
+        return getAllProducts().stream()
                 .filter(product -> product.getTitle().equalsIgnoreCase(title))
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("Product not found: " + title));

@@ -4,6 +4,7 @@ import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import pages.PageManager;
 import pages.itempage.ItemPage;
+import pages.mainpage.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.mainpage.MainPage;
 import pages.mainpage.ProductCardElement;
@@ -33,7 +34,7 @@ public class MainPageTests extends BaseTest {
     @Tag("smoke")
     void shouldFilterItemsAndReturnPhones() {
 
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getPhone()));
+        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.PHONES.getMessage())));
 
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedPhones());
     }
@@ -45,7 +46,7 @@ public class MainPageTests extends BaseTest {
     @Tag("smoke")
     public void shouldFilterItemsAndReturnLaptops() {
 
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getLaptop()));
+        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.LAPTOPS.getMessage())));
 
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedLaptops());
     }
@@ -56,7 +57,7 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldFilterItemsAndReturnMonitors() {
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getMonitor()));
+        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.MONITORS.getMessage())));
 
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 
