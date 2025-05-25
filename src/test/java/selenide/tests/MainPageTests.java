@@ -7,7 +7,7 @@ import pages.itempage.ItemPage;
 import pages.mainpage.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.mainpage.MainPage;
-import selenide.tests.helpers.SharedSteps;
+import selenide.tests.test_helpers.SharedSteps;
 import valueObjects.Brands;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package selenide.tests.helpers;
+package selenide.tests.test_helpers;
 
 import pages.mainpage.Categories;
 import pages.mainpage.CategoryFilter;

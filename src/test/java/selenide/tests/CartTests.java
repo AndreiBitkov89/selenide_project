@@ -32,6 +32,7 @@ public class CartTests extends BaseTest {
     private SuccessPurchasePage successPage;
     private SelenideElement cartButton;
     private CategoryFilter filterPage;
+    private ItemPage itemPage;
 
     private final Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
 
@@ -56,7 +57,7 @@ public class CartTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void shouldAddItemToCart() {
-        ItemPage itemPage = PageManager.itemPage(GALAXY_S7.getTitle()).get();
+        itemPage = PageManager.itemPage(GALAXY_S7.getTitle()).get();
 
         assertEquals(GALAXY_S7.getTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
@@ -82,7 +83,7 @@ public class CartTests extends BaseTest {
         );
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 
-        ItemPage itemPage = PageManager.itemPage(APPLE_MONITOR.getTitle()).get();
+        itemPage = PageManager.itemPage(APPLE_MONITOR.getTitle()).get();
         assertEquals(APPLE_MONITOR.getTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
         assertEquals(APPLE_MONITOR.getItemPrice(), itemPage.returnPrice());
@@ -97,7 +98,7 @@ public class CartTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void deleteItemInCart() {
-        ItemPage itemPage = PageManager.itemPage(NOKIA_PHONE.getTitle()).get();
+        itemPage = PageManager.itemPage(NOKIA_PHONE.getTitle()).get();
 
         assertEquals(NOKIA_PHONE.getTitle(), itemPage.getItemName());
         itemPage.addItemInCart();

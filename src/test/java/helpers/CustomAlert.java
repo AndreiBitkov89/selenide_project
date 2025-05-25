@@ -10,7 +10,6 @@ public class CustomAlert implements org.openqa.selenium.Alert {
 
     public CustomAlert(AlertTypes expectedType) {
         this.EXPECTED_ALERT = expectedType;
-
         long timeout = System.currentTimeMillis() + 2000;
         Alert tempAlert = null;
 
@@ -46,7 +45,6 @@ public class CustomAlert implements org.openqa.selenium.Alert {
             throw new AssertionError("Expected: '" + EXPECTED_ALERT.getMessage() + "' but was: '" + actualText + "'");
         }
         ALERT.accept();
-
     }
 
     @Override

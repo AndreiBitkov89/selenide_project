@@ -25,7 +25,7 @@ public class RegistrationTests extends BaseTest {
 
     @BeforeEach
     void setUpPage() {
-        randomUsername = CredentialsGenerator.generateUsername(5);
+        randomUsername = CredentialsGenerator.generateUsername(8);
         randomPassword = CredentialsGenerator.generatePassword(8);
         navBarComponent = new NavBarComponent();
     }
