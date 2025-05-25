@@ -12,18 +12,18 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class CartPage extends BasePage<CartPage> {
-    private NavBarComponent navBarComponent = new NavBarComponent();
-    private SelenideElement title = $(By.xpath("//h2[text()='Products']"));
-    private SelenideElement totalPrice = $("#totalp");
-    private static SelenideElement orderButton = $("button[data-target='#orderModal']");
+    private final NavBarComponent NAVBAR_COMPONENT = new NavBarComponent();
+    private final SelenideElement TITLE = $(By.xpath("//h2[text()='Products']"));
+    private final SelenideElement TOTAL_PRICE = $("#totalp");
+    private static final SelenideElement MAKE_ORDER_BUTTON = $("button[data-target='#orderModal']");
 
     @Override
     public void load() {
-        navBarComponent.goTo(navBarComponent.getCart());
+        NAVBAR_COMPONENT.goTo(NAVBAR_COMPONENT.getCart());
     }
     @Override
     public void isLoaded() {
-        title.shouldBe(visible, Duration.ofSeconds(3));
+        TITLE.shouldBe(visible, Duration.ofSeconds(3));
     }
 
     public SelenideElement getItemInCart(String title) {
@@ -35,22 +35,22 @@ public class CartPage extends BasePage<CartPage> {
         return Integer.parseInt(item.text().trim());
     }
 
-    public int getTotalPrice(){
-        totalPrice.shouldBe(visible);
-        return Integer.parseInt(totalPrice.text());
+    public int getTOTAL_PRICE(){
+        TOTAL_PRICE.shouldBe(visible);
+        return Integer.parseInt(TOTAL_PRICE.text());
     }
 
     public int waitUntilTotalPriceEquals(int expectedSum) {
-        totalPrice.shouldBe(visible);
+        TOTAL_PRICE.shouldBe(visible);
         Selenide.Wait().until(driver -> {
-            String raw = totalPrice.text().trim();
+            String raw = TOTAL_PRICE.text().trim();
             try {
                 return Integer.parseInt(raw) == expectedSum;
             } catch (NumberFormatException e) {
                 return false;
             }
         });
-        return Integer.parseInt(totalPrice.text());
+        return Integer.parseInt(TOTAL_PRICE.text());
     }
 
     public CartPage deleteItemFromCart(String title) {
@@ -60,7 +60,7 @@ public class CartPage extends BasePage<CartPage> {
     }
 
     public static void goToOrder(){
-        orderButton.shouldBe(visible).click();
+        MAKE_ORDER_BUTTON.shouldBe(visible).click();
     }
 
 }

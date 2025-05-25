@@ -7,7 +7,6 @@ import pages.itempage.ItemPage;
 import pages.mainpage.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.mainpage.MainPage;
-import pages.mainpage.ProductCardElement;
 import valueObjects.Brands;
 
 import java.util.List;
@@ -17,14 +16,14 @@ import static io.qameta.allure.SeverityLevel.*;
 @DisplayName("Filter logic tests")
 public class MainPageTests extends BaseTest {
 
-    private CategoryFilter filterPage = new CategoryFilter();
-    private static List<String> filteredItems;
+    private CategoryFilter filterPage;
     private MainPage mainPage;
     private ItemPage itemPage;
 
     @BeforeEach
     public void setUp() {
         mainPage = PageManager.mainPage();
+        filterPage = new CategoryFilter();
     }
 
     @Test
@@ -33,9 +32,11 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void shouldFilterItemsAndReturnPhones() {
-
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.PHONES.getMessage())));
-
+        List<String> filteredItems = filterPage.extractTitles(
+                filterPage.filterAndReturnProductElements(
+                        filterPage.getCategory(Categories.PHONES.getMESSAGE())
+                )
+        );
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedPhones());
     }
 
@@ -45,9 +46,11 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldFilterItemsAndReturnLaptops() {
-
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.LAPTOPS.getMessage())));
-
+        List<String> filteredItems = filterPage.extractTitles(
+                filterPage.filterAndReturnProductElements(
+                        filterPage.getCategory(Categories.LAPTOPS.getMESSAGE())
+                )
+        );
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedLaptops());
     }
 
@@ -57,10 +60,12 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldFilterItemsAndReturnMonitors() {
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.MONITORS.getMessage())));
-
+        List<String> filteredItems = filterPage.extractTitles(
+                filterPage.filterAndReturnProductElements(
+                        filterPage.getCategory(Categories.MONITORS.getMESSAGE())
+                )
+        );
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
-
     }
 
     @Test
@@ -70,7 +75,7 @@ public class MainPageTests extends BaseTest {
     public void shouldOpenCorrectItemByIndex() {
         String item = "Nokia lumia 1520";
         itemPage = PageManager.itemPage(item);
-        mainPage.get().getProductByIndex(1).click();
+        mainPage.get().getProductByIndex(1).openItem();
         Assertions.assertEquals(item, itemPage.getItemName());
     }
 
@@ -81,7 +86,7 @@ public class MainPageTests extends BaseTest {
     public void shouldOpenCorrectItemByName() {
         String item = "Sony xperia z5";
         itemPage = PageManager.itemPage(item);
-        mainPage.get().getProductByTitle(item).click();
+        mainPage.get().getProductByTitle(item, 0).openItem();
         Assertions.assertEquals(item, itemPage.getItemName());
     }
 
@@ -90,9 +95,9 @@ public class MainPageTests extends BaseTest {
     @DisplayName("Find the cheapest item")
     @Tag("regress")
     public void shouldReturnCheapestItem() {
-        String item = "Sony xperia z5";
-        String title = mainPage.get().getCheapestProduct().getTitle();
-        Assertions.assertEquals(item, title);
+        String expectedItem = "Sony xperia z5";
+        String actualItem = mainPage.get().getCheapestProduct().getTitle();
+        Assertions.assertEquals(expectedItem, actualItem);
     }
 
     @Test
@@ -100,12 +105,8 @@ public class MainPageTests extends BaseTest {
     @DisplayName("Find the most expensive item")
     @Tag("regress")
     public void shouldReturnTheMostExpensiveItem() {
-        String item = "Nokia lumia 1520";
-        String title = mainPage.get().getMostExpensiveProduct().getTitle();
-        Assertions.assertEquals(item, title);
+        String expectedItem = "Nokia lumia 1520";
+        String actualItem = mainPage.get().getMostExpensiveProduct().getTitle();
+        Assertions.assertEquals(expectedItem, actualItem);
     }
-
-
 }
-
-

@@ -1,9 +1,25 @@
 package pages.registrationpage;
 
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import helpers.AlertTypes;
 import valueObjects.User;
 
 public interface RegistrationPageInterface {
 
-    public RegistrationPageInterface registration(User user, AlertTypes alert);
+    public SelenideElement getUsernameField();
+
+    public SelenideElement getPasswordField();
+
+    public SelenideElement getConfirmButton();
+
+    default RegistrationPageInterface registration(User user, AlertTypes alert){
+        getUsernameField().sendKeys(user.getUsername());
+        getPasswordField().sendKeys(user.getUsername());
+
+        getConfirmButton().click();
+        Selenide.confirm();
+
+        return this;
+    };
 }

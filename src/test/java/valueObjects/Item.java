@@ -1,20 +1,20 @@
 package valueObjects;
 
 public class Item {
-    private String itemTitle;
-    private int itemPrice;
+    private final String ITEM_TITLE;
+    private final int ITEM_PRICE;
 
     public Item(String itemTitle, int itemPrice) {
-        this.itemTitle = itemTitle;
-        this.itemPrice = itemPrice;
+        this.ITEM_TITLE = itemTitle;
+        this.ITEM_PRICE = itemPrice;
     }
 
     public int getItemPrice() {
-        return itemPrice;
+        return ITEM_PRICE;
     }
 
-    public String getItemTitle() {
-        return itemTitle;
+    public String getTitle() {
+        return ITEM_TITLE;
     }
 
 }

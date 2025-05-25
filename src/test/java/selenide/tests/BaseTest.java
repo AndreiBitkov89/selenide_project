@@ -16,7 +16,7 @@ public abstract class BaseTest {
         browser = CONFIG.browser();
         browserSize = "1900x1400";
         fastSetValue = false;
-        headless = true;
+        headless = false;
         baseUrl = CONFIG.baseUrl();
         timeout = 10000;
 

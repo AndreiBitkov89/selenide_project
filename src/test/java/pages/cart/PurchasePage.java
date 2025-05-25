@@ -3,23 +3,22 @@ package pages.cart;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
-
 import pages.BasePage;
 import valueObjects.Purchase;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
 public class PurchasePage extends BasePage<PurchasePage> {
 
-    private SelenideElement modalWindow = $("#orderModalLabel");
-    private SelenideElement inputName = $("input#name");
-    private SelenideElement inputCountry = $("input#country");
-    private SelenideElement inputCity = $("input#city");
-    private SelenideElement inputCard = $("input#card");
-    private SelenideElement inputMonth = $("input#month");
-    private SelenideElement inputYear = $("input#year");
-    private SelenideElement confirmButton = $(By.xpath("//button[text()=\"Purchase\"]"));
+    private static final SelenideElement MODAL_WINDOW = $("#orderModalLabel");
+    private static final SelenideElement INPUT_NAME = $("input#name");
+    private static final SelenideElement INPUT_COUNTRY = $("input#country");
+    private static final SelenideElement INPUT_CITY = $("input#city");
+    private static final SelenideElement INPUT_CARD = $("input#card");
+    private static final SelenideElement INPUT_MONTH = $("input#month");
+    private static final SelenideElement INPUT_YEAR = $("input#year");
+    private static final SelenideElement CONFIRM_BUTTON = $(By.xpath("//button[text()='Purchase']"));
 
     @Override
     protected void load() {
@@ -27,23 +26,23 @@ public class PurchasePage extends BasePage<PurchasePage> {
     }
 
     @Override
-    protected void isLoaded() throws Error {
-        modalWindow.shouldBe(visible);
+    protected void isLoaded() {
+        MODAL_WINDOW.shouldBe(visible);
     }
 
     public PurchasePage fillForm(Purchase purchase) {
         Allure.step("Fill form of order", () -> {
-            inputName.sendKeys(purchase.getName());
-            inputCountry.sendKeys(purchase.getCountry());
-            inputCity.sendKeys(purchase.getCity());
-            inputCard.sendKeys(purchase.getCard());
-            inputMonth.sendKeys(purchase.getMonth());
-            inputYear.sendKeys(purchase.getYear());
+            INPUT_NAME.sendKeys(purchase.getNAME());
+            INPUT_COUNTRY.sendKeys(purchase.getCOUNTRY());
+            INPUT_CITY.sendKeys(purchase.getCITY());
+            INPUT_CARD.sendKeys(purchase.getCARD());
+            INPUT_MONTH.sendKeys(purchase.getMONTH());
+            INPUT_YEAR.sendKeys(purchase.getYEAR());
         });
         return this;
     }
 
     public void submitPurchase() {
-        confirmButton.shouldBe(visible).click();
+        CONFIRM_BUTTON.shouldBe(visible).click();
     }
 }

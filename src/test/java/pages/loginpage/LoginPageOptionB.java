@@ -1,6 +1,8 @@
 package pages.loginpage;
 
 import com.codeborne.selenide.SelenideElement;
+import helpers.AlertTypes;
+import helpers.CustomAlert;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import pages.BasePage;
@@ -13,50 +15,76 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class LoginPageOptionB extends BasePage<LoginPageOptionB> implements LoginPage {
 
-    private SelenideElement usernameField = $("#loginusername");
-    private SelenideElement passwordField = $("#loginpassword");
-    private SelenideElement confirmButton = $(By.xpath("//*[@onclick='logIn()']"));
-    private SelenideElement loginLabel = $("#logInModalLabel");
-    private SelenideElement modalWindow = $("#logInModal .modal-body");
-    private SelenideElement modalFooter = $("div#logInModal .modal-footer");
-    private SelenideElement closeButton = modalFooter.$("button:nth-of-type(1)");
-    private NavBarComponent navBarComponent = new NavBarComponent();
-    private SlowType slowType = new SlowType();
+    private final SelenideElement USERNAME_FIELD = $("#loginusername");
+    private final SelenideElement PASSWORD_FIELD = $("#loginpassword");
+    private final SelenideElement CONFIRM_BUTTON = $(By.xpath("//*[@onclick='logIn()']"));
+    private final SelenideElement LOGIN_LABEL = $("#logInModalLabel");
+    private final SelenideElement MODAL = $("#logInModal .modal-body");
+    private final SelenideElement CLOSE_MODAL = $("div#logInModal .modal-footer button:nth-of-type(1)");
+    private final NavBarComponent NAVBAR_COMPONENT = new NavBarComponent();
+    private final SlowType TYPE = new SlowType();
 
     @Override
     protected void load() {
-
-        Allure.step("Open main page and navigate to login modal", () -> {
-            navBarComponent.goTo(navBarComponent.getLogin());
-        });
+        Allure.step("Open main page and navigate to login modal", () ->
+                NAVBAR_COMPONENT.goTo(NAVBAR_COMPONENT.getLogin())
+        );
     }
 
     @Override
     protected void isLoaded() {
-
-        loginLabel.shouldBe(visible);
-        usernameField.shouldBe(visible);
-        passwordField.shouldBe(visible);
-        closeButton.shouldHave(visible);
-
+        Allure.step("Check that login modal is visible", () -> {
+            LOGIN_LABEL.shouldBe(visible);
+            USERNAME_FIELD.shouldBe(visible);
+            PASSWORD_FIELD.shouldBe(visible);
+            CLOSE_MODAL.shouldBe(visible);
+        });
     }
 
+    @Override
     public LoginPageOptionB login(User user) {
-        Allure.step("Fill login и password", () -> {
-            slowType.slowType(usernameField, user.getUsername());
-            slowType.slowType(passwordField, user.getPassword());
+        Allure.step("Fill login and password", () -> {
+            TYPE.slowType(getUSERNAME_FIELD(), user.getUsername());
+            TYPE.slowType(getPASSWORD_FIELD(), user.getPassword());
         });
 
-        Allure.step("Accept login", () -> {
-            confirmButton.click();
-        });
-
+        Allure.step("Submit login form", () -> getCONFIRM_BUTTON().click());
         return this;
     }
 
-
-    public SelenideElement getModal() {
-        return modalWindow;
+    @Override
+    public LoginPageOptionB wrongLogin(User user, AlertTypes expectedAlert) {
+        login(user);
+        Allure.step("Check alert after failed login", () -> {
+            CustomAlert alert = new CustomAlert(expectedAlert);
+            System.out.println(alert.getText());
+            alert.accept();
+        });
+        return this;
     }
 
+    @Override
+    public SelenideElement getMODAL() {
+        return MODAL;
+    }
+
+    @Override
+    public SelenideElement getUSERNAME_FIELD() {
+        return USERNAME_FIELD;
+    }
+
+    @Override
+    public SelenideElement getPASSWORD_FIELD() {
+        return PASSWORD_FIELD;
+    }
+
+    @Override
+    public SelenideElement getCONFIRM_BUTTON() {
+        return CONFIRM_BUTTON;
+    }
+
+    @Override
+    public LoginPageOptionB get() {
+        return super.get();
+    }
 }

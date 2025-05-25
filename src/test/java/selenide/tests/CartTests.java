@@ -31,9 +31,13 @@ public class CartTests extends BaseTest {
     private SuccessPurchasePage successPage;
     private SelenideElement cartButton;
     private CategoryFilter filterPage;
-    private Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");;
-    private List<String> filteredItems;
-    private int expectedTotal;
+
+    private final Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
+
+    private final Item APPLE_MONITOR = new Item("Apple monitor 24", 400);
+    private final Item NOKIA_PHONE = new Item("Nokia lumia 1520", 820);
+    private final Item HTC_PHONE = new Item("HTC One M9", 700);
+    private final Item GALAXY_S7 = new Item("Samsung galaxy s7", 800);
 
     @BeforeEach
     void setUpPage() {
@@ -51,19 +55,18 @@ public class CartTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void shouldAddItemToCart() {
-        Item item = new Item("Samsung galaxy s7", 800);
-        ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();
+        ItemPage itemPage = PageManager.itemPage(GALAXY_S7.getTitle()).get();
 
-        assertEquals(item.getItemTitle(), itemPage.getItemName());
+        assertEquals(GALAXY_S7.getTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
-        assertEquals(item.getItemPrice(), itemPage.returnPrice());
+        assertEquals(GALAXY_S7.getItemPrice(), itemPage.returnPrice());
 
-        cartButton.click();
-        cartPage.getItemInCart(item.getItemTitle()).shouldBe(visible);
-        assertEquals(item.getItemPrice(), cartPage.getPriceOfItemInCart(item.getItemTitle()));
+        navBar.goTo(cartButton);
+        cartPage.getItemInCart(GALAXY_S7.getTitle()).shouldBe(visible);
+        assertEquals(GALAXY_S7.getItemPrice(), cartPage.getPriceOfItemInCart(GALAXY_S7.getTitle()));
 
         purchasePage.get().fillForm(defaultPurchase).submitPurchase();
-        successPage.getThanyouText().shouldBe(visible);
+        successPage.getThankYouText().shouldBe(visible);
     }
 
     @Test
@@ -71,18 +74,20 @@ public class CartTests extends BaseTest {
     @DisplayName("Filter items and add item to cart")
     @Tag("regress")
     void filterMonitorAndAddToCart() {
-        Item item = new Item("Apple monitor 24", 400);
-
-        filteredItems = filterPage.extractTitles(filterPage.filterAndReturnProductElements(filterPage.getCategory(Categories.MONITORS.getMessage())));
+        List<String> filteredItems = filterPage.extractTitles(
+                filterPage.filterAndReturnProductElements(
+                        filterPage.getCategory(Categories.MONITORS.getMESSAGE())
+                )
+        );
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
 
-        ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();
-        assertEquals(item.getItemTitle(), itemPage.getItemName());
+        ItemPage itemPage = PageManager.itemPage(APPLE_MONITOR.getTitle()).get();
+        assertEquals(APPLE_MONITOR.getTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
-        assertEquals(item.getItemPrice(), itemPage.returnPrice());
+        assertEquals(APPLE_MONITOR.getItemPrice(), itemPage.returnPrice());
 
-        cartPage.get().getItemInCart(item.getItemTitle()).shouldBe(visible);
-        assertEquals(item.getItemPrice(), cartPage.getPriceOfItemInCart(item.getItemTitle()));
+        cartPage.get().getItemInCart(APPLE_MONITOR.getTitle()).shouldBe(visible);
+        assertEquals(APPLE_MONITOR.getItemPrice(), cartPage.getPriceOfItemInCart(APPLE_MONITOR.getTitle()));
     }
 
     @Test
@@ -91,15 +96,14 @@ public class CartTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void deleteItemInCart() {
-        Item item = new Item("Nokia lumia 1520", 820);
-        ItemPage itemPage = PageManager.itemPage(item.getItemTitle()).get();
+        ItemPage itemPage = PageManager.itemPage(NOKIA_PHONE.getTitle()).get();
 
-        assertEquals(item.getItemTitle(), itemPage.getItemName());
+        assertEquals(NOKIA_PHONE.getTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
-        assertEquals(item.getItemPrice(), itemPage.returnPrice());
+        assertEquals(NOKIA_PHONE.getItemPrice(), itemPage.returnPrice());
 
-        cartPage.get().deleteItemFromCart(item.getItemTitle())
-                .getItemInCart(item.getItemTitle()).shouldBe(hidden);
+        cartPage.get().deleteItemFromCart(NOKIA_PHONE.getTitle())
+                .getItemInCart(NOKIA_PHONE.getTitle()).shouldBe(hidden);
     }
 
     @Test
@@ -108,15 +112,12 @@ public class CartTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void addTwoItemsAndCheckSumPrices() {
-        Item item1 = new Item("Nokia lumia 1520", 820);
-        Item item2 = new Item("HTC One M9", 700);
-
-        PageManager.itemPage(item1.getItemTitle()).get().addItemInCart();
+        PageManager.itemPage(NOKIA_PHONE.getTitle()).get().addItemInCart();
         PageManager.mainPage().get();
-        PageManager.itemPage(item2.getItemTitle()).get().addItemInCart();
+        PageManager.itemPage(HTC_PHONE.getTitle()).get().addItemInCart();
 
         navBar.goTo(cartButton);
-        expectedTotal = item1.getItemPrice() + item2.getItemPrice();
+        int expectedTotal = NOKIA_PHONE.getItemPrice() + HTC_PHONE.getItemPrice();
         PageManager.cartPage().waitUntilTotalPriceEquals(expectedTotal);
     }
 }

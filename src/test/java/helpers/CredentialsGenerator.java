@@ -4,7 +4,7 @@ import java.security.SecureRandom;
 
 public class CredentialsGenerator {
 
-    private static final String USERNAME_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String USERNAME_CHARS = "0123456789";
     private static final String PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=<>?";
 
     private static final SecureRandom random = new SecureRandom();

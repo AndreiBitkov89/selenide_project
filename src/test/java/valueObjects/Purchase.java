@@ -2,43 +2,43 @@ package valueObjects;
 
 public class Purchase {
 
-    private String name;
-    private String country;
-    private String city;
-    private String card;
-    private String month;
-    private String year;
+    private final String NAME;
+    private final String COUNTRY;
+    private final String CITY;
+    private final String CARD;
+    private final String MONTH;
+    private final String YEAR;
 
     public Purchase(String name, String country, String city, String card, String month, String year) {
-        this.name = name;
-        this.country = country;
-        this.city = city;
-        this.card = card;
-        this.month = month;
-        this.year = year;
+        this.NAME = name;
+        this.COUNTRY = country;
+        this.CITY = city;
+        this.CARD = card;
+        this.MONTH = month;
+        this.YEAR = year;
     }
 
-    public String getName() {
-        return name;
+    public String getNAME() {
+        return NAME;
     }
 
-    public String getCountry() {
-        return country;
+    public String getCOUNTRY() {
+        return COUNTRY;
     }
 
-    public String getCity() {
-        return city;
+    public String getCITY() {
+        return CITY;
     }
 
-    public String getCard() {
-        return card;
+    public String getCARD() {
+        return CARD;
     }
 
-    public String getMonth() {
-        return month;
+    public String getMONTH() {
+        return MONTH;
     }
 
-    public String getYear() {
-        return year;
+    public String getYEAR() {
+        return YEAR;
     }
 }

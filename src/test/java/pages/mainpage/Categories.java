@@ -5,13 +5,13 @@ public enum Categories {
     LAPTOPS("Laptops"),
     PHONES("Phones");
 
-    private String message;
+    private final String MESSAGE;
 
     Categories(String message) {
-        this.message = message;
+        this.MESSAGE = message;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMESSAGE() {
+        return MESSAGE;
     }
 }

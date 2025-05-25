@@ -13,15 +13,14 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CategoryFilter {
 
     private final SelenideElement FILTER = $(".list-group");
-    private MainPage mainPage = PageManager.mainPage();
-    private int initialSize;
+    private final MainPage MAIN_PAGE = PageManager.mainPage();
 
     public SelenideElement getCategory(String category) {
         return FILTER.$(Selectors.byText(category));
     }
 
     public List<ProductCardElement> filterAndReturnProductElements(SelenideElement categoryElement) {
-        initialSize = mainPage.getAllProducts().size();
+        int initialSize = MAIN_PAGE.getAllProducts().size();
 
         Allure.step("Click on filter and wait for page update", () -> {
             categoryElement.shouldBe(visible).click();
@@ -29,7 +28,7 @@ public class CategoryFilter {
             $$(".card").shouldHave(sizeNotEqual(initialSize));
         });
 
-        return mainPage.getAllProducts();
+        return MAIN_PAGE.getAllProducts();
     }
 
     public List<String> extractTitles(List<ProductCardElement> products) {
@@ -48,7 +47,6 @@ public class CategoryFilter {
             }
 
         });
-
     }
 
 }

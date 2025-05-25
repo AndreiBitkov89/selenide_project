@@ -2,19 +2,19 @@ package valueObjects;
 
 public class User {
 
-    private final String username;
-    private final String password;
+    private final String USERNAME;
+    private final String PASSWORD;
 
     public User(String username, String password) {
-        this.username = username;
-        this.password = password;
+        this.USERNAME = username;
+        this.PASSWORD = password;
     }
 
     public String getUsername() {
-        return username;
+        return USERNAME;
     }
 
     public String getPassword() {
-        return password;
+        return PASSWORD;
     }
 }

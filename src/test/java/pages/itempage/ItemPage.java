@@ -11,27 +11,25 @@ import static pages.mainpage.MainPage.gotoItemPage;
 
 public class ItemPage extends BasePage<ItemPage> {
 
-    private SelenideElement addToCartButton = $(By.xpath("//a[text()='Add to cart']"));
-    private SelenideElement itemTitle = $("h2.name");
-    private SelenideElement itemPrice = $("h3.price-container");
+    private final SelenideElement addToCartButton = $(By.xpath("//a[text()='Add to cart']"));
+    private final SelenideElement itemTitle = $("h2.name");
+    private final SelenideElement itemPrice = $("h3.price-container");
 
-    private final String DIALOG = "Product added";
-    private final String PAGE_TITLE;
+    private static final String DIALOG = "Product added";
+    private final String pageTitle;
 
     public ItemPage(String title) {
-        this.PAGE_TITLE = title;
+        this.pageTitle = title;
     }
 
     @Override
     public void load() {
-        Allure.step("Open page of the item: " + PAGE_TITLE, () -> {
-            gotoItemPage(PAGE_TITLE);
-        });
+        Allure.step("Open page of the item: " + pageTitle, () -> gotoItemPage(pageTitle));
     }
 
     @Override
     public void isLoaded() {
-        Allure.step("Check load of the page", () -> {
+        Allure.step("Check load of the item page", () -> {
             itemTitle.shouldBe(visible);
             itemPrice.shouldBe(visible);
             addToCartButton.shouldBe(visible);
@@ -39,12 +37,8 @@ public class ItemPage extends BasePage<ItemPage> {
     }
 
     public void addItemInCart() {
-        Allure.step("Add item to cart", () -> {
-            addToCartButton.shouldBe(visible).click();
-        });
-        Allure.step("Close alert", () -> {
-            Selenide.confirm(DIALOG);
-        });
+        Allure.step("Add item to cart", () -> addToCartButton.shouldBe(visible).click());
+        Allure.step("Confirm alert dialog", () -> Selenide.confirm(DIALOG));
     }
 
     public String getItemName() {
@@ -52,9 +46,11 @@ public class ItemPage extends BasePage<ItemPage> {
     }
 
     public int returnPrice() {
-
-        return Integer.parseInt(itemPrice.text().replace("$", "").trim().split("\\s")[0]);
-
+        return Integer.parseInt(
+                itemPrice.getText()
+                        .replace("$", "")
+                        .trim()
+                        .split("\\s")[0]
+        );
     }
-
 }

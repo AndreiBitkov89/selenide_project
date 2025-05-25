@@ -5,11 +5,11 @@ import org.openqa.selenium.NoAlertPresentException;
 import static com.codeborne.selenide.WebDriverRunner.*;
 public class CustomAlert implements org.openqa.selenium.Alert {
 
-    private final AlertTypes expectedType;
-    private final Alert alert;
+    private final AlertTypes EXPECTED_ALERT;
+    private final Alert ALERT;
 
     public CustomAlert(AlertTypes expectedType) {
-        this.expectedType = expectedType;
+        this.EXPECTED_ALERT = expectedType;
 
         long timeout = System.currentTimeMillis() + 2000;
         Alert tempAlert = null;
@@ -29,34 +29,34 @@ public class CustomAlert implements org.openqa.selenium.Alert {
             throw new AssertionError("Expected alert was not present. Type: " + expectedType);
         }
 
-        this.alert = tempAlert;
+        this.ALERT = tempAlert;
     }
 
 
     @Override
     public void dismiss() {
-        alert.dismiss();
+        ALERT.dismiss();
 
     }
 
     @Override
     public void accept() {
-        String actualText = alert.getText();
-        if (!actualText.equals(expectedType.getMessage())) {
-            throw new AssertionError("Expected: '" + expectedType.getMessage() + "' but was: '" + actualText + "'");
+        String actualText = ALERT.getText();
+        if (!actualText.equals(EXPECTED_ALERT.getMessage())) {
+            throw new AssertionError("Expected: '" + EXPECTED_ALERT.getMessage() + "' but was: '" + actualText + "'");
         }
-        alert.accept();
+        ALERT.accept();
 
     }
 
     @Override
     public String getText() {
-        return alert.getText();
+        return ALERT.getText();
     }
 
     @Override
     public void sendKeys(String keysToSend) {
-        alert.sendKeys(keysToSend);
+        ALERT.sendKeys(keysToSend);
 
     }
 }

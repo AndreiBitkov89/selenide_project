@@ -16,13 +16,15 @@ import static com.codeborne.selenide.Selenide.$;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationPage extends BasePage<RegistrationPage> implements RegistrationPageInterface {
-    private SelenideElement usernameField = $("input#sign-username");
-    private SelenideElement passwordField = $("input#sign-password");
-    private SelenideElement confirmButton = $(By.xpath("//*[@onclick='register()']"));
-    private SelenideElement modalWindow = $("#signInModal .modal-content");
-    private SelenideElement signupLabel = $("#signInModalLabel");
-    private NavBarComponent navBarComponent = new NavBarComponent();
-    private SlowType slowType = new SlowType();
+
+    private final SelenideElement USERNAME_FIELD = $("input#sign-username");
+    private final SelenideElement PASSWORD_FIELD = $("input#sign-password");
+    private final SelenideElement CONFIRM = $(By.xpath("//*[@onclick='register()']"));
+    private final SelenideElement MODAL = $("#signInModal .modal-content");
+    private final SelenideElement SIGNUP_LABEL = $("#signInModalLabel");
+
+    private final NavBarComponent navBarComponent = new NavBarComponent();
+    private final SlowType slowType = new SlowType();
 
     @Override
     public void load() {
@@ -31,21 +33,31 @@ public class RegistrationPage extends BasePage<RegistrationPage> implements Regi
 
     @Override
     public void isLoaded() {
-        signupLabel.shouldBe(visible, Duration.ofSeconds(5));
-        usernameField.shouldBe(visible, Duration.ofSeconds(5));
-        passwordField.shouldBe(visible, Duration.ofSeconds(5));
-        confirmButton.shouldBe(visible, Duration.ofSeconds(5));
+        SIGNUP_LABEL.shouldBe(visible, Duration.ofSeconds(5));
+        USERNAME_FIELD.shouldBe(visible, Duration.ofSeconds(5));
+        PASSWORD_FIELD.shouldBe(visible, Duration.ofSeconds(5));
+        CONFIRM.shouldBe(visible, Duration.ofSeconds(5));
+    }
+
+    public SelenideElement getUsernameField() {
+        return USERNAME_FIELD;
+    }
+
+    public SelenideElement getPasswordField() {
+        return PASSWORD_FIELD;
+    }
+
+    public SelenideElement getConfirmButton() {
+        return CONFIRM;
     }
 
     public RegistrationPage registration(User user, AlertTypes expectedAlert) {
         Allure.step("Fill login and password", () -> {
-            slowType.slowType(usernameField, user.getUsername());
-            slowType.slowType(passwordField, user.getPassword());
+            slowType.slowType(getUsernameField(), user.getUsername());
+            slowType.slowType(getPasswordField(), user.getPassword());
         });
 
-        Allure.step("Accept registration", () -> {
-            confirmButton.click();
-        });
+        Allure.step("Accept registration", () -> getConfirmButton().click());
 
         Allure.step("Get alert after registration", () -> {
             String dialog = Selenide.confirm();
@@ -56,6 +68,6 @@ public class RegistrationPage extends BasePage<RegistrationPage> implements Regi
     }
 
     public SelenideElement getModal() {
-        return modalWindow;
+        return MODAL;
     }
 }

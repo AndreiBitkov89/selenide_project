@@ -8,11 +8,11 @@ import pages.loginpage.factory.service.FlagService;
 
 public class LoginPageFactory {
     public static LoginPage getFlagFromServer() {
-        String variant = FlagService.getLoginVariant();
-        return switch (variant) {
+        String flag = FlagService.getLoginVariant();
+        return switch (flag) {
             case "A" -> new LoginPageOptionA();
             case "B" -> new LoginPageOptionB();
-            default -> throw new IllegalStateException("Unknown flag: " + variant);
+            default -> throw new IllegalStateException("Unknown flag: " + flag);
         };
     }
 }
