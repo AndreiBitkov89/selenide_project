@@ -7,6 +7,7 @@ import pages.itempage.ItemPage;
 import pages.mainpage.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.mainpage.MainPage;
+import selenide.tests.helpers.SharedSteps;
 import valueObjects.Brands;
 
 import java.util.List;
@@ -19,11 +20,13 @@ public class MainPageTests extends BaseTest {
     private CategoryFilter filterPage;
     private MainPage mainPage;
     private ItemPage itemPage;
+    private SharedSteps sharedSteps;
 
     @BeforeEach
     public void setUp() {
         mainPage = PageManager.mainPage();
         filterPage = new CategoryFilter();
+        sharedSteps = new SharedSteps();
     }
 
     @Test
@@ -32,11 +35,8 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void shouldFilterItemsAndReturnPhones() {
-        List<String> filteredItems = filterPage.extractTitles(
-                filterPage.filterAndReturnProductElements(
-                        filterPage.getCategory(Categories.PHONES.getMESSAGE())
-                )
-        );
+
+        List<String> filteredItems = sharedSteps.applyFilter(Categories.PHONES);
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedPhones());
     }
 
@@ -46,11 +46,7 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldFilterItemsAndReturnLaptops() {
-        List<String> filteredItems = filterPage.extractTitles(
-                filterPage.filterAndReturnProductElements(
-                        filterPage.getCategory(Categories.LAPTOPS.getMESSAGE())
-                )
-        );
+        List<String> filteredItems = sharedSteps.applyFilter(Categories.LAPTOPS);
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedLaptops());
     }
 
@@ -60,11 +56,7 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldFilterItemsAndReturnMonitors() {
-        List<String> filteredItems = filterPage.extractTitles(
-                filterPage.filterAndReturnProductElements(
-                        filterPage.getCategory(Categories.MONITORS.getMESSAGE())
-                )
-        );
+        List<String> filteredItems = sharedSteps.applyFilter(Categories.MONITORS);
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
     }
 

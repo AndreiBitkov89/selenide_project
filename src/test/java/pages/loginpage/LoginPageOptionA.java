@@ -45,11 +45,11 @@ public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements Logi
     @Override
     public LoginPageOptionA login(User user) {
         Allure.step("Fill login and password", () -> {
-            TYPE.slowType(getUSERNAME_FIELD(), user.getUsername());
-            TYPE.slowType(getPASSWORD_FIELD(), user.getPassword());
+            TYPE.slowType(getUsernameField(), user.getUsername());
+            TYPE.slowType(getPasswordField(), user.getPassword());
         });
 
-        Allure.step("Submit login form", () -> getCONFIRM_BUTTON().click());
+        Allure.step("Submit login form", () -> getConfirmButton().click());
         return this;
     }
 
@@ -65,22 +65,22 @@ public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements Logi
     }
 
     @Override
-    public SelenideElement getMODAL() {
+    public SelenideElement getModal() {
         return MODAL;
     }
 
     @Override
-    public SelenideElement getUSERNAME_FIELD() {
+    public SelenideElement getUsernameField() {
         return USERNAME_FIELD;
     }
 
     @Override
-    public SelenideElement getPASSWORD_FIELD() {
+    public SelenideElement getPasswordField() {
         return PASSWORD_FIELD;
     }
 
     @Override
-    public SelenideElement getCONFIRM_BUTTON() {
+    public SelenideElement getConfirmButton() {
         return CONFIRM_BUTTON;
     }
 

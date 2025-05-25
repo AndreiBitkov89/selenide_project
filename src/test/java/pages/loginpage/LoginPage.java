@@ -10,18 +10,18 @@ public interface LoginPage {
 
     LoginPage get();
 
-    SelenideElement getMODAL();
+    SelenideElement getModal();
 
-    SelenideElement getUSERNAME_FIELD();
+    SelenideElement getUsernameField();
 
-    SelenideElement getPASSWORD_FIELD();
+    SelenideElement getPasswordField();
 
-    SelenideElement getCONFIRM_BUTTON();
+    SelenideElement getConfirmButton();
 
     default LoginPage login(User user) {
-        getUSERNAME_FIELD().sendKeys(user.getUsername());
-        getPASSWORD_FIELD().sendKeys(user.getPassword());
-        getCONFIRM_BUTTON().click();
+        getUsernameField().sendKeys(user.getUsername());
+        getPasswordField().sendKeys(user.getPassword());
+        getConfirmButton().click();
         return this;
     }
 

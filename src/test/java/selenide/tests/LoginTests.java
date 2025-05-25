@@ -53,7 +53,7 @@ public class LoginTests extends BaseTest {
     @Tag("smoke")
     void successfulLogin() {
         System.out.println(DEFAULT_LOGIN);
-        PageManager.loginPage().get().login(DEFAULT_USER).getMODAL().shouldBe(hidden);
+        PageManager.loginPage().get().login(DEFAULT_USER).getModal().shouldBe(hidden);
         navBarComponent.usernameAfterLogin().shouldBe(visible);
     }
 
@@ -65,7 +65,7 @@ public class LoginTests extends BaseTest {
     @Tag("smoke")
     void testRedesign(String variant) {
         Allure.step("variant " + variant, () -> {
-            PageManager.customLoginPage(variant).get().login(DEFAULT_USER).getMODAL().shouldBe(hidden);
+            PageManager.customLoginPage(variant).get().login(DEFAULT_USER).getModal().shouldBe(hidden);
             navBarComponent.usernameAfterLogin().shouldBe(visible);
         });
 
@@ -80,7 +80,7 @@ public class LoginTests extends BaseTest {
     void testRedesignWithAPIFlag() {
         Allure.step("Check logic in according to API request", () -> {
             loginPageFactory = LoginPageFactory.getFlagFromServer();
-            loginPageFactory.get().login(DEFAULT_USER).getMODAL().shouldBe(hidden);
+            loginPageFactory.get().login(DEFAULT_USER).getModal().shouldBe(hidden);
             navBarComponent.usernameAfterLogin().shouldBe(visible);
         });
     }
@@ -113,7 +113,7 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void logout() {
-        PageManager.loginPage().get().login(DEFAULT_USER).getMODAL().shouldBe(hidden);
+        PageManager.loginPage().get().login(DEFAULT_USER).getModal().shouldBe(hidden);
         navBarComponent.goTo(navBarComponent.logout()).usernameAfterLogin().shouldBe(hidden);
     }
 }
