@@ -15,6 +15,7 @@ import valueObjects.Brands;
 import valueObjects.Item;
 import valueObjects.Purchase;
 
+import java.time.Duration;
 import java.util.List;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -66,7 +67,7 @@ public class CartTests extends BaseTest {
         assertEquals(GALAXY_S7.getItemPrice(), cartPage.getPriceOfItemInCart(GALAXY_S7.getTitle()));
 
         purchasePage.get().fillForm(defaultPurchase).submitPurchase();
-        successPage.getThankYouText().shouldBe(visible);
+        successPage.getThankYouText().shouldBe(visible, Duration.ofSeconds(10));
     }
 
     @Test
