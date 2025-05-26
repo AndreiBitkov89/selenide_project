@@ -21,6 +21,8 @@ public class MainPageTests extends BaseTest {
     private MainPage mainPage;
     private ItemPage itemPage;
     private SharedSteps sharedSteps;
+    private final String XPERIA_PHONE = "Sony xperia z5";
+    private final String NOKIA_PHONE =  "Nokia lumia 1520";
 
     @BeforeEach
     public void setUp() {
@@ -65,10 +67,9 @@ public class MainPageTests extends BaseTest {
     @DisplayName("Open item page by index")
     @Tag("regress")
     public void shouldOpenCorrectItemByIndex() {
-        String item = "Nokia lumia 1520";
-        itemPage = PageManager.itemPage(item);
+        itemPage = PageManager.itemPage(NOKIA_PHONE);
         mainPage.get().getProductByIndex(1).openItem();
-        Assertions.assertEquals(item, itemPage.getItemName());
+        Assertions.assertEquals(NOKIA_PHONE, itemPage.getItemName());
     }
 
     @Test
@@ -76,10 +77,10 @@ public class MainPageTests extends BaseTest {
     @DisplayName("Open item page by name")
     @Tag("regress")
     public void shouldOpenCorrectItemByName() {
-        String item = "Sony xperia z5";
-        itemPage = PageManager.itemPage(item);
-        mainPage.get().getProductByTitle(item, 0).openItem();
-        Assertions.assertEquals(item, itemPage.getItemName());
+
+        itemPage = PageManager.itemPage(XPERIA_PHONE);
+        mainPage.get().getProductByTitle(XPERIA_PHONE, 0).openItem();
+        Assertions.assertEquals(XPERIA_PHONE, itemPage.getItemName());
     }
 
     @Test
@@ -87,9 +88,8 @@ public class MainPageTests extends BaseTest {
     @DisplayName("Find the cheapest item")
     @Tag("regress")
     public void shouldReturnCheapestItem() {
-        String expectedItem = "Sony xperia z5";
         String actualItem = mainPage.get().getCheapestProduct().getTitle();
-        Assertions.assertEquals(expectedItem, actualItem);
+        Assertions.assertEquals(XPERIA_PHONE, actualItem);
     }
 
     @Test
@@ -97,8 +97,7 @@ public class MainPageTests extends BaseTest {
     @DisplayName("Find the most expensive item")
     @Tag("regress")
     public void shouldReturnTheMostExpensiveItem() {
-        String expectedItem = "Nokia lumia 1520";
         String actualItem = mainPage.get().getMostExpensiveProduct().getTitle();
-        Assertions.assertEquals(expectedItem, actualItem);
+        Assertions.assertEquals(NOKIA_PHONE, actualItem);
     }
 }
