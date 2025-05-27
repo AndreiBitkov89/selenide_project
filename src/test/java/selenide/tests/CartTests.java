@@ -34,7 +34,15 @@ public class CartTests extends BaseTest {
     private CategoryFilter filterPage;
     private ItemPage itemPage;
 
-    private final Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
+//    private final Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
+    private final Purchase defaultPurchase = Purchase.builder()
+            .withName("QA")
+            .withCountry("Germany")
+            .withCity("Berlin")
+            .withCreditCard("1234567")
+            .withMonth("01")
+            .withYear("2026")
+            .build();
 
     private final Item APPLE_MONITOR = new Item("Apple monitor 24", 400);
     private final Item NOKIA_PHONE = new Item("Nokia lumia 1520", 820);
