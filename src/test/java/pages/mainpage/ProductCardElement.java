@@ -7,10 +7,9 @@ import static com.codeborne.selenide.Condition.visible;
 public class ProductCardElement {
 
     private final SelenideElement ROOT_ELEMENT;
-    private static final String TITLE_SELECTOR = ".card-title a";
-    private static final String PRICE_SELECTOR = "h5";
-    private static final String DESCRIPTION_SELECTOR = "p.card-text";
-    private static final String CLICKABLE_SELECTOR = "h4.card-title a";
+    private final String TITLE_SELECTOR = ".card-title a";
+    private final String PRICE_SELECTOR = "h5";
+    private final String DESCRIPTION_SELECTOR = "p.card-text";
 
     public ProductCardElement(SelenideElement rootElement) {
         this.ROOT_ELEMENT = rootElement;
@@ -30,7 +29,7 @@ public class ProductCardElement {
     }
 
     public void openItem() {
-        ROOT_ELEMENT.$(CLICKABLE_SELECTOR).shouldBe(visible).click();
+        ROOT_ELEMENT.$(".card-title a").shouldBe(visible).click();
     }
 
 }

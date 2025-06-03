@@ -58,7 +58,6 @@ public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements Logi
         login(user);
         Allure.step("Check alert after failed login", () -> {
             CustomAlert alert = new CustomAlert(expectedAlert);
-            System.out.println(alert.getText());
             alert.accept();
         });
         return this;

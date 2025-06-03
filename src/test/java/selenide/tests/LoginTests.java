@@ -52,7 +52,6 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void successfulLogin() {
-        System.out.println(DEFAULT_LOGIN);
         PageManager.loginPage().get().login(DEFAULT_USER).getModal().shouldBe(hidden);
         navBarComponent.usernameAfterLogin().shouldBe(visible);
     }

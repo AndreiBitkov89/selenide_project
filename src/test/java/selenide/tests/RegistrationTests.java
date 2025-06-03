@@ -38,8 +38,6 @@ public class RegistrationTests extends BaseTest {
     @Tag("smoke")
     public void shouldRegisterClientAndAuthorize() {
         newUser = new User(randomUsername, randomPassword);
-        System.out.println(randomUsername);
-        System.out.println(randomPassword);
 
         PageManager.registrationPage().get().registration(newUser, AlertTypes.SUCCESSFUL_SIGN);
         PageManager.loginPage().get().login(newUser);
@@ -52,7 +50,6 @@ public class RegistrationTests extends BaseTest {
     @DisplayName("Error after registration with existed user's data")
     @Tag("regress")
     public void errorAfterRegWithExistedCreds() {
-        System.out.println(DEFAULT_LOGIN + DEFAULT_PASS);
         PageManager.registrationPage().get().registration(DEFAULT_USER, AlertTypes.USER_ALREADY_EXIST).getModal().shouldNotBe(hidden);
     }
 

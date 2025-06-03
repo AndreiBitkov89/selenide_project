@@ -3,7 +3,7 @@ package helpers;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import static com.codeborne.selenide.WebDriverRunner.*;
-public class CustomAlert implements org.openqa.selenium.Alert {
+public class CustomAlert implements Alert {
 
     private final AlertTypes EXPECTED_ALERT;
     private final Alert ALERT;
