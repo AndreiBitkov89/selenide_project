@@ -1,16 +1,16 @@
-package selenide.tests;
+package selenide_tests;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import pages.PageManager;
-import pages.mainpage.Categories;
+import constants.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.commonComponents.NavBarComponent;
-import pages.cart.CartPage;
+import pages.cartpage.CartPage;
 import pages.itempage.ItemPage;
-import pages.cart.PurchasePage;
-import pages.cart.SuccessPurchasePage;
+import pages.purchasepages.PurchasePage;
+import pages.purchasepages.SuccessPurchasePage;
 import valueObjects.Brands;
 import valueObjects.Item;
 import valueObjects.Purchase;

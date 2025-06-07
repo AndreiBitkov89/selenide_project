@@ -1,5 +1,6 @@
-package helpers;
+package decorators;
 
+import constants.AlertTypes;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoAlertPresentException;
 import static com.codeborne.selenide.WebDriverRunner.*;

@@ -42,7 +42,8 @@ public class ItemPage extends BasePage<ItemPage> {
     }
 
     public String getItemName() {
-        return itemTitle.getText();
+        return Allure.step("Get item name", itemTitle::getText);
+
     }
 
     public int returnPrice() {

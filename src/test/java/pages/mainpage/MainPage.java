@@ -4,7 +4,6 @@ import com.codeborne.selenide.*;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import pages.BasePage;
-
 import java.time.Duration;
 import java.util.Comparator;
 import java.util.List;
@@ -16,7 +15,7 @@ import static com.codeborne.selenide.Selenide.*;
 public class MainPage extends BasePage<MainPage> {
 
     private static final SelenideElement PAGE_TITLE = $("a.navbar-brand");
-    private final ElementsCollection PRODUCTS = $$(".card");
+    private static final ElementsCollection PRODUCTS = $$(".card");
 
     @Override
     public void load() {
@@ -37,10 +36,10 @@ public class MainPage extends BasePage<MainPage> {
     }
 
     public static SelenideElement getPageTitle() {
-        return PAGE_TITLE;
+        return Allure.step("Return title of main page", () -> PAGE_TITLE);
     }
 
-    public List<ProductCardElement> getAllProducts() {
+    public static List<ProductCardElement> getAllProducts() {
         Allure.step("Get all product cards", () ->
                 PRODUCTS.shouldHave(CollectionCondition.sizeGreaterThan(0), Duration.ofSeconds(5))
         );
@@ -62,12 +61,12 @@ public class MainPage extends BasePage<MainPage> {
     }
 
     public ProductCardElement getProductByTitle(String title, int index) {
-        return Allure.step("Get product by title: " + title + ", index: " + index, () -> {
+        return Allure.step("Get products by title: " + title + ", index: " + index, () -> {
             List<ProductCardElement> matches = getProductsByTitle(title);
             if (matches.isEmpty()) {
                 throw new NoSuchElementException("No product with title: " + title);
             }
-            return matches.get(index);
+            return Allure.step("Return product with index", () -> matches.get(index));
         });
     }
 

@@ -1,4 +1,4 @@
-package pages.mainpage;
+package constants;
 
 public enum Categories {
     MONITORS("Monitors"),

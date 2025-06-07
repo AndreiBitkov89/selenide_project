@@ -1,13 +1,13 @@
 package pages.loginpage;
 
 import com.codeborne.selenide.SelenideElement;
-import helpers.AlertTypes;
-import helpers.CustomAlert;
+import constants.AlertTypes;
+import decorators.CustomAlert;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import pages.BasePage;
 import pages.commonComponents.NavBarComponent;
-import helpers.SlowType;
+import decorators.SlowType;
 import valueObjects.User;
 
 import static com.codeborne.selenide.Condition.visible;

@@ -2,7 +2,7 @@ package pages.registrationpage;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
-import helpers.AlertTypes;
+import constants.AlertTypes;
 import valueObjects.User;
 
 public interface RegistrationPageInterface {

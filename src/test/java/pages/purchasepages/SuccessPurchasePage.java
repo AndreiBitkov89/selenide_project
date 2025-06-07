@@ -1,4 +1,4 @@
-package pages.cart;
+package pages.purchasepages;
 
 import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;

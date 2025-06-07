@@ -1,13 +1,13 @@
-package selenide.tests;
+package selenide_tests;
 
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import pages.PageManager;
 import pages.itempage.ItemPage;
-import pages.mainpage.Categories;
+import constants.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.mainpage.MainPage;
-import selenide.tests.test_helpers.SharedSteps;
+import selenide_tests.test_helpers.SharedSteps;
 import valueObjects.Brands;
 
 import java.util.List;

@@ -4,9 +4,9 @@ import com.codeborne.selenide.*;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import pages.BasePage;
-import helpers.AlertTypes;
+import constants.AlertTypes;
 import pages.commonComponents.NavBarComponent;
-import helpers.SlowType;
+import decorators.SlowType;
 import valueObjects.User;
 
 import java.time.Duration;

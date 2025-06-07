@@ -1,9 +1,10 @@
-package pages.cart;
+package pages.purchasepages;
 
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import pages.BasePage;
+import pages.cartpage.CartPage;
 import valueObjects.Purchase;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -43,6 +44,11 @@ public class PurchasePage extends BasePage<PurchasePage> {
     }
 
     public void submitPurchase() {
-        CONFIRM_BUTTON.shouldBe(visible).click();
+        Allure.step("Submit purchase", () -> {
+                    CONFIRM_BUTTON.shouldBe(visible).click();
+                }
+
+        );
+
     }
 }

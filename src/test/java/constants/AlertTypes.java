@@ -1,4 +1,4 @@
-package helpers;
+package constants;
 
 public enum AlertTypes {
     USER_NOT_EXIST("User does not exist."),

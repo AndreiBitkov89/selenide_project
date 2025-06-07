@@ -1,25 +1,27 @@
-# SelenideTestProject 🧪
+📋 Overview
 
-## 📋 Описание
-Автотесты для сайта [demoblaze.com](https://www.demoblaze.com/) с использованием Selenide, JUnit и Allure.
+Automated UI test suite for demoblaze.com using:
 
-## 🚀 Технологии
-- Selenide
-- JUnit 5
-- Java Faker
-- Allure Reports
+🧪 Selenide for clean and concise browser automation
 
-## 🔧 Как запустить
+✅ JUnit 5 for test lifecycle and assertions
 
-1. Клонировать проект:
-   ```bash
-   git clone https://github.com/abitk123/selenideTestPractice.git
+📊 Allure for test reports
 
-2. Запуск тестов :
-   ```bash 
-   mvn clean test
 
-3. Формирование отчета :
-   ```bash 
-   allure generate ./allure-results --clean -o ./allure-report
-   allure serve ./allure-results
+🚀 Technologies Used
+Selenide
+JUnit 5
+Allure Report
+Maven
+Java 17
+
+🏗️ Architecture Patterns
+
+- Page Object Model
+- Component Element
+- Factory
+- Loadable Component
+- Value Object
+- Decorator
+- Builder

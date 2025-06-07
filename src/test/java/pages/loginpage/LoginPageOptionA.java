@@ -5,13 +5,13 @@ import com.codeborne.selenide.*;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
-import helpers.CustomAlert;
+import decorators.CustomAlert;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;
 import pages.BasePage;
-import helpers.AlertTypes;
+import constants.AlertTypes;
 import pages.commonComponents.NavBarComponent;
-import helpers.SlowType;
+import decorators.SlowType;
 import valueObjects.User;
 
 public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements LoginPage {

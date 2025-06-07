@@ -1,8 +1,8 @@
 package pages;
 
-import pages.cart.CartPage;
-import pages.cart.PurchasePage;
-import pages.cart.SuccessPurchasePage;
+import pages.cartpage.CartPage;
+import pages.purchasepages.PurchasePage;
+import pages.purchasepages.SuccessPurchasePage;
 import pages.itempage.ItemPage;
 import pages.loginpage.LoginPageOptionA;
 import pages.loginpage.LoginPageOptionB;

@@ -1,4 +1,4 @@
-package helpers;
+package decorators;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;

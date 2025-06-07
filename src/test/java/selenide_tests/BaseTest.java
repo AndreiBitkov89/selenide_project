@@ -1,4 +1,4 @@
-package selenide.tests;
+package selenide_tests;
 
 import org.junit.jupiter.api.*;
 import pages.PageManager;

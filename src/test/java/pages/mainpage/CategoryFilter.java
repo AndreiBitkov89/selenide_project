@@ -3,24 +3,24 @@ package pages.mainpage;
 import com.codeborne.selenide.*;
 import io.qameta.allure.Allure;
 import pages.PageManager;
+
 import java.util.List;
 
 import static com.codeborne.selenide.CollectionCondition.sizeNotEqual;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static pages.mainpage.MainPage.getAllProducts;
 
 public class CategoryFilter {
 
     private final SelenideElement FILTER = $(".list-group");
-    private final MainPage MAIN_PAGE = PageManager.mainPage();
-
     public SelenideElement getCategory(String category) {
         return FILTER.$(Selectors.byText(category));
     }
 
     public List<ProductCardElement> filterAndReturnProductElements(SelenideElement categoryElement) {
-        int initialSize = MAIN_PAGE.getAllProducts().size();
+        int initialSize = getAllProducts().size();
 
         Allure.step("Click on filter and wait for page update", () -> {
             categoryElement.shouldBe(visible).click();
@@ -28,7 +28,7 @@ public class CategoryFilter {
             $$(".card").shouldHave(sizeNotEqual(initialSize));
         });
 
-        return MAIN_PAGE.getAllProducts();
+        return getAllProducts();
     }
 
     public List<String> extractTitles(List<ProductCardElement> products) {

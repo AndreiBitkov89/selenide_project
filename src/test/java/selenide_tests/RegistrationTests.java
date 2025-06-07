@@ -1,7 +1,7 @@
-package selenide.tests;
+package selenide_tests;
 
-import helpers.AlertTypes;
-import helpers.CredentialsGenerator;
+import constants.AlertTypes;
+import utils.CredentialsGenerator;
 import pages.commonComponents.NavBarComponent;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
