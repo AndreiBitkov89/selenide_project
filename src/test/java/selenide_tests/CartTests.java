@@ -34,7 +34,6 @@ public class CartTests extends BaseTest {
     private CategoryFilter filterPage;
     private ItemPage itemPage;
 
-//    private final Purchase defaultPurchase = new Purchase("Qa", "Germany", "Berlin", "1234567", "01", "2026");
     private final Purchase defaultPurchase = Purchase.builder()
             .withName("QA")
             .withCountry("Germany")

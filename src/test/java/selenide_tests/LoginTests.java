@@ -1,6 +1,5 @@
 package selenide_tests;
 
-import utils.CredentialsGenerator;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,40 +10,48 @@ import pages.loginpage.factory.LoginPageFactory;
 
 import constants.AlertTypes;
 import pages.loginpage.LoginPage;
+import steps.LoginSteps;
+import utils.Mocs;
 import valueObjects.User;
 import pages.cartpage.CartPage;
 import pages.purchasepages.PurchasePage;
 import pages.purchasepages.SuccessPurchasePage;
+import valueObjects.UserRegistry;
 
-import static com.codeborne.selenide.Condition.*;
-import static config.ConfigProvider.CONFIG;
 import static io.qameta.allure.SeverityLevel.*;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
 
 @DisplayName("Login logic tests")
 public class LoginTests extends BaseTest {
 
-    private final String DEFAULT_LOGIN = CONFIG.username();
-    private final String DEFAULT_PASS = CONFIG.password();
-    private final User DEFAULT_USER = new User(DEFAULT_LOGIN, DEFAULT_PASS);
-    private String randomUsername;
-    private String randomPassword;
     private User newUser;
     private NavBarComponent navBarComponent;
     private CartPage cartPage;
     private PurchasePage purchasePage;
     private SuccessPurchasePage successPage;
     private LoginPage loginPageFactory;
+    private final User DEFAULT_USER = UserRegistry.get("default");
+    private final LoginSteps LOGIN_STEPS = new LoginSteps();
+    private WireMockServer wireMockServer;
 
     @BeforeEach
     void setUpPage() {
-        randomUsername = CredentialsGenerator.generateUsername(5);
-        randomPassword = CredentialsGenerator.generatePassword(8);
         cartPage = PageManager.cartPage();
         navBarComponent = new NavBarComponent();
         purchasePage = PageManager.purchasePage();
         successPage = PageManager.successPurchasePage();
+        UserRegistry.createRandomUser("new");
+        wireMockServer = Mocs.startFlagMock("A");
     }
 
+    @AfterEach
+    void tearDown() {
+        if (wireMockServer != null && wireMockServer.isRunning()) {
+            wireMockServer.stop();
+        }
+    }
 
     @Test
     @Severity(CRITICAL)
@@ -52,8 +59,8 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void successfulLogin() {
-        PageManager.loginPage().get().login(DEFAULT_USER).getModal().shouldBe(hidden);
-        navBarComponent.usernameAfterLogin().shouldBe(visible);
+        LOGIN_STEPS.login(DEFAULT_USER);
+        LOGIN_STEPS.shouldSeeUsername();
     }
 
     @ParameterizedTest
@@ -64,8 +71,8 @@ public class LoginTests extends BaseTest {
     @Tag("smoke")
     void testRedesign(String variant) {
         Allure.step("variant " + variant, () -> {
-            PageManager.customLoginPage(variant).get().login(DEFAULT_USER).getModal().shouldBe(hidden);
-            navBarComponent.usernameAfterLogin().shouldBe(visible);
+            LOGIN_STEPS.loginCustom(DEFAULT_USER, variant);
+            LOGIN_STEPS.shouldSeeUsername();
         });
 
     }
@@ -75,12 +82,11 @@ public class LoginTests extends BaseTest {
     @DisplayName("Successful login in dependence of API response")
     @Tag("regress")
     @Tag("smoke")
-    @Disabled
     void testRedesignWithAPIFlag() {
         Allure.step("Check logic in according to API request", () -> {
             loginPageFactory = LoginPageFactory.getFlagFromServer();
-            loginPageFactory.get().login(DEFAULT_USER).getModal().shouldBe(hidden);
-            navBarComponent.usernameAfterLogin().shouldBe(visible);
+            LOGIN_STEPS.loginWithFlag(loginPageFactory, DEFAULT_USER);
+            LOGIN_STEPS.shouldSeeUsername();
         });
     }
 
@@ -89,11 +95,9 @@ public class LoginTests extends BaseTest {
     @DisplayName("Error after login with invalid data")
     @Tag("regress")
     public void errorAfterLoginInvalidCreds() {
-
-        newUser = new User(randomUsername, randomPassword);
-        PageManager.loginPage().get().wrongLogin(newUser, AlertTypes.USER_NOT_EXIST);
-        navBarComponent.usernameAfterLogin().shouldNotBe(visible);
-
+        newUser = UserRegistry.get("new");
+        LOGIN_STEPS.loginWithError(newUser, AlertTypes.USER_NOT_EXIST);
+        LOGIN_STEPS.shouldNotSeeUsername();
     }
 
     @Test
@@ -102,8 +106,8 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     public void errorAfterLoginEmptyCreds() {
         newUser = new User("", "");
-        PageManager.loginPage().get().wrongLogin(newUser, AlertTypes.EMPTY_FIELDS);
-        navBarComponent.usernameAfterLogin().shouldNotBe(visible);
+        LOGIN_STEPS.loginWithError(newUser, AlertTypes.EMPTY_FIELDS);
+        LOGIN_STEPS.shouldNotSeeUsername();
     }
 
     @Test
@@ -112,7 +116,7 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void logout() {
-        PageManager.loginPage().get().login(DEFAULT_USER).getModal().shouldBe(hidden);
-        navBarComponent.goTo(navBarComponent.logout()).usernameAfterLogin().shouldBe(hidden);
+        LOGIN_STEPS.login(DEFAULT_USER);
+        LOGIN_STEPS.logout();
     }
 }

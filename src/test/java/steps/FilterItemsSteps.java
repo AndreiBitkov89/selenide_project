@@ -1,11 +1,11 @@
-package selenide_tests.test_helpers;
+package steps;
 
 import constants.Categories;
 import pages.mainpage.CategoryFilter;
 
 import java.util.List;
 
-public class SharedSteps {
+public class FilterItemsSteps {
 
     private final CategoryFilter filterPage = new CategoryFilter();
 

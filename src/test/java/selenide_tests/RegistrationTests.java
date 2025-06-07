@@ -1,15 +1,14 @@
 package selenide_tests;
 
 import constants.AlertTypes;
-import utils.CredentialsGenerator;
 import pages.commonComponents.NavBarComponent;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import pages.PageManager;
 import valueObjects.User;
+import valueObjects.UserRegistry;
 
 import static com.codeborne.selenide.Condition.*;
-import static config.ConfigProvider.*;
 import static io.qameta.allure.SeverityLevel.*;
 
 @DisplayName("Registration tests")
@@ -17,16 +16,12 @@ public class RegistrationTests extends BaseTest {
 
     private NavBarComponent navBarComponent;
     private User newUser;
-    private final String DEFAULT_LOGIN = CONFIG.username();
-    private final String DEFAULT_PASS = CONFIG.password();
-    private final User DEFAULT_USER = new User(DEFAULT_LOGIN, DEFAULT_PASS);
-    private String randomUsername;
-    private String randomPassword;
+    private final User DEFAULT_USER = UserRegistry.get("default");
+
 
     @BeforeEach
     void setUpPage() {
-        randomUsername = CredentialsGenerator.generateUsername(8);
-        randomPassword = CredentialsGenerator.generatePassword(8);
+        UserRegistry.createRandomUser("new");
         navBarComponent = new NavBarComponent();
     }
 
@@ -37,8 +32,7 @@ public class RegistrationTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldRegisterClientAndAuthorize() {
-        newUser = new User(randomUsername, randomPassword);
-
+        newUser = UserRegistry.get("new");
         PageManager.registrationPage().get().registration(newUser, AlertTypes.SUCCESSFUL_SIGN);
         PageManager.loginPage().get().login(newUser);
 

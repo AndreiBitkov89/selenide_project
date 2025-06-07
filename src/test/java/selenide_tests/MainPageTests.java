@@ -7,7 +7,7 @@ import pages.itempage.ItemPage;
 import constants.Categories;
 import pages.mainpage.CategoryFilter;
 import pages.mainpage.MainPage;
-import selenide_tests.test_helpers.SharedSteps;
+import steps.FilterItemsSteps;
 import valueObjects.Brands;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class MainPageTests extends BaseTest {
     private CategoryFilter filterPage;
     private MainPage mainPage;
     private ItemPage itemPage;
-    private SharedSteps sharedSteps;
+    private FilterItemsSteps sharedSteps;
     private final String XPERIA_PHONE = "Sony xperia z5";
     private final String NOKIA_PHONE =  "Nokia lumia 1520";
 
@@ -28,7 +28,7 @@ public class MainPageTests extends BaseTest {
     public void setUp() {
         mainPage = PageManager.mainPage();
         filterPage = new CategoryFilter();
-        sharedSteps = new SharedSteps();
+        sharedSteps = new FilterItemsSteps();
     }
 
     @Test
