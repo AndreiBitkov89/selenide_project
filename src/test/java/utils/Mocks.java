@@ -2,13 +2,16 @@ package utils;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 
-public class Mocs {
+public class Mocks {
 
-    public static WireMockServer startFlagMock(String variant) {
+    public static WireMockServer startFlagMock() {
         WireMockServer wireMockServer = new WireMockServer(options().dynamicPort());
+        String variant = ThreadLocalRandom.current().nextBoolean() ? "A" : "B";
         wireMockServer.start();
 
         configureFor("localhost", wireMockServer.port());

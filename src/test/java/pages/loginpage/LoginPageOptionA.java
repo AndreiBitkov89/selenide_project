@@ -54,13 +54,12 @@ public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements Logi
     }
 
     @Override
-    public LoginPageOptionA wrongLogin(User user, AlertTypes expectedAlert) {
+    public void wrongLogin(User user, AlertTypes expectedAlert) {
         login(user);
         Allure.step("Check alert after failed login", () -> {
             CustomAlert alert = new CustomAlert(expectedAlert);
             alert.accept();
         });
-        return this;
     }
 
     @Override

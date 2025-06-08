@@ -6,7 +6,7 @@ import valueObjects.User;
 
 public interface LoginPage {
 
-    LoginPage wrongLogin(User user, AlertTypes expectedAlert);
+    void wrongLogin(User user, AlertTypes expectedAlert);
 
     LoginPage get();
 

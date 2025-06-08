@@ -23,12 +23,13 @@ public class PurchasePage extends BasePage<PurchasePage> {
 
     @Override
     protected void load() {
-        CartPage.goToOrder();
+        Allure.step("Open Order modal window", ()-> CartPage.goToOrder());
     }
 
     @Override
     protected void isLoaded() {
-        MODAL_WINDOW.shouldBe(visible);
+        Allure.step("Check that modal window is opened", ()-> MODAL_WINDOW.shouldBe(visible));
+
     }
 
     public PurchasePage fillForm(Purchase purchase) {

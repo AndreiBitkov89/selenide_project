@@ -22,7 +22,7 @@ public class MainPageTests extends BaseTest {
     private ItemPage itemPage;
     private FilterItemsSteps sharedSteps;
     private final String XPERIA_PHONE = "Sony xperia z5";
-    private final String NOKIA_PHONE =  "Nokia lumia 1520";
+    private final String NOKIA_PHONE = "Nokia lumia 1520";
 
     @BeforeEach
     public void setUp() {

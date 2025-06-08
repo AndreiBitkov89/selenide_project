@@ -4,33 +4,23 @@ import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import pages.PageManager;
-import pages.commonComponents.NavBarComponent;
 import pages.loginpage.factory.LoginPageFactory;
 
 import constants.AlertTypes;
 import pages.loginpage.LoginPage;
 import steps.LoginSteps;
-import utils.Mocs;
+import utils.Mocks;
 import valueObjects.User;
-import pages.cartpage.CartPage;
-import pages.purchasepages.PurchasePage;
-import pages.purchasepages.SuccessPurchasePage;
 import valueObjects.UserRegistry;
 
 import static io.qameta.allure.SeverityLevel.*;
 import com.github.tomakehurst.wiremock.WireMockServer;
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 
 @DisplayName("Login logic tests")
 public class LoginTests extends BaseTest {
 
     private User newUser;
-    private NavBarComponent navBarComponent;
-    private CartPage cartPage;
-    private PurchasePage purchasePage;
-    private SuccessPurchasePage successPage;
     private LoginPage loginPageFactory;
     private final User DEFAULT_USER = UserRegistry.get("default");
     private final LoginSteps LOGIN_STEPS = new LoginSteps();
@@ -38,12 +28,8 @@ public class LoginTests extends BaseTest {
 
     @BeforeEach
     void setUpPage() {
-        cartPage = PageManager.cartPage();
-        navBarComponent = new NavBarComponent();
-        purchasePage = PageManager.purchasePage();
-        successPage = PageManager.successPurchasePage();
         UserRegistry.createRandomUser("new");
-        wireMockServer = Mocs.startFlagMock("A");
+        wireMockServer = Mocks.startFlagMock();
     }
 
     @AfterEach

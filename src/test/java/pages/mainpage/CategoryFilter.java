@@ -20,11 +20,9 @@ public class CategoryFilter {
     }
 
     public List<ProductCardElement> filterAndReturnProductElements(SelenideElement categoryElement) {
-        int initialSize = getAllProducts().size();
-
         Allure.step("Click on filter and wait for page update", () -> {
+            int initialSize = getAllProducts().size();
             categoryElement.shouldBe(visible).click();
-
             $$(".card").shouldHave(sizeNotEqual(initialSize));
         });
 
@@ -32,9 +30,11 @@ public class CategoryFilter {
     }
 
     public List<String> extractTitles(List<ProductCardElement> products) {
-        return products.stream()
-                .map(ProductCardElement::getTitle)
-                .toList();
+        return Allure.step("Return titles of displayed items", () ->
+                products.stream()
+                        .map(ProductCardElement::getTitle)
+                        .toList()
+        );
     }
 
 

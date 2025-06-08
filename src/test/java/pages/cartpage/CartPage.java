@@ -20,11 +20,13 @@ public class CartPage extends BasePage<CartPage> {
 
     @Override
     public void load() {
-        NAVBAR_COMPONENT.goTo(NAVBAR_COMPONENT.getCart());
+        Allure.step("Go to card", ()-> NAVBAR_COMPONENT.goTo(NAVBAR_COMPONENT.getCart())
+        );
     }
     @Override
     public void isLoaded() {
-        TITLE.shouldBe(visible, Duration.ofSeconds(3));
+        Allure.step("Check that card is opened", ()-> TITLE.shouldBe(visible, Duration.ofSeconds(3))
+        );
     }
 
     public SelenideElement getItemInCart(String title) {
