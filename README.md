@@ -2,19 +2,12 @@
 
 Automated UI test suite for demoblaze.com using:
 
-🧪 Selenide for clean and concise browser automation
-
-✅ JUnit 5 for test lifecycle and assertions
-
-📊 Allure for test reports
-
-
 🚀 Technologies Used
 Selenide
 JUnit 5
 Allure Report
 Maven
-Java 17
+Java 17+
 
 🏗️ Architecture Patterns
 
@@ -25,3 +18,25 @@ Java 17
 - Value Object
 - Decorator
 - Builder
+- Data Registry
+- Steps
+
+📦 Install dependencies
+
+`mvn clean install
+`
+
+🚀 Run tests
+
+`mvn clean test`
+
+📂 Generate Allure report
+
+`allure generate target/allure-results --clean -o allure-report
+`
+
+🧪 Run a specific test class
+
+`mvn -Dtest=LoginTests test`
+
+
