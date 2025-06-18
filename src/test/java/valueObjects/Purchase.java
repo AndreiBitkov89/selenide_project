@@ -2,6 +2,7 @@ package valueObjects;
 
 public class Purchase {
 
+    //todo верхний регистр
     private final String NAME;
     private final String COUNTRY;
     private final String CITY;
@@ -18,6 +19,7 @@ public class Purchase {
         this.YEAR = builder.year;
     }
 
+    //todo getName(), лучше lowerCamelCase использовать для методов
     public String getNAME() {
         return NAME;
     }

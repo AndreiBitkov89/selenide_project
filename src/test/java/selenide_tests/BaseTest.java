@@ -19,7 +19,6 @@ public abstract class BaseTest {
         headless = true;
         baseUrl = CONFIG.baseUrl();
         timeout = 10000;
-
     }
 
     @BeforeEach

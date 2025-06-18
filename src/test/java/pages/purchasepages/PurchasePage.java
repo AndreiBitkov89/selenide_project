@@ -23,13 +23,12 @@ public class PurchasePage extends BasePage<PurchasePage> {
 
     @Override
     protected void load() {
-        Allure.step("Open Order modal window", ()-> CartPage.goToOrder());
+        Allure.step("Open Order modal window", () -> CartPage.goToOrder());
     }
 
     @Override
     protected void isLoaded() {
-        Allure.step("Check that modal window is opened", ()-> MODAL_WINDOW.shouldBe(visible));
-
+        Allure.step("Check that modal window is opened", () -> MODAL_WINDOW.shouldBe(visible));
     }
 
     public PurchasePage fillForm(Purchase purchase) {
@@ -46,9 +45,10 @@ public class PurchasePage extends BasePage<PurchasePage> {
 
     public void submitPurchase() {
         Allure.step("Submit purchase", () -> {
-                    CONFIRM_BUTTON.shouldBe(visible).click();
+                    CONFIRM_BUTTON.
+                            //todo избыточно
+                            shouldBe(visible).click();
                 }
-
         );
 
     }

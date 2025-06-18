@@ -9,6 +9,7 @@ import valueObjects.User;
 import static com.codeborne.selenide.Condition.hidden;
 import static com.codeborne.selenide.Condition.visible;
 
+//todo обсудим
 public class LoginSteps {
 
     private final NavBarComponent navBarComponent = new NavBarComponent();

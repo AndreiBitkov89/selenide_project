@@ -2,6 +2,7 @@ package valueObjects;
 
 public class User {
 
+    //todo верхний регистр
     private final String USERNAME;
     private final String PASSWORD;
 

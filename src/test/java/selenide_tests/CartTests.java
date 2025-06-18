@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Cart logic tests")
 public class CartTests extends BaseTest {
 
+    //todo рассказаь про минусы с несколькими тестовыми методами
     private NavBarComponent navBar;
     private CartPage cartPage;
     private PurchasePage purchasePage;
@@ -34,6 +35,7 @@ public class CartTests extends BaseTest {
     private CategoryFilter filterPage;
     private ItemPage itemPage;
 
+    //todo можно константой сделать
     private final Purchase defaultPurchase = Purchase.builder()
             .withName("QA")
             .withCountry("Germany")
@@ -43,6 +45,7 @@ public class CartTests extends BaseTest {
             .withYear("2026")
             .build();
 
+    //todo можно константой сделать
     private final Item APPLE_MONITOR = new Item("Apple monitor 24", 400);
     private final Item NOKIA_PHONE = new Item("Nokia lumia 1520", 820);
     private final Item HTC_PHONE = new Item("HTC One M9", 700);
@@ -52,6 +55,7 @@ public class CartTests extends BaseTest {
     void setUpPage() {
         navBar = new NavBarComponent();
         cartButton = navBar.getCart();
+        //todo обсудить работу со страницами
         cartPage = PageManager.cartPage();
         purchasePage = PageManager.purchasePage();
         successPage = PageManager.successPurchasePage();
@@ -66,6 +70,7 @@ public class CartTests extends BaseTest {
     void shouldAddItemToCart() {
         itemPage = PageManager.itemPage(GALAXY_S7.getTitle()).get();
 
+        //todo здесь и в других местах сообщение об ошибке
         assertEquals(GALAXY_S7.getTitle(), itemPage.getItemName());
         itemPage.addItemInCart();
         assertEquals(GALAXY_S7.getItemPrice(), itemPage.returnPrice());

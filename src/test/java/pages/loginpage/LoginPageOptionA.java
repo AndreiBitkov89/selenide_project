@@ -16,6 +16,7 @@ import valueObjects.User;
 
 public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements LoginPage {
 
+    //todo верхний регистр
     private final SelenideElement USERNAME_FIELD = $("#loginusername");
     private final SelenideElement PASSWORD_FIELD = $("#loginpassword");
     private final SelenideElement CONFIRM_BUTTON = $(By.xpath("//*[@onclick='logIn()']"));
@@ -23,6 +24,7 @@ public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements Logi
     private final SelenideElement MODAL = $("#logInModal .modal-body");
     private final SelenideElement CLOSE_MODAL = $("div#logInModal .modal-footer button:nth-of-type(1)");
     private final NavBarComponent NAVBAR_COMPONENT = new NavBarComponent();
+    //todo с учетои комментариев в SlowType должно стать не нужно
     private final SlowType TYPE = new SlowType();
 
     @Override
@@ -49,6 +51,7 @@ public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements Logi
             TYPE.slowType(getPasswordField(), user.getPassword());
         });
 
+        //todo а зачем тут геттер использовать?
         Allure.step("Submit login form", () -> getConfirmButton().click());
         return this;
     }
@@ -57,11 +60,13 @@ public class LoginPageOptionA extends BasePage<LoginPageOptionA> implements Logi
     public void wrongLogin(User user, AlertTypes expectedAlert) {
         login(user);
         Allure.step("Check alert after failed login", () -> {
+            //todo не согласна, что тут проверка соответствует описанию, написала в CustomAlert
             CustomAlert alert = new CustomAlert(expectedAlert);
             alert.accept();
         });
     }
 
+    //todo кажется, что геттеры SelenideElement для степов это слишком
     @Override
     public SelenideElement getModal() {
         return MODAL;
