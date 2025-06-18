@@ -14,6 +14,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class MainPage extends BasePage<MainPage> {
 
+    //todo верхний регистр
     private static final SelenideElement PAGE_TITLE = $("a.navbar-brand");
     private static final ElementsCollection PRODUCTS = $$(".card");
 
@@ -29,16 +30,20 @@ public class MainPage extends BasePage<MainPage> {
 
     public static void gotoItemPage(String title) {
         Allure.step("Go to item page: " + title, () -> {
+            //todo локатор можно в поля
             $(By.xpath("//a[text()='" + title + "']"))
+                    //todo избыточно
                     .shouldBe(visible)
                     .click();
         });
     }
 
+    //todo возвращаем SelenideElement? :((
     public static SelenideElement getPageTitle() {
         return Allure.step("Return title of main page", () -> PAGE_TITLE);
     }
 
+    //todo static ?
     public static List<ProductCardElement> getAllProducts() {
         Allure.step("Get all product cards", () ->
                 PRODUCTS.shouldHave(CollectionCondition.sizeGreaterThan(0), Duration.ofSeconds(5))
@@ -64,6 +69,7 @@ public class MainPage extends BasePage<MainPage> {
         return Allure.step("Get products by title: " + title + ", index: " + index, () -> {
             List<ProductCardElement> matches = getProductsByTitle(title);
             if (matches.isEmpty()) {
+                //todo может быть падать с ошибкой Assertions.fail() ?
                 throw new NoSuchElementException("No product with title: " + title);
             }
             return Allure.step("Return product with index", () -> matches.get(index));
@@ -78,10 +84,12 @@ public class MainPage extends BasePage<MainPage> {
         );
     }
 
+    //todo с индексом не понимаю как может использоваться
     public ProductCardElement getProductByPrice(int price, int index) {
         return Allure.step("Get product by price: " + price + ", index: " + index, () -> {
             List<ProductCardElement> matches = getProductsByPrice(price);
             if (matches.isEmpty()) {
+                //todo может быть падать с ошибкой Assertions.fail() ?
                 throw new NoSuchElementException("No product with price: " + price);
             }
             return matches.get(index);
@@ -92,7 +100,9 @@ public class MainPage extends BasePage<MainPage> {
         return Allure.step("Get cheapest product", () ->
                 getAllProducts().stream()
                         .min(Comparator.comparingInt(ProductCardElement::getPrice))
-                        .orElseThrow(() -> new NoSuchElementException("No products found"))
+                        .orElseThrow(() ->
+                                //todo может быть падать с ошибкой Assertions.fail() ?
+                                new NoSuchElementException("No products found"))
         );
     }
 
@@ -100,7 +110,9 @@ public class MainPage extends BasePage<MainPage> {
         return Allure.step("Get most expensive product", () ->
                 getAllProducts().stream()
                         .max(Comparator.comparingInt(ProductCardElement::getPrice))
-                        .orElseThrow(() -> new NoSuchElementException("No products found"))
+                        .orElseThrow(() ->
+                                //todo может быть падать с ошибкой Assertions.fail() ?
+                                new NoSuchElementException("No products found"))
         );
     }
 }

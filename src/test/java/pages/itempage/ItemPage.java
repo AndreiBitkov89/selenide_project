@@ -37,7 +37,9 @@ public class ItemPage extends BasePage<ItemPage> {
     }
 
     public void addItemInCart() {
+        //todo помним, что shouldBe(visible) входид в click()
         Allure.step("Add item to cart", () -> addToCartButton.shouldBe(visible).click());
+        //todo тут не нужно ожидание?
         Allure.step("Confirm alert dialog", () -> Selenide.confirm(DIALOG));
     }
 
@@ -46,6 +48,7 @@ public class ItemPage extends BasePage<ItemPage> {
 
     }
 
+    //todo getPrice() ?
     public int returnPrice() {
         return Integer.parseInt(
                 itemPrice.getText()

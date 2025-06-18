@@ -6,6 +6,7 @@ import com.codeborne.selenide.SelenideElement;
 import static com.codeborne.selenide.Condition.*;
 
 public class SlowType {
+    //todo java дала тебе static методы :))
     public void slowType(SelenideElement element, String text) {
         element.shouldBe(visible);
         element.click();

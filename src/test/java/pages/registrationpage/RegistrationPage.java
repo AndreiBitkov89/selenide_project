@@ -17,13 +17,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationPage extends BasePage<RegistrationPage> implements RegistrationPageInterface {
 
+    //todo верхний регистр
     private final SelenideElement USERNAME_FIELD = $("input#sign-username");
     private final SelenideElement PASSWORD_FIELD = $("input#sign-password");
     private final SelenideElement CONFIRM = $(By.xpath("//*[@onclick='register()']"));
     private final SelenideElement MODAL = $("#signInModal .modal-content");
     private final SelenideElement SIGNUP_LABEL = $("#signInModalLabel");
 
+    //todo точно тут?
     private final NavBarComponent navBarComponent = new NavBarComponent();
+    //todo может быть убрать, см SlowType
     private final SlowType slowType = new SlowType();
 
     @Override
@@ -39,6 +42,7 @@ public class RegistrationPage extends BasePage<RegistrationPage> implements Regi
         CONFIRM.shouldBe(visible, Duration.ofSeconds(5));
     }
 
+    //todo геттеры на SelenideElement ?
     public SelenideElement getUsernameField() {
         return USERNAME_FIELD;
     }
@@ -60,10 +64,11 @@ public class RegistrationPage extends BasePage<RegistrationPage> implements Regi
         Allure.step("Accept registration", () -> getConfirmButton().click());
 
         Allure.step("Get alert after registration", () -> {
+            //todo нет проблем с ожиданием?
             String dialog = Selenide.confirm();
+            //todo сообщение?
             assertEquals(expectedAlert.getMessage(), dialog);
         });
-
         return this;
     }
 

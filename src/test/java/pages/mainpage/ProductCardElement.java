@@ -7,6 +7,7 @@ import static com.codeborne.selenide.Condition.visible;
 
 public class ProductCardElement {
 
+    //todo верхний регистр
     private final SelenideElement ROOT_ELEMENT;
     private final String TITLE_SELECTOR = ".card-title a";
     private final String PRICE_SELECTOR = "h5";

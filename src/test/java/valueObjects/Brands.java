@@ -1,4 +1,5 @@
 package valueObjects;
+
 import java.util.List;
 
 public class Brands {
