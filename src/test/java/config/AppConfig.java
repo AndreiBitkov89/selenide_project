@@ -12,13 +12,6 @@ public interface AppConfig extends Config {
     @DefaultValue("https://www.demoblaze.com")
     String baseUrl();
 
-    //todo в будущем вряд ли у тебя будет только один юзер и пароль на сайт, возможно, тогда они будут не в конфигах
-    @Key("username")
-    String username();
-
-    @Key("password")
-    String password();
-
     @Key("browser")
     @DefaultValue("chrome")
     String browser();

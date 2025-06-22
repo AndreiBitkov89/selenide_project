@@ -1,22 +1,20 @@
 package valueObjects;
 
 public class Item {
-    //todo меня смущает верхний регистр, все же "A constant variable is a final variable of primitive type or type
-    // String that is initialized with a constant expression", тут у тебя нет инициализации значением
+
     private final String ITEM_TITLE;
-    private final int ITEM_PRICE;
+    private final int itemPrice;
 
     public Item(String itemTitle, int itemPrice) {
         this.ITEM_TITLE = itemTitle;
-        this.ITEM_PRICE = itemPrice;
+        this.itemPrice = itemPrice;
     }
 
     public int getItemPrice() {
-        return ITEM_PRICE;
+        return itemPrice;
     }
 
-    //todo getItemTitle()
-    public String getTitle() {
+    public String getItemTitle() {
         return ITEM_TITLE;
     }
 
