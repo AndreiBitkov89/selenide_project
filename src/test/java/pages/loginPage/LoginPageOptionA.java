@@ -1,10 +1,8 @@
 package pages.loginPage;
 
 import com.codeborne.selenide.*;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
-
 import wrappers.CustomAlert;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.*;

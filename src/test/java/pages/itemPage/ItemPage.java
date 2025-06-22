@@ -16,10 +16,7 @@ public class ItemPage extends BasePage<ItemPage> {
     private final SelenideElement itemTitle = $("h2.name");
     private final SelenideElement itemPrice = $("h3.price-container");
 
-    private final String pageTitle;
-
     public ItemPage(String title) {
-        this.pageTitle = title;
     }
 
     @Override

@@ -3,14 +3,15 @@ package pages.cartPage;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import pages.BasePage;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 public class CartPage extends BasePage<CartPage> {
 
-    private static final String ITEM_TITLE_XPATH = "//td[text()='%s']";
-    private static final String ITEM_PRICE_XPATH = "//td[text()='%s']/following-sibling::td[1]";
-    private static final String ITEM_DELETE_BUTTON_XPATH = "//td[text()='%s']/following-sibling::td/a";
+    private static final String itemTitleLocator = "//td[text()='%s']";
+    private static final String itemPriceLocator = "//td[text()='%s']/following-sibling::td[1]";
+    private static final String itemDeleteButtonLocator = "//td[text()='%s']/following-sibling::td/a";
 
     private final SelenideElement title = $x("//h2[text()='Products']");
     private final SelenideElement totalPrice = $("#totalp");
@@ -23,7 +24,7 @@ public class CartPage extends BasePage<CartPage> {
     }
 
     public boolean isItemInCart(String itemTitle, boolean exist) {
-        SelenideElement item = $x(String.format(ITEM_TITLE_XPATH, itemTitle));
+        SelenideElement item = $x(String.format(itemTitleLocator, itemTitle));
         if (exist) {
             return item.shouldBe(visible).exists();
         } else {
@@ -34,7 +35,7 @@ public class CartPage extends BasePage<CartPage> {
 
     public int getPriceOfItemInCart(String itemTitle) {
         return Allure.step("Get price of item in cart", () -> {
-            SelenideElement item = $x(String.format(ITEM_PRICE_XPATH, itemTitle));
+            SelenideElement item = $x(String.format(itemPriceLocator, itemTitle));
             item.shouldBe(visible);
             return Integer.parseInt(item.text().trim());
         });
@@ -54,11 +55,10 @@ public class CartPage extends BasePage<CartPage> {
         });
     }
 
-    public CartPage deleteItemFromCart(String itemTitle) {
-        return Allure.step("Delete item from cart: " + itemTitle, () -> {
-            SelenideElement deleteButton = $x(String.format(ITEM_DELETE_BUTTON_XPATH, itemTitle));
+    public void deleteItemFromCart(String itemTitle) {
+        Allure.step("Delete item from cart: " + itemTitle, () -> {
+            SelenideElement deleteButton = $x(String.format(itemDeleteButtonLocator, itemTitle));
             deleteButton.shouldBe(visible).click();
-            return this;
         });
     }
 

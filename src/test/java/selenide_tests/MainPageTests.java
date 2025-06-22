@@ -7,7 +7,7 @@ import pages.itemPage.ItemPage;
 import enums.ItemCategory;
 import pages.mainPage.CategoryFilter;
 import pages.mainPage.MainPage;
-import sharedSteps.FilterItemsSteps;
+import pages.mainPage.sharedSteps.FilterItemsSteps;
 import valueObjects.Brands;
 import java.util.List;
 import static io.qameta.allure.SeverityLevel.*;
