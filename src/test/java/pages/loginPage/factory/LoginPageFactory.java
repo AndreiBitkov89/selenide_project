@@ -1,9 +1,9 @@
-package pages.loginpage.factory;
+package pages.loginPage.factory;
 
-import pages.loginpage.LoginPage;
-import pages.loginpage.LoginPageOptionA;
-import pages.loginpage.LoginPageOptionB;
-import pages.loginpage.factory.service.FlagService;
+import pages.loginPage.LoginPage;
+import pages.loginPage.LoginPageOptionA;
+import pages.loginPage.LoginPageOptionB;
+import pages.loginPage.factory.service.FlagService;
 
 
 public class LoginPageFactory {

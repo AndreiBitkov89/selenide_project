@@ -2,20 +2,19 @@ package valueObjects;
 
 public class User {
 
-    //todo верхний регистр
-    private final String USERNAME;
-    private final String PASSWORD;
+    private final String username;
+    private final String password;
 
     public User(String username, String password) {
-        this.USERNAME = username;
-        this.PASSWORD = password;
+        this.username = username;
+        this.password = password;
     }
 
     public String getUsername() {
-        return USERNAME;
+        return username;
     }
 
     public String getPassword() {
-        return PASSWORD;
+        return password;
     }
 }

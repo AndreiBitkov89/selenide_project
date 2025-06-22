@@ -4,16 +4,20 @@ import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import pages.loginpage.factory.LoginPageFactory;
+import pages.PageManager;
+import pages.commonComponents.NavBarComponent;
+import pages.loginPage.factory.LoginPageFactory;
 
-import constants.AlertTypes;
-import pages.loginpage.LoginPage;
-import steps.LoginSteps;
+import enums.AlertType;
+import pages.loginPage.LoginPage;
 import utils.Mocks;
 import valueObjects.User;
 import valueObjects.UserRegistry;
 
 import static io.qameta.allure.SeverityLevel.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import com.github.tomakehurst.wiremock.WireMockServer;
 
 
@@ -23,13 +27,14 @@ public class LoginTests extends BaseTest {
     private User newUser;
     private LoginPage loginPageFactory;
     private final User DEFAULT_USER = UserRegistry.get("default");
-    private final LoginSteps LOGIN_STEPS = new LoginSteps();
     private WireMockServer wireMockServer;
+    private NavBarComponent navBarComponent;
 
     @BeforeEach
     void setUpPage() {
         UserRegistry.createRandomUser("new");
         wireMockServer = Mocks.startFlagMock();
+        navBarComponent = new NavBarComponent();
     }
 
     @AfterEach
@@ -45,8 +50,10 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     void successfulLogin() {
-        LOGIN_STEPS.login(DEFAULT_USER);
-        LOGIN_STEPS.shouldSeeUsername();
+        navBarComponent.clickLogin();
+        PageManager.loginPage().get().login(DEFAULT_USER);
+        PageManager.loginPage().isModalVisible();
+        navBarComponent.shouldShowUserName(true);
     }
 
     @ParameterizedTest
@@ -57,8 +64,11 @@ public class LoginTests extends BaseTest {
     @Tag("smoke")
     void testRedesign(String variant) {
         Allure.step("variant " + variant, () -> {
-            LOGIN_STEPS.loginCustom(DEFAULT_USER, variant);
-            LOGIN_STEPS.shouldSeeUsername();
+
+            navBarComponent.clickLogin();
+            PageManager.customLoginPage(variant).get().login(DEFAULT_USER);
+            PageManager.loginPage().isModalHidden();
+            assertTrue(navBarComponent.shouldShowUserName(true), "User name is not visible");
         });
 
     }
@@ -70,9 +80,12 @@ public class LoginTests extends BaseTest {
     @Tag("smoke")
     void testRedesignWithAPIFlag() {
         Allure.step("Check logic in according to API request", () -> {
+
             loginPageFactory = LoginPageFactory.getFlagFromServer();
-            LOGIN_STEPS.loginWithFlag(loginPageFactory, DEFAULT_USER);
-            LOGIN_STEPS.shouldSeeUsername();
+
+            navBarComponent.clickLogin();
+            loginPageFactory.get().login(DEFAULT_USER);
+            assertTrue(navBarComponent.shouldShowUserName(true), "Username is not displayed");
         });
     }
 
@@ -82,8 +95,11 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     public void errorAfterLoginInvalidCreds() {
         newUser = UserRegistry.get("new");
-        LOGIN_STEPS.loginWithError(newUser, AlertTypes.USER_NOT_EXIST);
-        LOGIN_STEPS.shouldNotSeeUsername();
+
+        navBarComponent.clickLogin();
+        PageManager.loginPage().get().loginExpectingError(newUser, AlertType.USER_NOT_EXIST);
+        PageManager.loginPage().isModalVisible();
+        assertFalse(navBarComponent.shouldShowUserName(false), "User name is visible");
     }
 
     @Test
@@ -92,8 +108,11 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     public void errorAfterLoginEmptyCreds() {
         newUser = new User("", "");
-        LOGIN_STEPS.loginWithError(newUser, AlertTypes.EMPTY_FIELDS);
-        LOGIN_STEPS.shouldNotSeeUsername();
+
+        navBarComponent.clickLogin();
+        PageManager.loginPage().get().loginExpectingError(newUser, AlertType.EMPTY_FIELDS);
+        PageManager.loginPage().isModalVisible();
+        assertFalse(navBarComponent.shouldShowUserName(false), "User name is visible");
     }
 
     @Test
@@ -102,7 +121,9 @@ public class LoginTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void logout() {
-        LOGIN_STEPS.login(DEFAULT_USER);
-        LOGIN_STEPS.logout();
+        navBarComponent.clickLogin();
+        PageManager.loginPage().get().login(DEFAULT_USER);
+        assertFalse(navBarComponent.clickLogout()
+                .shouldShowUserName(false), "User name is visible");
     }
 }

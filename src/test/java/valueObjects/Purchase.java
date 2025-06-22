@@ -2,46 +2,44 @@ package valueObjects;
 
 public class Purchase {
 
-    //todo верхний регистр
-    private final String NAME;
-    private final String COUNTRY;
-    private final String CITY;
-    private final String CARD;
-    private final String MONTH;
-    private final String YEAR;
+    private final String name;
+    private final String country;
+    private final String city;
+    private final String card;
+    private final String month;
+    private final String year;
 
     private Purchase(Builder builder) {
-        this.NAME = builder.name;
-        this.COUNTRY = builder.country;
-        this.CITY = builder.city;
-        this.CARD = builder.creditCard;
-        this.MONTH = builder.month;
-        this.YEAR = builder.year;
+        this.name = builder.name;
+        this.country = builder.country;
+        this.city = builder.city;
+        this.card = builder.creditCard;
+        this.month = builder.month;
+        this.year = builder.year;
     }
 
-    //todo getName(), лучше lowerCamelCase использовать для методов
-    public String getNAME() {
-        return NAME;
+    public String getName() {
+        return name;
     }
 
-    public String getCOUNTRY() {
-        return COUNTRY;
+    public String getCountry() {
+        return country;
     }
 
-    public String getCITY() {
-        return CITY;
+    public String getCity() {
+        return city;
     }
 
-    public String getCARD() {
-        return CARD;
+    public String getCard() {
+        return card;
     }
 
-    public String getMONTH() {
-        return MONTH;
+    public String getMonth() {
+        return month;
     }
 
-    public String getYEAR() {
-        return YEAR;
+    public String getYear() {
+        return year;
     }
 
     public static Builder builder() {

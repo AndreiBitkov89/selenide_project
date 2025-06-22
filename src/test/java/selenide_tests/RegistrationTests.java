@@ -1,6 +1,6 @@
 package selenide_tests;
 
-import constants.AlertTypes;
+import enums.AlertType;
 import pages.commonComponents.NavBarComponent;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
@@ -8,8 +8,9 @@ import pages.PageManager;
 import valueObjects.User;
 import valueObjects.UserRegistry;
 
-import static com.codeborne.selenide.Condition.*;
 import static io.qameta.allure.SeverityLevel.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DisplayName("Registration tests")
 public class RegistrationTests extends BaseTest {
@@ -18,13 +19,11 @@ public class RegistrationTests extends BaseTest {
     private User newUser;
     private final User DEFAULT_USER = UserRegistry.get("default");
 
-
     @BeforeEach
     void setUpPage() {
         UserRegistry.createRandomUser("new");
         navBarComponent = new NavBarComponent();
     }
-
 
     @Test
     @Severity(CRITICAL)
@@ -33,10 +32,12 @@ public class RegistrationTests extends BaseTest {
     @Tag("smoke")
     public void shouldRegisterClientAndAuthorize() {
         newUser = UserRegistry.get("new");
-        PageManager.registrationPage().get().registration(newUser, AlertTypes.SUCCESSFUL_SIGN);
+        navBarComponent.clickSignUp();
+        PageManager.registrationPage().get().registration(newUser, AlertType.SUCCESSFUL_SIGN);
+        navBarComponent.clickLogin();
         PageManager.loginPage().get().login(newUser);
 
-        navBarComponent.shouldShowWelcome(newUser.getUsername());
+        assertTrue(navBarComponent.shouldShowUserName(true), "User name is shown");
     }
 
     @Test
@@ -44,7 +45,9 @@ public class RegistrationTests extends BaseTest {
     @DisplayName("Error after registration with existed user's data")
     @Tag("regress")
     public void errorAfterRegWithExistedCreds() {
-        PageManager.registrationPage().get().registration(DEFAULT_USER, AlertTypes.USER_ALREADY_EXIST).getModal().shouldNotBe(hidden);
+        navBarComponent.clickSignUp();
+        PageManager.registrationPage().get().registration(DEFAULT_USER, AlertType.USER_ALREADY_EXIST);
+        assertTrue(PageManager.registrationPage().isModalDisplayed(true), "Modal is hidden");
     }
 
     @Test
@@ -53,8 +56,9 @@ public class RegistrationTests extends BaseTest {
     @Tag("regress")
     public void errorAfterRegWithEmptyCreds() {
         newUser = new User("", "");
-
-        PageManager.registrationPage().get().registration(newUser, AlertTypes.EMPTY_FIELDS).getModal().shouldNotBe(hidden);
+        navBarComponent.clickSignUp();
+        PageManager.registrationPage().get().registration(newUser, AlertType.EMPTY_FIELDS);
+        assertTrue(PageManager.registrationPage().isModalDisplayed(true), "Modal is hidden");
 
     }
 }
