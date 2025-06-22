@@ -3,6 +3,7 @@ package pages.commonComponents;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$;
 
@@ -33,12 +34,12 @@ public class NavBarComponent {
     }
 
     public boolean shouldShowUserName(boolean displayed) {
-        if(displayed){
-            return usernameLogged.shouldBe(visible).isDisplayed();
-        } else {
-            return usernameLogged.shouldBe(hidden).isDisplayed();
-        }
-
+        return Allure.step("Check if user name is exist", () -> {
+            if (displayed) {
+                return usernameLogged.shouldBe(visible).isDisplayed();
+            } else {
+                return usernameLogged.shouldBe(hidden).isDisplayed();
+            }
+        });
     }
-
 }

@@ -1,4 +1,4 @@
-package sharedSteps;
+package pages.mainPage.sharedSteps;
 
 import enums.ItemCategory;
 import pages.mainPage.CategoryFilter;
