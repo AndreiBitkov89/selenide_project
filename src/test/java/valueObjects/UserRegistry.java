@@ -12,7 +12,7 @@ public class UserRegistry {
     private static final Map<String, User> users = new HashMap<>();
 
     static {
-        users.put("default", new User(CONFIG.username(), CONFIG.password()));
+        users.put("default", new User("TestNameUser", "TestPass"));
     }
 
     public static User get(String key) {

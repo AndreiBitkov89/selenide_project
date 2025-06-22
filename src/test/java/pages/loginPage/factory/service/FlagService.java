@@ -1,4 +1,4 @@
-package pages.loginpage.factory.service;
+package pages.loginPage.factory.service;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;

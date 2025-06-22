@@ -1,14 +1,14 @@
 package pages;
 
-import pages.cartpage.CartPage;
-import pages.purchasepages.PurchasePage;
-import pages.purchasepages.SuccessPurchasePage;
-import pages.itempage.ItemPage;
-import pages.loginpage.LoginPageOptionA;
-import pages.loginpage.LoginPageOptionB;
-import pages.mainpage.MainPage;
-import pages.loginpage.LoginPage;
-import pages.registrationpage.RegistrationPage;
+import pages.cartPage.CartPage;
+import pages.purchasePages.PurchasePage;
+import pages.purchasePages.SuccessPurchasePage;
+import pages.itemPage.ItemPage;
+import pages.loginPage.LoginPageOptionA;
+import pages.loginPage.LoginPageOptionB;
+import pages.mainPage.MainPage;
+import pages.loginPage.LoginPage;
+import pages.registrationPage.RegistrationPage;
 
 public class PageManager {
 

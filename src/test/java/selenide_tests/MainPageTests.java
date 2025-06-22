@@ -3,15 +3,13 @@ package selenide_tests;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.*;
 import pages.PageManager;
-import pages.itempage.ItemPage;
-import constants.Categories;
-import pages.mainpage.CategoryFilter;
-import pages.mainpage.MainPage;
-import steps.FilterItemsSteps;
+import pages.itemPage.ItemPage;
+import enums.ItemCategory;
+import pages.mainPage.CategoryFilter;
+import pages.mainPage.MainPage;
+import sharedSteps.FilterItemsSteps;
 import valueObjects.Brands;
-
 import java.util.List;
-
 import static io.qameta.allure.SeverityLevel.*;
 
 @DisplayName("Filter logic tests")
@@ -26,9 +24,10 @@ public class MainPageTests extends BaseTest {
 
     @BeforeEach
     public void setUp() {
-        mainPage = PageManager.mainPage();
-        filterPage = new CategoryFilter();
-        sharedSteps = new FilterItemsSteps();
+        mainPage = PageManager.mainPage().get();
+        filterPage = new CategoryFilter(mainPage);
+        sharedSteps = new FilterItemsSteps(mainPage, filterPage);
+
     }
 
     @Test
@@ -38,7 +37,7 @@ public class MainPageTests extends BaseTest {
     @Tag("smoke")
     void shouldFilterItemsAndReturnPhones() {
 
-        List<String> filteredItems = sharedSteps.applyFilter(Categories.PHONES);
+        List<String> filteredItems = sharedSteps.applyFilter(ItemCategory.PHONES);
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedPhones());
     }
 
@@ -48,7 +47,7 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldFilterItemsAndReturnLaptops() {
-        List<String> filteredItems = sharedSteps.applyFilter(Categories.LAPTOPS);
+        List<String> filteredItems = sharedSteps.applyFilter(ItemCategory.LAPTOPS);
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedLaptops());
     }
 
@@ -58,7 +57,7 @@ public class MainPageTests extends BaseTest {
     @Tag("regress")
     @Tag("smoke")
     public void shouldFilterItemsAndReturnMonitors() {
-        List<String> filteredItems = sharedSteps.applyFilter(Categories.MONITORS);
+        List<String> filteredItems = sharedSteps.applyFilter(ItemCategory.MONITORS);
         filterPage.assertFilteredItems(filteredItems, Brands.getAllowedMonitors());
     }
 

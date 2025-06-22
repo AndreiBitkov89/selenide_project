@@ -1,13 +1,14 @@
-package pages.itempage;
+package pages.itemPage;
 
 import com.codeborne.selenide.*;
+import enums.AlertType;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import pages.BasePage;
+import wrappers.CustomAlert;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static pages.mainpage.MainPage.gotoItemPage;
 
 public class ItemPage extends BasePage<ItemPage> {
 
@@ -15,16 +16,10 @@ public class ItemPage extends BasePage<ItemPage> {
     private final SelenideElement itemTitle = $("h2.name");
     private final SelenideElement itemPrice = $("h3.price-container");
 
-    private static final String DIALOG = "Product added";
     private final String pageTitle;
 
     public ItemPage(String title) {
         this.pageTitle = title;
-    }
-
-    @Override
-    public void load() {
-        Allure.step("Open page of the item: " + pageTitle, () -> gotoItemPage(pageTitle));
     }
 
     @Override
@@ -37,10 +32,8 @@ public class ItemPage extends BasePage<ItemPage> {
     }
 
     public void addItemInCart() {
-        //todo помним, что shouldBe(visible) входид в click()
-        Allure.step("Add item to cart", () -> addToCartButton.shouldBe(visible).click());
-        //todo тут не нужно ожидание?
-        Allure.step("Confirm alert dialog", () -> Selenide.confirm(DIALOG));
+        Allure.step("Add item to cart", () -> addToCartButton.click());
+        Allure.step("Confirm alert dialog", () -> new CustomAlert(AlertType.PRODUCT_ADDED).accept());
     }
 
     public String getItemName() {
@@ -48,8 +41,7 @@ public class ItemPage extends BasePage<ItemPage> {
 
     }
 
-    //todo getPrice() ?
-    public int returnPrice() {
+    public int getPrice() {
         return Integer.parseInt(
                 itemPrice.getText()
                         .replace("$", "")
